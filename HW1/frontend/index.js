@@ -5,6 +5,7 @@ const todoList = document.querySelector("#todos");
 const view_content = document.getElementById("view-page");
 const edit_content = document.getElementById("editing-page");
 const add_diary_button = document.getElementById("add-diary-button");
+const diary_save_button = document.getElementById("todo-add");
 
 let viewing = true;
 
@@ -33,9 +34,12 @@ function setupEventListeners() {
   const todoDescriptionInput = document.querySelector(
     "#todo-description-input",
   );
+
   addTodoButton.addEventListener("click", async () => {
     const title = todoInput.value;
     const description = todoDescriptionInput.value;
+
+
     if (!title) {
       alert("Please enter a todo title!");
       return;
@@ -44,6 +48,8 @@ function setupEventListeners() {
       alert("Please enter a todo description!");
       return;
     }
+
+
     try {
       const todo = await createTodo({ title, description });
       renderTodo(todo);
@@ -51,8 +57,15 @@ function setupEventListeners() {
       alert("Failed to create todo!");
       return;
     }
+
+
     todoInput.value = "";
     todoDescriptionInput.value = "";
+
+    view_content.style.display = "block";
+    edit_content.style.display = "none"; 
+    add_diary_button.textContent = "Add Diary";   
+    viewing = !viewing;
   });
 }
 
@@ -68,12 +81,11 @@ function createTodoElement(todo) {
   container.id = todo.id;
   console.log(todo);
 
-  // const checkbox = item.querySelector(`input[type="checkbox"]`);
-  // checkbox.checked = todo.completed;
-  // checkbox.dataset.id = todo.id;
-
   const title = item.querySelector("p.todo-title");
   title.innerText = todo.title;
+
+  // const tag_kind = item.querySelector("p.tag_kind");
+  // title.innerText = todo.tag_kind;
 
   const description = item.querySelector("p.todo-description");
   description.innerText = todo.description;
@@ -123,9 +135,13 @@ function toggleContent() {
   if (viewing) {
     view_content.style.display = "none";
     edit_content.style.display = "block";
+
+    add_diary_button.textContent = "Cancel";
   } else {
     view_content.style.display = "block";
     edit_content.style.display = "none";
+
+    add_diary_button.textContent = "Add Diary";
   }
   
   viewing = !viewing;
