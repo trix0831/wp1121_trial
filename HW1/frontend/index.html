@@ -14,32 +14,43 @@
   
   <body>
     <h1>My Diary</h1>
-    <div id="todo-input-container">
-      <input type="text" id="todo-input" placeholder="new todo" tabindex="1" />
-      <button id="todo-add" tabindex="3">add</button>
+    <button id = "add-diary-button">Add Diary</button>
+
+
+    <div id = "view-page" >
+      <section id="todos"></section>
+
+    </div>
+
+    <div id = "editing-page">
+      <h1>editing-page</h1>
+
+      <div id="todo-input-container">
+        <input type="text" id="todo-input" placeholder="new todo" tabindex="1" />
+        <button id="todo-add" tabindex="3">add</button>
+      </div>
+
+
+      <textarea
+        id="todo-description-input"
+        placeholder="description"
+        tabindex="2"
+      ></textarea>
     </div>
 
 
-    <textarea
-      id="todo-description-input"
-      placeholder="description"
-      tabindex="2"
-    ></textarea>
+    </body>
 
-
-    <section id="todos"></section>
-  </body>
-
-  <template id="todo-item-template">
-    <details id="" class="todo-item">
-      <summary>
-        <div>
-          <!-- <input data-id="" type="checkbox" /> -->
-          <p class="todo-title">todo 1</p>
-        </div>
-        <button data-id="" class="delete-todo">delete</button>
-      </summary>
-      <p class="todo-description">todo 1 description</p>
-    </details>
-  </template>
+    <template id="todo-item-template">
+      <details id="" class="todo-item">
+        <summary>
+          <div>
+            <!-- <input data-id="" type="checkbox" /> -->
+            <p class="todo-title">todo 1</p>
+          </div>
+          <button data-id="" class="delete-todo">delete</button>
+        </summary>
+        <p class="todo-description">todo 1 description</p>
+      </details>
+    </template>
 </html>

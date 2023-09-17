@@ -2,12 +2,21 @@
 const itemTemplate = document.querySelector("#todo-item-template");
 const todoList = document.querySelector("#todos");
 
+const view_content = document.getElementById("view-page");
+const edit_content = document.getElementById("editing-page");
+const add_diary_button = document.getElementById("add-diary-button");
+
+let viewing = true;
+
 const instance = axios.create({
   baseURL: "http://localhost:8000/api",
 });
 
 async function main() {
   setupEventListeners();
+
+  view_content.style.display = "block";
+  edit_content.style.display = "none";
 
   try {
     const todos = await getTodos();
@@ -109,5 +118,19 @@ async function deleteTodoById(id) {
   const response = await instance.delete(`/todos/${id}`);
   return response.data;
 }
+
+function toggleContent() {
+  if (viewing) {
+    view_content.style.display = "none";
+    edit_content.style.display = "block";
+  } else {
+    view_content.style.display = "block";
+    edit_content.style.display = "none";
+  }
+  
+  viewing = !viewing;
+}
+
+add_diary_button.addEventListener("click", toggleContent);
 
 main();
