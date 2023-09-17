@@ -4,7 +4,7 @@
 }
 
 body {
-  background-color: #f4f3e1;
+  background-color: #949494;
   max-width: 600px;
   width: 100%;
   margin: 0 auto;
@@ -12,7 +12,7 @@ body {
 }
 
 h1 {
-  text-align: center;
+  text-align: start;
   font-size: 3rem;
 }
 
@@ -101,4 +101,13 @@ textarea#todo-description-input {
 }
 .todo-item button:hover {
   background-color: #f77;
+}
+.todo-item tag {
+  font-size: 1rem;
+  border-radius: 999px;
+  padding: 0.5rem;
+  border: none;
+  cursor: pointer;
+  background-color: rgb(85, 255, 102);
+  color: #fff;
 }

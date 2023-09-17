@@ -8,12 +8,14 @@ const instance = axios.create({
 
 async function main() {
   setupEventListeners();
+
   try {
     const todos = await getTodos();
     todos.forEach((todo) => renderTodo(todo));
   } catch (error) {
     alert("Failed to load todos!");
   }
+  
 }
 
 function setupEventListeners() {
@@ -52,21 +54,27 @@ function renderTodo(todo) {
 
 function createTodoElement(todo) {
   const item = itemTemplate.content.cloneNode(true);
+
   const container = item.querySelector(".todo-item");
   container.id = todo.id;
   console.log(todo);
-  const checkbox = item.querySelector(`input[type="checkbox"]`);
-  checkbox.checked = todo.completed;
-  checkbox.dataset.id = todo.id;
+
+  // const checkbox = item.querySelector(`input[type="checkbox"]`);
+  // checkbox.checked = todo.completed;
+  // checkbox.dataset.id = todo.id;
+
   const title = item.querySelector("p.todo-title");
   title.innerText = todo.title;
+
   const description = item.querySelector("p.todo-description");
   description.innerText = todo.description;
+
   const deleteButton = item.querySelector("button.delete-todo");
   deleteButton.dataset.id = todo.id;
   deleteButton.addEventListener("click", () => {
     deleteTodoElement(todo.id);
   });
+
   return item;
 }
 
