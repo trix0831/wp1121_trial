@@ -17,16 +17,17 @@
     <button id = "add-diary-button">Add Diary</button>
 
 
-    <div id = "view-page" >
+    <div id = "view-page" style.display = "block">
       <section id="todos"></section>
-
     </div>
 
-    <div id = "editing-page">
+    <div id = "editing-page" style.display = "none">
       <p id = "edit-page-title">Add A New Diary ~</p>
 
       <div id="todo-input-container">
-        <input type="text" id="todo-input" placeholder="date" tabindex="1" />
+        <!-- <input type="text" id="todo-input" placeholder="date" tabindex="1" /> -->
+        <label for="dateInput">Select a Date:</label>
+        <input type="date" id="dateInput" name="dateInput">
         <button id="todo-add" tabindex="3">save</button>
       </div>
 
@@ -36,6 +37,18 @@
         placeholder="description"
         tabindex="2"
       ></textarea>
+
+      <!-- button -->
+      <div id="choices_kind">
+        <button id="academic">學業</button>
+        <button id="personality">人際</button>
+        <button id="club">社團</button>
+      </div>
+      <div id="choices_mood">
+        <button id="happy">快樂</button>
+        <button id="angry">生氣</button>
+        <button id="down">難過</button>
+      </div>
 
 
     </div>

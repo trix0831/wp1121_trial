@@ -7,7 +7,19 @@ const edit_content = document.getElementById("editing-page");
 const add_diary_button = document.getElementById("add-diary-button");
 const diary_save_button = document.getElementById("todo-add");
 
+const academic_button = document.getElementById("academic");
+const personality_button = document.getElementById("personality");
+const club_button = document.getElementById("club");
+const happy_button = document.getElementById("happy");
+const angry_button = document.getElementById("angry");
+const down_button = document.getElementById("down");
+
+
 let viewing = true;
+let kind = -1;
+let mood = -1;
+let complete = false;
+
 
 const instance = axios.create({
   baseURL: "http://localhost:8000/api",
@@ -16,7 +28,6 @@ const instance = axios.create({
 async function main() {
   setupEventListeners();
 
-  view_content.style.display = "block";
   edit_content.style.display = "none";
 
   try {
@@ -30,28 +41,59 @@ async function main() {
 
 function setupEventListeners() {
   const addTodoButton = document.querySelector("#todo-add");
-  const todoInput = document.querySelector("#todo-input");
+  // const todoInput = document.querySelector("#todo-input");
   const todoDescriptionInput = document.querySelector(
     "#todo-description-input",
   );
 
+  add_diary_button.addEventListener("click", toggleContent);
+
+  academic_button.addEventListener("click", async () => {
+    kind = 1;
+  });
+  personality_button.addEventListener("click", async () => {
+    kind = 2;
+  });
+  club_button.addEventListener("click", async () => {
+    kind = 3;
+  });
+
+  happy_button.addEventListener("click", async () => {
+    mood = 1;
+  });
+  angry_button.addEventListener("click", async () => {
+    mood = 2;
+  });
+  down_button.addEventListener("click", async () => {
+    mood = 3;
+  });
+
   addTodoButton.addEventListener("click", async () => {
-    const title = todoInput.value;
+    const dateInput = document.getElementById("dateInput");
+    const title = dateInput.value;
     const description = todoDescriptionInput.value;
 
 
     if (!title) {
-      alert("Please enter a todo title!");
+      alert("Please enter a date!");
       return;
     }
     if (!description) {
-      alert("Please enter a todo description!");
+      alert("Please enter a diary description!");
+      return;
+    }
+    if (kind == -1){
+      alert("Please select a kind!");
+      return;
+    }
+    if (mood == -1){
+      alert("Please select a mood!");
       return;
     }
 
 
     try {
-      const todo = await createTodo({ title, description });
+      const todo = await createTodo({ title, description, complete, kind, mood });
       renderTodo(todo);
     } catch (error) {
       alert("Failed to create todo!");
@@ -59,7 +101,7 @@ function setupEventListeners() {
     }
 
 
-    todoInput.value = "";
+    dateInput.value = "";
     todoDescriptionInput.value = "";
 
     view_content.style.display = "block";
@@ -84,8 +126,35 @@ function createTodoElement(todo) {
   const title = item.querySelector("p.todo-title");
   title.innerText = todo.title;
 
-  // const tag_kind = item.querySelector("p.tag_kind");
-  // title.innerText = todo.tag_kind;
+  const tag_kind = item.querySelector("i.tag_kind");
+  switch(kind){
+    case 1:
+      tag_kind.innerText = "學業";
+      break;
+    case 2:
+      tag_kind.innerText = "人際";
+      break;
+    case 3:
+      tag_kind.innerText = "社團";
+      break;
+  }
+
+  kind = -1;
+
+  const tag_mood = item.querySelector("i.tag_mood");
+  switch(mood){
+    case 1:
+      tag_mood.innerText = "快樂";
+      break;
+    case 2:
+      tag_mood.innerText = "生氣";
+      break;
+    case 3:
+      tag_mood.innerText = "難過";
+      break;
+  }
+
+  mood = -1;
 
   const description = item.querySelector("p.todo-description");
   description.innerText = todo.description;
@@ -132,6 +201,11 @@ async function deleteTodoById(id) {
 }
 
 function toggleContent() {
+  const todoInput = document.querySelector("#todo-input");
+  const todoDescriptionInput = document.querySelector(
+    "#todo-description-input",
+  );
+
   if (viewing) {
     view_content.style.display = "none";
     edit_content.style.display = "block";
@@ -142,11 +216,12 @@ function toggleContent() {
     edit_content.style.display = "none";
 
     add_diary_button.textContent = "Add Diary";
+
+    todoInput.value = "";
+    todoDescriptionInput.value = "";
   }
   
   viewing = !viewing;
 }
-
-add_diary_button.addEventListener("click", toggleContent);
 
 main();

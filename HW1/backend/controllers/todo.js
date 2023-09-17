@@ -22,10 +22,10 @@ export const createTodo = async (req, res) => {
   const { title, description } = req.body;
 
   // Check title and description
-  if (!title || !description) {
+  if (!title || !description || !kind || !mood) {
     return res
       .status(400)
-      .json({ message: "Title and description are required!" });
+      .json({ message: "information are required!" });
   }
 
   // Create a new todo
@@ -34,6 +34,8 @@ export const createTodo = async (req, res) => {
       title,
       description,
       completed: false,
+      kind,
+      mood,
     });
     return res.status(201).json(newTodo);
   } catch (error) {
@@ -44,7 +46,7 @@ export const createTodo = async (req, res) => {
 // Update a todo
 export const updateTodo = async (req, res) => {
   const { id } = req.params;
-  const { title, description, completed } = req.body;
+  const { title, description, completed, kind, mood } = req.body;
 
   try {
     // Check if the id is valid
@@ -57,6 +59,8 @@ export const updateTodo = async (req, res) => {
     if (title !== undefined) existedTodo.title = title;
     if (description !== undefined) existedTodo.description = description;
     if (completed !== undefined) existedTodo.completed = completed;
+    if (kind !== undefined) existedTodo.kind = kind;
+    if (mood !== undefined) existedTodo.mood = mood;
 
     // Save the updated todo
     await existedTodo.save();

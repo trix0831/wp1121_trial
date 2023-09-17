@@ -161,3 +161,117 @@ textarea#todo-description-input {
 	position:relative;
 	top:1px;
 }
+
+#academic {
+	background-color:#44c767;
+	border-radius:28px;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:16px;
+	padding:6px 11px;
+	text-decoration:none;
+}
+.academic:hover {
+	background-color:#15747b;
+}
+.academic:active {
+	position:relative;
+	top:1px;
+}
+
+#personality {
+	background-color:#44c767;
+	border-radius:28px;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:16px;
+	padding:6px 11px;
+	text-decoration:none;
+}
+.personality:hover {
+	background-color:#377b15;
+}
+.personality:active {
+	position:relative;
+	top:1px;
+}
+
+#club {
+	background-color:#44c767;
+	border-radius:28px;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:16px;
+	padding:6px 11px;
+	text-decoration:none;
+}
+.club:hover {
+	background-color:#377b15;
+}
+.club:active {
+	position:relative;
+	top:1px;
+}
+
+#happy {
+	background-color:#d0451b;
+	border-radius:28px;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:16px;
+	padding:6px 11px;
+	text-decoration:none;
+}
+.happy:hover {
+	background-color:#bc3315;
+}
+.happy:active {
+	position:relative;
+	top:1px;
+}
+
+#angry {
+	background-color:#d0451b;
+	border-radius:28px;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:16px;
+	padding:6px 11px;
+	text-decoration:none;
+}
+.angry:hover {
+	background-color:#bc3315;
+}
+.angry:active {
+	position:relative;
+	top:1px;
+}
+
+#down {
+	background-color:#d0451b;
+	border-radius:28px;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:16px;
+	padding:6px 11px;
+	text-decoration:none;
+}
+.down:hover {
+	background-color:#bc3315;
+}
+.down:active {
+	position:relative;
+	top:1px;
+}
