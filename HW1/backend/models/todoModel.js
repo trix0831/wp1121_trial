@@ -16,11 +16,11 @@ const todoSchema = new mongoose.Schema(
       default: false,
     },
     kind: {
-      type: String,
+      type: Number,
       default: -1,
     },
     mood: {
-      type: String,
+      type: Number,
       default: -1,
     }
   },

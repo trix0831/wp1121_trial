@@ -19,7 +19,7 @@ export const getTodos = async (req, res) => {
 };
 // Create a todo
 export const createTodo = async (req, res) => {
-  const { title, description } = req.body;
+  const { title, description, kind, mood} = req.body;
 
   // Check title and description
   if (!title || !description || !kind || !mood) {

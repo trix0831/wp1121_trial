@@ -127,7 +127,7 @@ function createTodoElement(todo) {
   title.innerText = todo.title;
 
   const tag_kind = item.querySelector("i.tag_kind");
-  switch(kind){
+  switch(todo.kind){
     case 1:
       tag_kind.innerText = "學業";
       break;
@@ -139,10 +139,9 @@ function createTodoElement(todo) {
       break;
   }
 
-  kind = -1;
 
   const tag_mood = item.querySelector("i.tag_mood");
-  switch(mood){
+  switch(todo.mood){
     case 1:
       tag_mood.innerText = "快樂";
       break;
@@ -153,8 +152,6 @@ function createTodoElement(todo) {
       tag_mood.innerText = "難過";
       break;
   }
-
-  mood = -1;
 
   const description = item.querySelector("p.todo-description");
   description.innerText = todo.description;
