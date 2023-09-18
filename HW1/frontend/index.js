@@ -4,6 +4,7 @@ const todoList = document.querySelector("#todos");
 
 const view_content = document.getElementById("view-page");
 const edit_content = document.getElementById("editing-page");
+const edit_todo_content = document.getElementById("editing-todo-page");
 const add_diary_button = document.getElementById("add-diary-button");
 const diary_save_button = document.getElementById("todo-add");
 
@@ -29,6 +30,7 @@ async function main() {
   setupEventListeners();
 
   edit_content.style.display = "none";
+  edit_todo_content.style.display = "none";
 
   try {
     const todos = await getTodos();
@@ -41,6 +43,7 @@ async function main() {
 
 function setupEventListeners() {
   const addTodoButton = document.querySelector("#todo-add");
+  const editTodoButton = document.querySelector("#todo-edit");
   // const todoInput = document.querySelector("#todo-input");
   const todoDescriptionInput = document.querySelector(
     "#todo-description-input",
@@ -109,6 +112,49 @@ function setupEventListeners() {
     add_diary_button.textContent = "Add Diary";   
     viewing = !viewing;
   });
+
+  editTodoButton.addEventListener("click", async () => {
+    const dateInput = document.getElementById("dateInput-edit");
+    const title = dateInput-edit.value;
+    const description = todoDescriptionInput-edit.value;
+
+
+    if (!title) {
+      alert("Please enter a date!");
+      return;
+    }
+    if (!description) {
+      alert("Please enter a diary description!");
+      return;
+    }
+    if (kind == -1){
+      alert("Please select a kind!");
+      return;
+    }
+    if (mood == -1){
+      alert("Please select a mood!");
+      return;
+    }
+
+
+    try {
+      editTodoById(todo.id)
+      renderTodo(todo);
+    } catch (error) {
+      alert("Failed to edit todo!");
+      return;
+    }
+
+
+    dateInput.value = "";
+    todoDescriptionInput.value = "";
+
+    view_content.style.display = "block";
+    edit_content.style.display = "none"; 
+    edit_todo_content.style.display = "none";
+    add_diary_button.textContent = "Add Diary";   
+    viewing = !viewing;
+  });
 }
 
 function renderTodo(todo) {
@@ -162,7 +208,29 @@ function createTodoElement(todo) {
     deleteTodoElement(todo.id);
   });
 
+  const editButton = item.querySelector("button.edit-todo");
+  editButton.addEventListener("click", async () => {
+    populateEditForm(todo);
+  });
+
   return item;
+}
+
+function populateEditForm(data){
+  edit_content.style.display = "none";
+  view_content.style.display = "none";
+  edit_todo_content.style.display = "block";
+
+  const dateInput = document.getElementById("dateInput");
+  const todoDescriptionInput = document.querySelector(
+    "#todo-description-input",
+  );
+
+  dateInput.value = data.title;
+  todoDescriptionInput.value = data.description;
+
+  alert(data.title);
+
 }
 
 async function deleteTodoElement(id) {
@@ -174,6 +242,14 @@ async function deleteTodoElement(id) {
     const todo = document.getElementById(id);
     todo.remove();
   }
+}
+
+async function editTodoElement(id) {
+  try {
+    await editTodoById(id);
+  } catch (error) {
+    alert("Failed to edit todo!");
+  } 
 }
 
 async function getTodos() {
@@ -195,6 +271,10 @@ async function updateTodoStatus(id, todo) {
 async function deleteTodoById(id) {
   const response = await instance.delete(`/todos/${id}`);
   return response.data;
+}
+
+async function updateTodoById(id){
+  await instance.put(`/todos/${id}`)
 }
 
 function toggleContent() {

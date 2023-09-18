@@ -55,7 +55,24 @@ button#todo-add {
   border-radius: 0.5rem;
   padding: 0 0.5rem;
 }
+button#todo-edit {
+  height: var(--todo-intput-height);
+  font-size: var(--todo-intput-font-size);
+  border-radius: 0.5rem;
+  padding: 0 0.5rem;
+}
 textarea#todo-description-input {
+  width: 100%;
+  margin-top: 1rem;
+  height: 5rem;
+  resize: none;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+}
+
+textarea#todo-description-input-edit {
   width: 100%;
   margin-top: 1rem;
   height: 5rem;
@@ -272,6 +289,120 @@ textarea#todo-description-input {
 	background-color:#bc3315;
 }
 .down:active {
+	position:relative;
+	top:1px;
+}
+
+#academic-edit {
+	background-color:#44c767;
+	border-radius:28px;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:16px;
+	padding:6px 11px;
+	text-decoration:none;
+}
+.academic-edit:hover {
+	background-color:#15747b;
+}
+.academic-edit:active {
+	position:relative;
+	top:1px;
+}
+
+#personality-edit {
+	background-color:#44c767;
+	border-radius:28px;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:16px;
+	padding:6px 11px;
+	text-decoration:none;
+}
+.personality-edit:hover {
+	background-color:#377b15;
+}
+.personality-edit:active {
+	position:relative;
+	top:1px;
+}
+
+#club-edit {
+	background-color:#44c767;
+	border-radius:28px;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:16px;
+	padding:6px 11px;
+	text-decoration:none;
+}
+.club-edit:hover {
+	background-color:#377b15;
+}
+.club-edit:active {
+	position:relative;
+	top:1px;
+}
+
+#happy-edit {
+	background-color:#d0451b;
+	border-radius:28px;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:16px;
+	padding:6px 11px;
+	text-decoration:none;
+}
+.happy-edit:hover {
+	background-color:#bc3315;
+}
+.happy-edit:active {
+	position:relative;
+	top:1px;
+}
+
+#angry-edit {
+	background-color:#d0451b;
+	border-radius:28px;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:16px;
+	padding:6px 11px;
+	text-decoration:none;
+}
+.angry-edit:hover {
+	background-color:#bc3315;
+}
+.angry-edit:active {
+	position:relative;
+	top:1px;
+}
+
+#down-edit {
+	background-color:#d0451b;
+	border-radius:28px;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:16px;
+	padding:6px 11px;
+	text-decoration:none;
+}
+.down-edit:hover {
+	background-color:#bc3315;
+}
+.down-edit:active {
 	position:relative;
 	top:1px;
 }

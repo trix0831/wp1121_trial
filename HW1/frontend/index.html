@@ -53,6 +53,38 @@
 
     </div>
 
+    <div id = "editing-todo-page" style.display = "none">
+      <p id = "edit-page-title">Add A New Diary ~</p>
+
+      <div id="todo-input-container">
+        <!-- <input type="text" id="todo-input" placeholder="date" tabindex="1" /> -->
+        <label for="dateInput-edit">Select a Date:</label>
+        <input type="date" id="dateInput-edit" name="dateInput">
+        <button id="todo-edit" tabindex="3">save</button>
+      </div>
+
+
+      <textarea
+        id="todo-description-input-edit"
+        placeholder="description"
+        tabindex="2"
+      ></textarea>
+
+      <!-- button -->
+      <div id="choices_kind-edit">
+        <button id="academic-edit">學業</button>
+        <button id="personality-edit">人際</button>
+        <button id="club-edit">社團</button>
+      </div>
+      <div id="choices_mood-edit">
+        <button id="happy-edit">快樂</button>
+        <button id="angry-edit">生氣</button>
+        <button id="down-edit">難過</button>
+      </div>
+
+
+    </div>
+
 
     </body>
 
@@ -69,8 +101,8 @@
             <i class = "tag_mood">tag_mood</i>
           
           </div>
+          <button data-id="" class="edit-todo">edit</button>
           <button data-id="" class="delete-todo">delete</button>
-
 
         </summary>
 
