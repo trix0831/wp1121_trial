@@ -45,9 +45,8 @@ function setupEventListeners() {
   const addTodoButton = document.querySelector("#todo-add");
   const editTodoButton = document.querySelector("#todo-edit");
   // const todoInput = document.querySelector("#todo-input");
-  const todoDescriptionInput = document.querySelector(
-    "#todo-description-input",
-  );
+  const todoDescriptionInput = document.getElementById("todo-description-input")
+  const todoDescriptionInput_edit = document.getElementById("todo-description-input-edit")
 
   add_diary_button.addEventListener("click", toggleContent);
 
@@ -114,16 +113,18 @@ function setupEventListeners() {
   });
 
   editTodoButton.addEventListener("click", async () => {
-    const dateInput = document.getElementById("dateInput-edit");
-    const title = dateInput-edit.value;
-    const description = todoDescriptionInput-edit.value;
+    toggleContent();
+
+    const dateInput_edit = document.getElementById("dateInput-edit");
+    const title_edit = todo.title;
+    const description_edit = todo.description;
 
 
-    if (!title) {
+    if (!title_edit) {
       alert("Please enter a date!");
       return;
     }
-    if (!description) {
+    if (!description_edit) {
       alert("Please enter a diary description!");
       return;
     }
@@ -146,8 +147,8 @@ function setupEventListeners() {
     }
 
 
-    dateInput.value = "";
-    todoDescriptionInput.value = "";
+    dateInput_edit.value = "";
+    todoDescriptionInput_edit.value = "";
 
     view_content.style.display = "block";
     edit_content.style.display = "none"; 
@@ -221,10 +222,8 @@ function populateEditForm(data){
   view_content.style.display = "none";
   edit_todo_content.style.display = "block";
 
-  const dateInput = document.getElementById("dateInput");
-  const todoDescriptionInput = document.querySelector(
-    "#todo-description-input",
-  );
+  const dateInput = document.getElementById("dateInput-edit");
+  const todoDescriptionInput = document.getElementById("todo-description-input-edit")
 
   dateInput.value = data.title;
   todoDescriptionInput.value = data.description;
@@ -278,7 +277,7 @@ async function updateTodoById(id){
 }
 
 function toggleContent() {
-  const todoInput = document.querySelector("#todo-input");
+  const todoInput = document.getElementById("dateInput");
   const todoDescriptionInput = document.querySelector(
     "#todo-description-input",
   );
