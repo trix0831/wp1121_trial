@@ -20,6 +20,7 @@ let viewing = true;
 let kind = -1;
 let mood = -1;
 let complete = false;
+let edited = false;
 
 
 const instance = axios.create({
@@ -43,10 +44,8 @@ async function main() {
 
 function setupEventListeners() {
   const addTodoButton = document.querySelector("#todo-add");
-  const editTodoButton = document.querySelector("#todo-edit");
   // const todoInput = document.querySelector("#todo-input");
-  const todoDescriptionInput = document.getElementById("todo-description-input")
-  const todoDescriptionInput_edit = document.getElementById("todo-description-input-edit")
+  const todoDescriptionInput = document.getElementById("todo-description-input");
 
   add_diary_button.addEventListener("click", toggleContent);
 
@@ -112,50 +111,7 @@ function setupEventListeners() {
     viewing = !viewing;
   });
 
-  editTodoButton.addEventListener("click", async () => {
-    toggleContent();
-
-    const dateInput_edit = document.getElementById("dateInput-edit");
-    const title_edit = todo.title;
-    const description_edit = todo.description;
-
-
-    if (!title_edit) {
-      alert("Please enter a date!");
-      return;
-    }
-    if (!description_edit) {
-      alert("Please enter a diary description!");
-      return;
-    }
-    if (kind == -1){
-      alert("Please select a kind!");
-      return;
-    }
-    if (mood == -1){
-      alert("Please select a mood!");
-      return;
-    }
-
-
-    try {
-      editTodoById(todo.id)
-      renderTodo(todo);
-    } catch (error) {
-      alert("Failed to edit todo!");
-      return;
-    }
-
-
-    dateInput_edit.value = "";
-    todoDescriptionInput_edit.value = "";
-
-    view_content.style.display = "block";
-    edit_content.style.display = "none"; 
-    edit_todo_content.style.display = "none";
-    add_diary_button.textContent = "Add Diary";   
-    viewing = !viewing;
-  });
+  
 }
 
 function renderTodo(todo) {
@@ -212,7 +168,53 @@ function createTodoElement(todo) {
   const editButton = item.querySelector("button.edit-todo");
   editButton.addEventListener("click", async () => {
     populateEditForm(todo);
-  });
+
+    const editTodoButton = document.querySelector("#todo-edit");
+    editTodoButton.addEventListener("click", async () => {
+      const dateInput_edit = document.getElementById("dateInput-edit");
+      const todoDescriptionInput_edit = document.getElementById("todo-description-input-edit")
+      const title_edit = dateInput_edit.value;
+      const description_edit = todoDescriptionInput_edit.value;
+      alert(description_edit);
+  
+      if (!title_edit) {
+        alert("Please enter a date!");
+        return;
+      }
+      if (!description_edit) {
+        alert(description_edit);
+        alert("Please enter a diary description!");
+        return;
+      }
+      // if (kind == -1){
+      //   alert("Please select a kind!");
+      //   return;
+      // }
+      // if (mood == -1){
+      //   alert("Please select a mood!");
+      //   return;
+      // }
+  
+  
+      dateInput_edit.value = "";
+      todoDescriptionInput_edit.value = "";
+  
+      view_content.style.display = "block";
+      edit_content.style.display = "none"; 
+      edit_todo_content.style.display = "none";
+      add_diary_button.textContent = "Add Diary";   
+      viewing = !viewing;
+
+
+      try{
+        updateTodoById(todo.id);
+        alert("todo updated");
+      }catch (error) {
+        alert("Failed to update todo!");
+        return;
+      }
+    });
+});
 
   return item;
 }
@@ -222,14 +224,14 @@ function populateEditForm(data){
   view_content.style.display = "none";
   edit_todo_content.style.display = "block";
 
+  viewing = !viewing;
+  add_diary_button.textContent = "Cancel";
+
   const dateInput = document.getElementById("dateInput-edit");
   const todoDescriptionInput = document.getElementById("todo-description-input-edit")
 
   dateInput.value = data.title;
   todoDescriptionInput.value = data.description;
-
-  alert(data.title);
-
 }
 
 async function deleteTodoElement(id) {
@@ -290,6 +292,7 @@ function toggleContent() {
   } else {
     view_content.style.display = "block";
     edit_content.style.display = "none";
+    edit_todo_content.style.display = "none";
 
     add_diary_button.textContent = "Add Diary";
 
