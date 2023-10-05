@@ -25,11 +25,6 @@ export type CardListProps = {
   cards: CardProps[];
 };
 
-const [chipDeleteVisible, setChipDeleteVisible] = useState(true);
-
-export function toggleChipDeleteVisibility() {
-  setChipDeleteVisible(!chipDeleteVisible); // Toggle the visibility
-}
 
 export default function CardList({ id, name, cards }: CardListProps) {
   const [openNewCardDialog, setOpenNewCardDialog] = useState(false);

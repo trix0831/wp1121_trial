@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 // import { Add as AddIcon } from "@mui/icons-material";
 import { Button } from "@mui/material";
 
-import CardList, { toggleChipDeleteVisibility } from "@/components/CardList";
+import CardList from "@/components/CardList";
 import HeaderBar from "@/components/HeaderBar";
 import NewListDialog from "@/components/NewListDialog";
 import useCards from "@/hooks/useCards";
@@ -38,7 +38,7 @@ function App() {
           <Button
             variant="contained"
             className="w-40"
-            onClick={() => toggleChipDeleteVisibility()}
+            onClick={() => alert("delete")}
           >
               DELETE
           </Button>

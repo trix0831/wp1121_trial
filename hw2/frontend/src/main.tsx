@@ -10,7 +10,7 @@ import "./index.css";
 
 const darkTheme = createTheme({
   palette: {
-    mode: "light",
+    mode: "dark",
   },
 });
 
