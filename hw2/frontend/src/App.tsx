@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-
-import { Add as AddIcon } from "@mui/icons-material";
+// import { Add as AddIcon } from "@mui/icons-material";
 import { Button } from "@mui/material";
 
-import CardList from "@/components/CardList";
+import CardList, { toggleChipDeleteVisibility } from "@/components/CardList";
 import HeaderBar from "@/components/HeaderBar";
 import NewListDialog from "@/components/NewListDialog";
 import useCards from "@/hooks/useCards";
+
 
 function App() {
   const { lists, fetchLists, fetchCards } = useCards();
@@ -27,11 +27,20 @@ function App() {
         <div>
           <Button
             variant="contained"
-            className="w-80"
+            className="w-40"
             onClick={() => setNewListDialogOpen(true)}
           >
-            <AddIcon className="mr-2" />
-            Add a list
+            ADD
+          </Button>
+          
+          &nbsp;&nbsp;&nbsp;
+
+          <Button
+            variant="contained"
+            className="w-40"
+            onClick={() => toggleChipDeleteVisibility()}
+          >
+              DELETE
           </Button>
         </div>
         <NewListDialog

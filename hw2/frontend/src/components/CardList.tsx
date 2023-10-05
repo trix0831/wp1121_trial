@@ -1,11 +1,9 @@
 import { useRef, useState } from "react";
 
 import AddIcon from "@mui/icons-material/Add";
-import DeleteIcon from "@mui/icons-material/Delete";
 import Button from "@mui/material/Button";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 import Divider from "@mui/material/Divider";
-import IconButton from "@mui/material/IconButton";
 import Input from "@mui/material/Input";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
@@ -17,17 +15,28 @@ import Card from "./Card";
 import type { CardProps } from "./Card";
 import CardDialog from "./CardDialog";
 
+//delete button
+import ChipDelete from '@mui/joy/ChipDelete';
+import DeleteForever from '@mui/icons-material/DeleteForever';
+
 export type CardListProps = {
   id: string;
   name: string;
   cards: CardProps[];
 };
 
+const [chipDeleteVisible, setChipDeleteVisible] = useState(true);
+
+export function toggleChipDeleteVisibility() {
+  setChipDeleteVisible(!chipDeleteVisible); // Toggle the visibility
+}
+
 export default function CardList({ id, name, cards }: CardListProps) {
   const [openNewCardDialog, setOpenNewCardDialog] = useState(false);
   const [edittingName, setEdittingName] = useState(false);
   const { fetchLists } = useCards();
   const inputRef = useRef<HTMLInputElement>(null);
+
 
   const handleUpdateName = async () => {
     if (!inputRef.current) return;
@@ -55,7 +64,24 @@ export default function CardList({ id, name, cards }: CardListProps) {
 
   return (
     <>
-      <Paper className="w-80 p-6">
+      <Paper className="w-80 p-6" sx={{ position: 'relative' }}>
+        <ChipDelete
+          color="danger"
+          variant="outlined"
+          onClick={handleDelete}
+          sx={{
+            position: 'absolute',
+            top: 0,
+            right: 0,
+            marginTop: '-12px', /* Half of the icon's height */
+            marginRight: '-12px', /* Half of the icon's width */
+          }}
+        >
+          <DeleteForever />
+        </ChipDelete>
+
+
+
         <div className="flex gap-4">
           {edittingName ? (
             <ClickAwayListener onClickAway={handleUpdateName}>
@@ -78,17 +104,14 @@ export default function CardList({ id, name, cards }: CardListProps) {
               </Typography>
             </button>
           )}
-          <div className="grid place-items-center">
-            <IconButton color="error" onClick={handleDelete}>
-              <DeleteIcon />
-            </IconButton>
-          </div>
+
         </div>
         <Divider variant="middle" sx={{ mt: 1, mb: 2 }} />
         <div className="flex flex-col gap-4">
           {cards.map((card) => (
             <Card key={card.id} {...card} />
           ))}
+          //TODO enable it after entering the page
           <Button
             variant="contained"
             onClick={() => setOpenNewCardDialog(true)}
