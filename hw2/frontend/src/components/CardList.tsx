@@ -23,10 +23,11 @@ export type CardListProps = {
   id: string;
   name: string;
   cards: CardProps[];
+  visibility: boolean;
 };
 
 
-export default function CardList({ id, name, cards }: CardListProps) {
+export default function CardList({ id, name, cards, visibility }: CardListProps) {
   const [openNewCardDialog, setOpenNewCardDialog] = useState(false);
   const [edittingName, setEdittingName] = useState(false);
   const { fetchLists } = useCards();
@@ -60,7 +61,7 @@ export default function CardList({ id, name, cards }: CardListProps) {
   return (
     <>
       <Paper className="w-80 p-6" sx={{ position: 'relative' }}>
-        <ChipDelete
+        {visibility && (<ChipDelete
           color="danger"
           variant="outlined"
           onClick={handleDelete}
@@ -73,7 +74,7 @@ export default function CardList({ id, name, cards }: CardListProps) {
           }}
         >
           <DeleteForever />
-        </ChipDelete>
+        </ChipDelete>)}
 
 
 
