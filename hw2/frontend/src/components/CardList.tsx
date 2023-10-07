@@ -11,7 +11,7 @@ import Typography from "@mui/material/Typography";
 import useCards from "@/hooks/useCards";
 import { deleteList, updateList } from "@/utils/client";
 
-import Card from "./Card";
+// import Card from "./Card";
 import type { CardProps } from "./Card";
 import CardDialog from "./CardDialog";
 
@@ -76,8 +76,6 @@ export default function CardList({ id, name, cards, visibility }: CardListProps)
           <DeleteForever />
         </ChipDelete>)}
 
-
-
         <div className="flex gap-4">
           {edittingName ? (
             <ClickAwayListener onClickAway={handleUpdateName}>
@@ -102,18 +100,28 @@ export default function CardList({ id, name, cards, visibility }: CardListProps)
           )}
 
         </div>
+
         <Divider variant="middle" sx={{ mt: 1, mb: 2 }} />
+
+        <div>
+          <img src = "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8bWljcm9waG9uZXxlbnwwfHwwfHx8MA%3D%3D&w=1000&q=80"></img>
+        </div>
+
+
+        <div>
+            {cards.length} songs
+        </div>
+        
         <div className="flex flex-col gap-4">
-          {cards.map((card) => (
+          {/* {cards.map((card) => (
             <Card key={card.id} {...card} />
-          ))}
-          //TODO enable it after entering the page
+          ))} */}
           <Button
             variant="contained"
             onClick={() => setOpenNewCardDialog(true)}
           >
             <AddIcon className="mr-2" />
-            Add a card
+            Add a song
           </Button>
         </div>
       </Paper>

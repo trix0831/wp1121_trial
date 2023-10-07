@@ -15,6 +15,7 @@ function App() {
   const [deleteVisibility, setDeleteVisibility] = useState(
     new Array(lists.length).fill(false)
   ); // Array of boolean values, one for each CardList
+  const [deleteButtonText, setDeleteButtonText] = useState("DELETE"); // Initial button text
 
 
   useEffect(() => {
@@ -26,6 +27,8 @@ function App() {
     setDeleteVisibility((prevVisibility) =>
       prevVisibility.map((deleteVisibility) => !deleteVisibility)
     );
+
+    setDeleteButtonText(deleteButtonText === "DELETE" ? "DONE" : "DELETE");
   };
 
   return (
@@ -51,7 +54,7 @@ function App() {
             className="w-40"
             onClick={() => toggleDeleteVisibility()}
           >
-              DELETE
+              {deleteButtonText}
           </Button>
         </div>
         <NewListDialog
