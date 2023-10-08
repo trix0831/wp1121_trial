@@ -13,9 +13,7 @@ import Typography from "@mui/material/Typography";
 function App() {
   const { lists, fetchLists, fetchCards } = useCards();
   const [newListDialogOpen, setNewListDialogOpen] = useState(false);
-  const [deleteVisibility, setDeleteVisibility] = useState(
-    new Array(lists.length).fill(0)
-  ); // Array of boolean values, one for each CardList
+  const [deleteVisibility, setDeleteVisibility] = useState(false); 
   const [deleteButtonText, setDeleteButtonText] = useState("DELETE"); // Initial button text
 
 
@@ -24,16 +22,16 @@ function App() {
     fetchCards();
   }, [fetchCards, fetchLists]);
 
-  const toggleDeleteVisibility = () => {
+  // const toggleDeleteVisibility = () => {
     
-    setDeleteVisibility((prevVisibility) =>
-      prevVisibility.map((deleteVisibility) => !deleteVisibility)
-    );
+  //   setDeleteVisibility((prevVisibility) =>
+  //     prevVisibility.map((deleteVisibility) => !deleteVisibility)
+  //   );
 
-    console.log(deleteVisibility);
+  //   console.log(deleteVisibility);
 
-    setDeleteButtonText(deleteButtonText === "DELETE" ? "DONE" : "DELETE");
-  };
+  //   setDeleteButtonText(deleteButtonText === "DELETE" ? "DONE" : "DELETE");
+  // };
 
   return (
     <>
@@ -55,7 +53,16 @@ function App() {
           <Button
             variant="contained"
             className="w-12"
-            onClick={() => toggleDeleteVisibility()}
+            onClick={() => {
+              if(deleteVisibility){
+                setDeleteVisibility(false);
+                setDeleteButtonText("DELETE");
+              }
+              else{
+                setDeleteVisibility(true);
+                setDeleteButtonText("DONE");
+              }
+            }}
           >
             {deleteButtonText}
           </Button>
@@ -63,9 +70,9 @@ function App() {
         
         {/* grid grid-cols-3 gap-8 */}
         <div className="m-5 grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-10">
-          {lists.map((list, index) => (
-            <CardList key={list.id} {...list} visibility={deleteVisibility[index]} />
-          ))}
+          {lists.map((list => (
+            <CardList key={list.id} {...list} visibility = {deleteVisibility} />
+          )))}
         </div>
 
 
