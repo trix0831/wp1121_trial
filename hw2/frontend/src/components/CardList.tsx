@@ -19,6 +19,7 @@ import CardDialog from "./CardDialog";
 import ChipDelete from '@mui/joy/ChipDelete';
 import DeleteForever from '@mui/icons-material/DeleteForever';
 
+
 export type CardListProps = {
   id: string;
   name: string;
@@ -60,7 +61,7 @@ export default function CardList({ id, name, cards, visibility }: CardListProps)
 
   return (
     <>
-      <Paper className="w-80 p-6" sx={{ position: 'relative' }}>
+      <Paper className="w-65 p-3" sx={{ position: 'relative' }}>
         {visibility && (<ChipDelete
           color="danger"
           variant="outlined"
