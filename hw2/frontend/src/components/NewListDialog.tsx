@@ -19,11 +19,12 @@ export default function NewListDialog({ open, onClose }: NewListDialogProps) {
   // using a ref to get the dom element is one way to get the value of a input
   // another way is to use a state variable and update it on change, which can be found in CardDialog.tsx
   const textfieldRef = useRef<HTMLInputElement>(null);
+  const descriptionRef = useRef<HTMLInputElement>(null);
   const { fetchLists } = useCards();
 
   const handleAddList = async () => {
     try {
-      await createList({ name: textfieldRef.current?.value ?? "" });
+      await createList({ name: textfieldRef.current?.value ?? "" ,description: descriptionRef.current?.value ?? "" });
       fetchLists();
     } catch (error) {
       alert("Error: Failed to create list");
@@ -36,6 +37,7 @@ export default function NewListDialog({ open, onClose }: NewListDialogProps) {
     <Dialog open={open} onClose={onClose}>
       <DialogTitle>Add a list</DialogTitle>
       <DialogContent>
+
         <TextField
           inputRef={textfieldRef}
           label="List Name"
@@ -43,6 +45,15 @@ export default function NewListDialog({ open, onClose }: NewListDialogProps) {
           sx={{ mt: 2 }}
           autoFocus
         />
+
+        <TextField
+          inputRef={descriptionRef}
+          label="Description"
+          variant="outlined"
+          sx={{ mt: 2 }}
+          autoFocus
+        />
+
       </DialogContent>
       <DialogActions>
         <Button onClick={handleAddList}>add</Button>

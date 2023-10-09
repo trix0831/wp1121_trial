@@ -73,7 +73,6 @@ function App() {
           </div>
         </div>
         
-        {/* grid grid-cols-3 gap-8 */}
         <div className="m-5 grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-10">
           {lists.map((list => (
             <CardList key={list.id} {...list} visibility = {deleteVisibility} />

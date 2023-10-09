@@ -21,6 +21,7 @@ export const getLists = async (_: Request, res: Response<GetListsResponse>) => {
       return {
         id: list.id,
         name: list.name,
+        description: list.description,
       };
     });
 
@@ -45,6 +46,7 @@ export const getList = async (
     return res.status(200).json({
       id: lists.id,
       name: lists.name,
+      description: lists.description,
       cards: lists.cards as unknown as CardData[],
     });
   } catch (error) {
