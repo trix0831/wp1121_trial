@@ -11,7 +11,7 @@ import Typography from "@mui/material/Typography";
 import useCards from "@/hooks/useCards";
 import { deleteList, updateList } from "@/utils/client";
 
-// import Card from "./Card";
+import Card from "./Card";
 import type { CardProps } from "./Card";
 import CardDialog from "./CardDialog";
 import PlaylistDialog from "@/components/PlaylistDialog";
@@ -110,21 +110,20 @@ export default function CardList({ id, name, cards, visibility }: CardListProps)
           <img onClick={() => setShowPlaylist(true)} src = "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8bWljcm9waG9uZXxlbnwwfHwwfHx8MA%3D%3D&w=1000&q=80"></img>
         </div>
 
-        {showPlaylist && <PlaylistDialog 
-            open={true}
+        <PlaylistDialog 
+            open={showPlaylist}
             onClose={() => setShowPlaylist(false)}
-          />}
-
+          />
 
         <div>
             {cards.length} songs
         </div>
         
         <div className="flex flex-col gap-4">
-          {/* {cards.map((card) => (
+          {cards.map((card) => (
             <Card key={card.id} {...card} />
-          ))} */}
-          {false && <Button
+          ))}
+          {true && <Button
             variant="contained"
             onClick={() => setOpenNewCardDialog(true)}
           >
