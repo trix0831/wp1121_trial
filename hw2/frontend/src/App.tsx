@@ -38,10 +38,14 @@ function App() {
       <HeaderBar />
       <main className="flex mb-4 mt-4 grid grid-row-2">
 
-    <div>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+    <div className="grid grid-cols-3">
+          <Typography variant="h5" component="div" ml={3}>
             My Playlists
           </Typography>
+
+          &nbsp;&nbsp;
+          
+          <div>
           <Button
             variant="contained"
             className="w-12 mr-2"
@@ -49,7 +53,7 @@ function App() {
           >
             ADD
           </Button>
-          &nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;
           <Button
             variant="contained"
             className="w-12"
@@ -66,6 +70,7 @@ function App() {
           >
             {deleteButtonText}
           </Button>
+          </div>
         </div>
         
         {/* grid grid-cols-3 gap-8 */}
