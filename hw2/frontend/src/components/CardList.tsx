@@ -14,6 +14,7 @@ import { deleteList, updateList } from "@/utils/client";
 // import Card from "./Card";
 import type { CardProps } from "./Card";
 import CardDialog from "./CardDialog";
+import PlaylistDialog from "@/components/PlaylistDialog";
 
 //delete button
 import ChipDelete from '@mui/joy/ChipDelete';
@@ -31,6 +32,7 @@ export type CardListProps = {
 export default function CardList({ id, name, cards, visibility }: CardListProps) {
   const [openNewCardDialog, setOpenNewCardDialog] = useState(false);
   const [edittingName, setEdittingName] = useState(false);
+  const [showPlaylist, setShowPlaylist] = useState(false);
   const { fetchLists } = useCards();
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -105,8 +107,13 @@ export default function CardList({ id, name, cards, visibility }: CardListProps)
         <Divider variant="middle" sx={{ mt: 1, mb: 2 }} />
 
         <div>
-          <img src = "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8bWljcm9waG9uZXxlbnwwfHwwfHx8MA%3D%3D&w=1000&q=80"></img>
+          <img onClick={() => setShowPlaylist(true)} src = "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8bWljcm9waG9uZXxlbnwwfHwwfHx8MA%3D%3D&w=1000&q=80"></img>
         </div>
+
+        {showPlaylist && <PlaylistDialog 
+            open={true}
+            onClose={() => setShowPlaylist(false)}
+          />}
 
 
         <div>

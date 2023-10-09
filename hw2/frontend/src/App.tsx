@@ -5,7 +5,6 @@ import { Button } from "@mui/material";
 import CardList from "@/components/CardList";
 import HeaderBar from "@/components/HeaderBar";
 import NewListDialog from "@/components/NewListDialog";
-import PlaylistDialog from "@/components/PlaylistDialog";
 import useCards from "@/hooks/useCards";
 import Typography from "@mui/material/Typography";
 // import { Visibility } from "@mui/icons-material";
@@ -17,8 +16,6 @@ function App() {
   const [deleteVisibility, setDeleteVisibility] = useState(false); 
   const [deleteButtonText, setDeleteButtonText] = useState("DELETE"); // Initial button text
 
-  const [isPlaylistPage, setIsPlaylistPage] = useState(false);
-
   useEffect(() => {
     fetchLists();
     fetchCards();
@@ -27,11 +24,8 @@ function App() {
 
   return (
     <>
-      <button onClick={() => setIsPlaylistPage(true)}>tmp</button>
       <HeaderBar />
       <main className="flex mb-4 mt-4 grid grid-row-2">
-
-        {!isPlaylistPage && <div>
         
         <div className="grid grid-cols-3">
             <Typography variant="h5" component="div" ml={3}>
@@ -73,15 +67,6 @@ function App() {
               <CardList key={list.id} {...list} visibility = {deleteVisibility} />
             )))}
           </div> 
-          </div>
-          }
-
-          {isPlaylistPage && <PlaylistDialog 
-            open={true}
-            onClose={() => setIsPlaylistPage(false)}
-          />}
-
-        
 
 
           <NewListDialog
