@@ -117,13 +117,13 @@ export default function CardList({ id, name, cards, visibility }: CardListProps)
           {/* {cards.map((card) => (
             <Card key={card.id} {...card} />
           ))} */}
-          <Button
+          {false && <Button
             variant="contained"
             onClick={() => setOpenNewCardDialog(true)}
           >
             <AddIcon className="mr-2" />
             Add a song
-          </Button>
+          </Button>}
         </div>
       </Paper>
       <CardDialog

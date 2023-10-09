@@ -36,7 +36,7 @@ export default function NewListDialog({ open, onClose }: NewListDialogProps) {
   return (
     <Dialog open={open} onClose={onClose}>
       <DialogTitle>Add a list</DialogTitle>
-      <DialogContent>
+      <DialogContent className="grid grid-rows-2">
 
         <TextField
           inputRef={textfieldRef}
