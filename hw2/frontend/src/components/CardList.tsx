@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 
-import AddIcon from "@mui/icons-material/Add";
-import Button from "@mui/material/Button";
+// import AddIcon from "@mui/icons-material/Add";
+// import Button from "@mui/material/Button";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 import Divider from "@mui/material/Divider";
 import Input from "@mui/material/Input";
@@ -11,7 +11,7 @@ import Typography from "@mui/material/Typography";
 import useCards from "@/hooks/useCards";
 import { deleteList, updateList } from "@/utils/client";
 
-import Card from "./Card";
+// import Card from "./Card";
 import type { CardProps } from "./Card";
 import CardDialog from "./CardDialog";
 import PlaylistDialog from "@/components/PlaylistDialog";
@@ -114,13 +114,14 @@ export default function CardList({ id, name, cards, visibility }: CardListProps)
             open={showPlaylist}
             songs={cards}
             onClose={() => setShowPlaylist(false)}
+            listId={id}
           />
 
         <div>
             {cards.length} songs
         </div>
         
-        <div className="flex flex-col gap-4">
+        {/* <div className="flex flex-col gap-4">
           {cards.map((card) => (
             <Card key={card.id} {...card} />
           ))}
@@ -132,7 +133,8 @@ export default function CardList({ id, name, cards, visibility }: CardListProps)
             <AddIcon className="mr-2" />
             Add a song
           </Button>}
-        </div>
+        </div> */}
+
       </Paper>
 
       

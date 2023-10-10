@@ -9,6 +9,8 @@ import Typography from "@mui/material/Typography";
 import Song  from "@/components/song"
 import type {SongProps}  from "@/components/song"
 
+import CardDialog from "./CardDialog";
+
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
     children: React.ReactElement;
@@ -22,15 +24,17 @@ type PlaylistDialogProps = {
   open: boolean;
   songs: SongProps[];
   onClose: () => void;
+  listId: string;
 };
 
-export default function PlaylistDialog({ open, songs, onClose }: PlaylistDialogProps) {
+export default function PlaylistDialog({ open, songs, onClose, listId }: PlaylistDialogProps) {
   const [deleteButtonText, setDeleteButtonText] = useState("DELETE");
   const [deleteButton, setDeleteButton] = useState(false);
+  const [openNewCardDialog, setOpenNewCardDialog] = useState(false);
 
 
   return (
-    <div>
+    <>
       <Dialog
         fullScreen
         open={open}
@@ -60,15 +64,19 @@ export default function PlaylistDialog({ open, songs, onClose }: PlaylistDialogP
             >
               BACK
             </Button>
+
             &nbsp;&nbsp;
+            
             <Button
               variant="contained"
               className="w-20 mr-2"
-              onClick={() => {alert("clicked")}}
+              onClick={() => setOpenNewCardDialog(true)}
             >
               ADD
             </Button>
+            
             &nbsp;&nbsp;
+            
             <Button
               variant="contained"
               className="w-20"
@@ -86,12 +94,35 @@ export default function PlaylistDialog({ open, songs, onClose }: PlaylistDialogP
             </Button>
         </div>
 
+        <div className='grid grid-cols-4'>
+          <Typography variant="h6" component="div" ml={2}>
+            checkbox
+          </Typography>
+          <Typography variant="h6" component="div" ml={2} col-span={2}>
+            song
+          </Typography>
+          <Typography variant="h6" component="div" ml={2} col-span={2}>
+            singer
+          </Typography>
+          <Typography variant="h6" component="div" ml={2} col-span={2}>
+            link (click to open link)
+          </Typography>
+
+        </div>
+
 
         {songs.map((songs) => (
             <Song key={songs.id} {...songs} />
           ))}
 
       </Dialog>
-    </div>
+
+      <CardDialog
+        variant="new"
+        open={openNewCardDialog}
+        onClose={() => setOpenNewCardDialog(false)}
+        listId={listId}
+      />
+    </>
   );
 }

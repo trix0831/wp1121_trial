@@ -9,8 +9,6 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import IconButton from "@mui/material/IconButton";
 import Input from "@mui/material/Input";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
 import Typography from "@mui/material/Typography";
 
 import useCards from "@/hooks/useCards";
@@ -59,7 +57,6 @@ export default function CardDialog(props: CardDialogProps) {
   const [newTitle, setNewTitle] = useState(title);
   const [newDescription, setNewDescription] = useState(description);
   const [newLink, setNewLink] = useState(link);
-  const [newListId, setNewListId] = useState(listId);
 
   const { lists, fetchCards } = useCards();
 
@@ -69,7 +66,6 @@ export default function CardDialog(props: CardDialogProps) {
       setNewTitle(title);
       setNewDescription(description);
       setNewLink(link);
-      setNewListId(listId);
     }
   };
 
@@ -89,8 +85,7 @@ export default function CardDialog(props: CardDialogProps) {
         if (
           newTitle === title &&
           newDescription === description &&
-          newLink === link &&
-          newListId === listId
+          newLink === link
         ) {
           return;
         }
@@ -100,7 +95,7 @@ export default function CardDialog(props: CardDialogProps) {
           title: newTitle,
           description: newDescription,
           link: newLink,
-          list_id: newListId,
+          list_id: listId,
         });
       }
       fetchCards();
@@ -153,7 +148,7 @@ export default function CardDialog(props: CardDialogProps) {
             <Typography className="text-start">{newTitle}</Typography>
           </button>
         )}
-        <Select
+        {/* <Select
           value={newListId}
           onChange={(e) => setNewListId(e.target.value)}
         >
@@ -162,7 +157,7 @@ export default function CardDialog(props: CardDialogProps) {
               {list.name}
             </MenuItem>
           ))}
-        </Select>
+        </Select> */}
         {variant === "edit" && (
           <IconButton color="error" onClick={handleDelete}>
             <DeleteIcon />
