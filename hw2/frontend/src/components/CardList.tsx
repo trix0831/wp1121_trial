@@ -112,6 +112,7 @@ export default function CardList({ id, name, cards, visibility }: CardListProps)
 
         <PlaylistDialog 
             open={showPlaylist}
+            songs={cards}
             onClose={() => setShowPlaylist(false)}
           />
 
@@ -123,6 +124,7 @@ export default function CardList({ id, name, cards, visibility }: CardListProps)
           {cards.map((card) => (
             <Card key={card.id} {...card} />
           ))}
+
           {true && <Button
             variant="contained"
             onClick={() => setOpenNewCardDialog(true)}

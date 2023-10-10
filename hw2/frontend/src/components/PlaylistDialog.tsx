@@ -6,8 +6,8 @@ import { Button } from "@mui/material";
 import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
 import Typography from "@mui/material/Typography";
-
-
+import Song  from "@/components/song"
+import type {SongProps}  from "@/components/song"
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -20,10 +20,11 @@ const Transition = React.forwardRef(function Transition(
 
 type PlaylistDialogProps = {
   open: boolean;
+  songs: SongProps[];
   onClose: () => void;
 };
 
-export default function PlaylistDialog({ open, onClose }: PlaylistDialogProps) {
+export default function PlaylistDialog({ open, songs, onClose }: PlaylistDialogProps) {
   const [deleteButtonText, setDeleteButtonText] = useState("DELETE");
   const [deleteButton, setDeleteButton] = useState(false);
 
@@ -85,22 +86,10 @@ export default function PlaylistDialog({ open, onClose }: PlaylistDialogProps) {
             </Button>
         </div>
 
-        <h1>hello</h1>
-{/* 
-        <div className="flex flex-col gap-4">
-          {cards.map((card) => (
-            <Card key={card.id} {...card} />
+
+        {songs.map((songs) => (
+            <Song key={songs.id} {...songs} />
           ))}
-          {true && <Button
-            variant="contained"
-            onClick={() => setOpenNewCardDialog(true)}
-          >
-            <AddIcon className="mr-2" />
-            Add a song
-          </Button>}
-        </div> */}
-
-
 
       </Dialog>
     </div>
