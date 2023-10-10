@@ -140,14 +140,16 @@ export default function PlaylistDialog({ open, songs, onClose, listId, title, de
   }
 
   const getSelectedTitle = () => {
+    setSelectedSongsTitle([]);
+
     songs.map((song) => {
-      if(song.id in selectedSongs){
-        setSelectedSongsTitle((prevSelectedSongsTitle) => [...prevSelectedSongsTitle, song.title]);
-      } else {
-        setSelectedSongsTitle((prevSelectedSongsTitle) =>
-          prevSelectedSongsTitle.filter((SelectedSongsTitle) => SelectedSongsTitle !== song.title)
-        );
-      }
+        // Use the filter method to check if the song's id is in the selectedSongs array
+        const isSelected = selectedSongs.includes(song.id);
+
+        // If the song is selected, add its title to the selectedSongsTitle array
+        if (isSelected) {
+          setSelectedSongsTitle((prevSelectedSongsTitle) => [...prevSelectedSongsTitle, song.title]);
+        }
     })
   }
 
@@ -265,9 +267,10 @@ export default function PlaylistDialog({ open, songs, onClose, listId, title, de
                 alert("No song is selected.");
                 setSelectAll(false);
               }
-              else
+              else{
               getSelectedTitle();
               setPreHandleDelete(true);
+            }
             }}
           >
             DELETE
@@ -321,11 +324,11 @@ export default function PlaylistDialog({ open, songs, onClose, listId, title, de
           <DialogContentText id="alert-dialog-description">
           <div>
             Deleting the following songs:
-            <ul>
+            
               {selectedSongsTitle.map((SongTitle) => (
-                <li>SongTitle</li>
+                <li key={SongTitle}>{SongTitle}</li>
               ))}
-            </ul>
+            
           </div>
           </DialogContentText>
         </DialogContent>

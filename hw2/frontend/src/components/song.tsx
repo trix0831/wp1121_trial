@@ -198,6 +198,9 @@ export default function Song({id, title, description, link, listId, editting, se
             onClick={() => {
               if(editting)
               {setEdittingLink(true);}
+              else{
+                window.open(link, '_blank');
+              }
             }}
             className="w-full rounded-md p-2 hover:bg-white/10"
           >
