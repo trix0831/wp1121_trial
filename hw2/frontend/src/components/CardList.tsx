@@ -19,17 +19,19 @@ import PlaylistDialog from "@/components/PlaylistDialog";
 //delete button
 import ChipDelete from '@mui/joy/ChipDelete';
 import DeleteForever from '@mui/icons-material/DeleteForever';
+// import { list } from "postcss";
 
 
 export type CardListProps = {
   id: string;
   name: string;
+  description: string;
   cards: CardProps[];
   visibility: boolean;
 };
 
 
-export default function CardList({ id, name, cards, visibility }: CardListProps) {
+export default function CardList({ id, name, description, cards, visibility }: CardListProps) {
   const [openNewCardDialog, setOpenNewCardDialog] = useState(false);
   const [edittingName, setEdittingName] = useState(false);
   const [showPlaylist, setShowPlaylist] = useState(false);
@@ -115,6 +117,8 @@ export default function CardList({ id, name, cards, visibility }: CardListProps)
             songs={cards}
             onClose={() => setShowPlaylist(false)}
             listId={id}
+            title={name}
+            description={description}
           />
 
         <div>

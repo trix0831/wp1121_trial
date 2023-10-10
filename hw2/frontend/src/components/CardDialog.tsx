@@ -78,10 +78,7 @@ export default function CardDialog(props: CardDialogProps) {
           link: newLink,
           list_id: listId,
         });
-        alert("here 1");
       } else {
-        alert("here 2");
-
         if (
           newTitle === title &&
           newDescription === description &&
@@ -115,7 +112,7 @@ export default function CardDialog(props: CardDialogProps) {
       await deleteCard(props.cardId);
       fetchCards();
     } catch (error) {
-      alert("Error: Failed to delete card 222");
+      alert("Error: Failed to delete card");
     } finally {
       handleClose();
     }
@@ -148,16 +145,7 @@ export default function CardDialog(props: CardDialogProps) {
             <Typography className="text-start">{newTitle}</Typography>
           </button>
         )}
-        {/* <Select
-          value={newListId}
-          onChange={(e) => setNewListId(e.target.value)}
-        >
-          {lists.map((list) => (
-            <MenuItem value={list.id} key={list.id}>
-              {list.name}
-            </MenuItem>
-          ))}
-        </Select> */}
+        
         {variant === "edit" && (
           <IconButton color="error" onClick={handleDelete}>
             <DeleteIcon />
