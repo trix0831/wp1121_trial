@@ -34,11 +34,13 @@ type PlaylistDialogProps = {
 };
 
 export default function PlaylistDialog({ open, songs, onClose, listId, title, description}: PlaylistDialogProps) {
-  const [deleteButtonText, setDeleteButtonText] = useState("DELETE");
   const [selectedSongs, setSelectedSongs] = useState<string[]>([]);
   const [openNewCardDialog, setOpenNewCardDialog] = useState(false);
   const [edittingTitle, setEdittingTitle] = useState(false);
   const [edittingDescription, setEdittingDescription] = useState(false);
+  const [editMode, setEditMode] = useState(false);
+
+  const [editButtonText, setEditButtonText] = useState("EDIT");
 
   const { fetchLists } = useCards();
   const { lists, fetchCards } = useCards();
@@ -183,6 +185,23 @@ export default function PlaylistDialog({ open, songs, onClose, listId, title, de
           <Button
             variant="contained"
             className="w-20 mr-2"
+            onClick={() => {
+              if (editButtonText == "EDIT"){
+                setEditButtonText("DONE");
+              }
+              else{
+                setEditButtonText("EDIT");
+              }
+              setEditMode(true);}}
+          >
+            {editButtonText}
+          </Button>
+
+          &nbsp;&nbsp;
+
+          <Button
+            variant="contained"
+            className="w-20 mr-2"
             onClick={() => setOpenNewCardDialog(true)}
           >
             ADD
@@ -195,29 +214,31 @@ export default function PlaylistDialog({ open, songs, onClose, listId, title, de
             className="w-20"
             onClick={() => handleDelete()}
           >
-            {deleteButtonText}
+            DELETE
           </Button>
         </div>
 
         <div className='grid grid-cols-4'>
-          <Typography variant="h6" component="div" ml={2}>
+          <Typography variant="h5" component="div" ml={2}>
             checkbox
           </Typography>
-          <Typography variant="h6" component="div" ml={2} col-span={2}>
+          <Typography variant="h5" component="div" ml={2} col-span={2}>
             song
           </Typography>
-          <Typography variant="h6" component="div" ml={2} col-span={2}>
+          <Typography variant="h5" component="div" ml={2} col-span={2}>
             singer
           </Typography>
-          <Typography variant="h6" component="div" ml={2} col-span={2}>
+          <Typography variant="h5" component="div" ml={2} col-span={2}>
             link (click to open link)
-                    </Typography>
+          </Typography>
         </div>
 
         {songs.map((song) => (
           <Song
             key={song.id}
             {...song}
+            listId={listId}
+            editting={editMode}
             onCheckboxChange={(isChecked:boolean) => handleCheckboxChange(song.id, isChecked)}
           />
         ))}

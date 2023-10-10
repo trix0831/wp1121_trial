@@ -62,6 +62,7 @@ export default function CardDialog(props: CardDialogProps) {
 
   const handleClose = () => {
     onClose();
+    fetchCards();
     if (variant === "edit") {
       setNewTitle(title);
       setNewDescription(description);
@@ -142,7 +143,7 @@ export default function CardDialog(props: CardDialogProps) {
             onClick={() => setEdittingTitle(true)}
             className="w-full rounded-md p-2 hover:bg-white/10"
           >
-            <Typography className="text-start">{newTitle}</Typography>
+            <Typography className="text-start">{title}</Typography>
           </button>
         )}
         
@@ -175,7 +176,7 @@ export default function CardDialog(props: CardDialogProps) {
             onClick={() => setEdittingDescription(true)}
             className="w-full rounded-md p-2 hover:bg-white/10"
           >
-            <Typography className="text-start">{newDescription}</Typography>
+            <Typography className="text-start">{description}</Typography>
           </button>
         )}
 
@@ -200,7 +201,7 @@ export default function CardDialog(props: CardDialogProps) {
             onClick={() => setEdittingLink(true)}
             className="w-full rounded-md p-2 hover:bg-white/10"
           >
-            <Typography className="text-start">{newLink}</Typography>
+            <Typography className="text-start">{link}</Typography>
           </button>
         )}
 
