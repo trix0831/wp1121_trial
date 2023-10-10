@@ -7,6 +7,7 @@ import { TransitionProps } from '@mui/material/transitions';
 import Typography from "@mui/material/Typography";
 import Song from "@/components/song";
 import type { SongProps } from "@/components/song";
+import Checkbox from '@mui/material/Checkbox';
 
 import CardDialog from "./CardDialog";
 import {deleteCard , updateList  } from "@/utils/client";
@@ -14,6 +15,11 @@ import useCards from "@/hooks/useCards";
 
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 import Input from "@mui/material/Input";
+
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -35,10 +41,13 @@ type PlaylistDialogProps = {
 
 export default function PlaylistDialog({ open, songs, onClose, listId, title, description}: PlaylistDialogProps) {
   const [selectedSongs, setSelectedSongs] = useState<string[]>([]);
+  const [selectedSongsTitle, setSelectedSongsTitle] = useState<string[]>([]);
   const [openNewCardDialog, setOpenNewCardDialog] = useState(false);
   const [edittingTitle, setEdittingTitle] = useState(false);
   const [edittingDescription, setEdittingDescription] = useState(false);
   const [editMode, setEditMode] = useState(false);
+  const [selectAll, setSelectAll] = useState(false);
+  const [preHandleDelete, setPreHandleDelete] = useState(false);
 
   const [editButtonText, setEditButtonText] = useState("EDIT");
 
@@ -91,9 +100,12 @@ export default function PlaylistDialog({ open, songs, onClose, listId, title, de
   const handleDelete = async () => {
     if (selectedSongs.length === 0) {
       alert("No song is selected.");
+      setSelectAll(false);
     }
 
     else try {
+      setSelectAll(false);
+      
       await selectedSongs.map((selected) => {
         deleteCard(selected);
         fetchCards();
@@ -107,7 +119,37 @@ export default function PlaylistDialog({ open, songs, onClose, listId, title, de
     // After deleting, you may want to update the songs list or state
     // to remove the deleted songs.
     setSelectedSongs([]);
+    fetchCards();
   };
+
+
+  const handleSelectAll = () => {
+    setSelectAll(!selectAll); // Step 2: Toggle selectAll state
+
+    // Step 3: Set the checked state of all song checkboxes
+    songs.map((song) => ({
+      ...song,
+      selectingAll: !selectAll,
+    }));
+
+    songs.map((song) => {
+      handleCheckboxChange(song.id, !selectAll);
+    }
+    );
+
+  }
+
+  const getSelectedTitle = () => {
+    songs.map((song) => {
+      if(song.id in selectedSongs){
+        setSelectedSongsTitle((prevSelectedSongsTitle) => [...prevSelectedSongsTitle, song.title]);
+      } else {
+        setSelectedSongsTitle((prevSelectedSongsTitle) =>
+          prevSelectedSongsTitle.filter((SelectedSongsTitle) => SelectedSongsTitle !== song.title)
+        );
+      }
+    })
+  }
 
 
   return (
@@ -130,7 +172,7 @@ export default function PlaylistDialog({ open, songs, onClose, listId, title, de
                     defaultValue={title}
                     className="grow"
                     placeholder="Enter a new name for this list..."
-                    sx={{ fontSize: "2rem" }}
+                    sx={{ fontSize: "1.75rem" }}
                     inputRef={inputRefTitle}
                   />
                 </ClickAwayListener>
@@ -153,7 +195,7 @@ export default function PlaylistDialog({ open, songs, onClose, listId, title, de
                     defaultValue={description}
                     className="grow"
                     placeholder="Enter a new description for this list..."
-                    sx={{ fontSize: "2rem" }}
+                    sx={{ fontSize: "1.5rem" }}
                     inputRef={inputRefDescription}
                   />
                 </ClickAwayListener>
@@ -162,7 +204,7 @@ export default function PlaylistDialog({ open, songs, onClose, listId, title, de
                   onClick={() => setEdittingDescription(true)}
                   className="w-full rounded-md p-2 hover:bg-white/10"
                 >
-                  <Typography className="text-start" variant="h4">
+                  <Typography className="text-start" variant="h5">
                     {description}
                   </Typography>
                 </button>
@@ -170,6 +212,10 @@ export default function PlaylistDialog({ open, songs, onClose, listId, title, de
             </div>
           </div>
         </div>
+
+        {editMode && <Typography className="text-start" variant="h6" color="#76ff03" ml={3}>
+                    Editting Mode<br/>remember to clickaway before press "DONE" if you want to save content
+        </Typography>}
 
         <div className='flex justify-end p-6'>
           <Button
@@ -184,15 +230,17 @@ export default function PlaylistDialog({ open, songs, onClose, listId, title, de
 
           <Button
             variant="contained"
-            className="w-20 mr-2"
+            className="flex mr-2"
             onClick={() => {
               if (editButtonText == "EDIT"){
+                alert('you are now in the editting mode\ncontent would NOT be saved if you click the "DONE" button directly before clicking elsewhere of the page.')
                 setEditButtonText("DONE");
+                setEditMode(true);
               }
               else{
                 setEditButtonText("EDIT");
-              }
-              setEditMode(true);}}
+                setEditMode(false);
+              }}}
           >
             {editButtonText}
           </Button>
@@ -212,16 +260,25 @@ export default function PlaylistDialog({ open, songs, onClose, listId, title, de
           <Button
             variant="contained"
             className="w-20"
-            onClick={() => handleDelete()}
+            onClick={() => {
+              if (selectedSongs.length === 0) {
+                alert("No song is selected.");
+                setSelectAll(false);
+              }
+              else
+              getSelectedTitle();
+              setPreHandleDelete(true);
+            }}
           >
             DELETE
           </Button>
         </div>
 
         <div className='grid grid-cols-4'>
-          <Typography variant="h5" component="div" ml={2}>
-            checkbox
-          </Typography>
+          <Checkbox
+            checked={selectAll}
+            onClick={() => handleSelectAll()}
+          />
           <Typography variant="h5" component="div" ml={2} col-span={2}>
             song
           </Typography>
@@ -239,6 +296,7 @@ export default function PlaylistDialog({ open, songs, onClose, listId, title, de
             {...song}
             listId={listId}
             editting={editMode}
+            selectingAll={selectAll}
             onCheckboxChange={(isChecked:boolean) => handleCheckboxChange(song.id, isChecked)}
           />
         ))}
@@ -250,6 +308,38 @@ export default function PlaylistDialog({ open, songs, onClose, listId, title, de
         onClose={() => setOpenNewCardDialog(false)}
         listId={listId}
       />
+
+      <Dialog
+        open={preHandleDelete}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Are you sure ?"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+          <div>
+            Deleting the following songs:
+            <ul>
+              {selectedSongsTitle.map((SongTitle) => (
+                <li>SongTitle</li>
+              ))}
+            </ul>
+          </div>
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setPreHandleDelete(false)}>Disagree</Button>
+          <Button onClick={() => {
+            setPreHandleDelete(false);
+            handleDelete();
+          }} autoFocus>
+            Agree
+          </Button>
+        </DialogActions>
+      </Dialog>
+      
     </>
   );
 }

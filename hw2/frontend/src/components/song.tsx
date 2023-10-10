@@ -1,4 +1,4 @@
-import  {useState, useRef} from 'react';
+import  {useState, useEffect, useRef} from 'react';
 
 import { Paper } from "@mui/material";
 import Checkbox from '@mui/material/Checkbox';
@@ -19,18 +19,30 @@ export type SongProps = {
     link: string;
     listId: string;
     editting: boolean;
+    selectingAll: boolean;
     onCheckboxChange: OnCheckboxChangeCallback;
 }
 
-export default function Song({id, title, description, link, listId, editting, onCheckboxChange}:SongProps) {
+export default function Song({id, title, description, link, listId, editting, selectingAll, onCheckboxChange}:SongProps) {
   const [checked, setChecked] = useState(false);
   const [edittingTitle, setEdittingTitle] = useState(false);
   const [edittingDescription, setEdittingDescription] = useState(false);
+  const [edittingLink, setEdittingLink] = useState(false);
 
   const inputRefTitle = useRef<HTMLInputElement>(null);
   const inputRefDescription = useRef<HTMLInputElement>(null);
+  const inputRefLink = useRef<HTMLInputElement>(null);
 
   const { lists, fetchCards } = useCards();
+
+  useEffect(() => {
+    if(selectingAll){
+      setChecked(true);
+    }
+    else{
+      setChecked(false);
+    }
+  }, [selectingAll])
 
  
   const handleCheckboxClick = () => {
@@ -41,17 +53,16 @@ export default function Song({id, title, description, link, listId, editting, on
     onCheckboxChange(newCheckedState, id);
   };
 
-  const handleUpdate = async () => {
-    if (!inputRefTitle.current) return;
-    if (!inputRefDescription.current) return;
+  const handleUpdateTitle = async () => {
+    if (!inputRefTitle.current)
+      return;
 
     const newTitle = inputRefTitle.current.value;
-    const newDescription = inputRefDescription.current.value;
     if (newTitle !== title) {
       try {
         await updateCard(id, {
           title: newTitle,
-          description: newDescription,
+          description: description,
           link: link,
           list_id: listId,
         });
@@ -65,7 +76,49 @@ export default function Song({id, title, description, link, listId, editting, on
     setEdittingTitle(false);
   };
 
+  const handleUpdateDescription = async () => {
+    if (!inputRefDescription.current) return;
+
+    const newDescription = inputRefDescription.current.value;
+    if (newDescription !== description) {
+      try {
+        await updateCard(id, {
+          title: title,
+          description: newDescription,
+          link: link,
+          list_id: listId,
+        });
+      } catch (error) {
+        alert("Error: Failed to update singer");
+      }
+    }
+
+    fetchCards();
+
+    setEdittingDescription(false);
+  };
   
+  const handleUpdateLink = async () => {
+    if (!inputRefLink.current) return;
+
+    const newLink = inputRefLink.current.value;
+    if (newLink !== link) {
+      try {
+        await updateCard(id, {
+          title: title,
+          description: description,
+          link: newLink,
+          list_id: listId,
+        });
+      } catch (error) {
+        alert("Error: Failed to update link");
+      }
+    }
+    
+    fetchCards();
+
+    setEdittingLink(false);
+  }
   
     return(
       <>
@@ -78,59 +131,90 @@ export default function Song({id, title, description, link, listId, editting, on
       />
 
       {(edittingTitle && editting) ? (
-          <ClickAwayListener onClickAway={handleUpdate}>
+          <ClickAwayListener onClickAway={handleUpdateTitle}>
             <Input
               autoFocus
               defaultValue={title}
               className="grow"
               placeholder="Enter a new name for this song..."
-              sx={{ fontSize: "2rem" }}
+              sx={{ fontSize: "1.25rem" }}
               inputRef={inputRefTitle}
             />
           </ClickAwayListener>
         ) : (
           <button
-            onClick={() => setEdittingTitle(true)}
+            onClick={() => {
+              if(editting)
+              {setEdittingTitle(true);}
+            }}
             className="w-full rounded-md p-2 hover:bg-white/10"
           >
-            <Typography className="text-start" variant="h4">
+            <Typography className="text-start" variant="h6">
               {title}
             </Typography>
           </button>
         )}
 
 
-
-
         
       {(edittingDescription && editting) ? (
-          <ClickAwayListener onClickAway={handleUpdate}>
+          <ClickAwayListener onClickAway={handleUpdateDescription}>
             <Input
               autoFocus
               defaultValue={description}
               className="grow"
-              placeholder="Enter a new singer for this song..."
-              sx={{ fontSize: "2rem" }}
+              placeholder="Enter a singer for this song..."
+              sx={{ fontSize: "1.25rem" }}
               inputRef={inputRefDescription}
             />
           </ClickAwayListener>
         ) : (
           <button
-            onClick={() => setEdittingDescription(true)}
+            onClick={() => {
+              if(editting)
+              {setEdittingDescription(true);}
+            }}
             className="w-full rounded-md p-2 hover:bg-white/10"
           >
-            <Typography className="text-start" variant="h4">
+            <Typography className="text-start" variant="h6">
               {description}
             </Typography>
           </button>
         )}
 
+      {(edittingLink && editting) ? (
+          <ClickAwayListener onClickAway={handleUpdateLink}>
+            <Input
+              autoFocus
+              defaultValue={link}
+              className="grow"
+              placeholder="Enter the link of this song..."
+              sx={{ fontSize: "1.25rem" }}
+              inputRef={inputRefLink}
+            />
+          </ClickAwayListener>
+        ) : (
+          <button
+            onClick={() => {
+              if(editting)
+              {setEdittingLink(true);}
+            }}
+            className="w-full rounded-md p-2 hover:bg-white/10"
+          >
+            <Typography className="text-start" variant="h6">
+              {link}
+            </Typography>
+          </button>
+        )}
 
-        <div className='hover:cursor-pointer'>
+
+        
+
+        {/* <div className='hover:cursor-pointer'>
           <Typography variant="h6" component="div" ml={2} onClick={() => window.open(link, '_blank')}>
             {link}
           </Typography>
-        </div>
+        </div> */}
       
       
       </div>
