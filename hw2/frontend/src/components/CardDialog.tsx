@@ -34,6 +34,7 @@ type EditCardDialogProps = {
   cardId: string;
   title: string;
   description: string;
+  link: string;
 };
 
 type CardDialogProps = NewCardDialogProps | EditCardDialogProps;
@@ -42,9 +43,13 @@ export default function CardDialog(props: CardDialogProps) {
   const { variant, open, onClose, listId } = props;
   const title = variant === "edit" ? props.title : "";
   const description = variant === "edit" ? props.description : "";
+  const link = variant === "edit" ? props.link : "";
 
   const [edittingTitle, setEdittingTitle] = useState(variant === "new");
   const [edittingDescription, setEdittingDescription] = useState(
+    variant === "new",
+  );
+  const [edittingLink, setEdittingLink] = useState(
     variant === "new",
   );
 
@@ -53,6 +58,7 @@ export default function CardDialog(props: CardDialogProps) {
   // you can read more about it here: https://react.dev/reference/react-dom/components/input#controlling-an-input-with-a-state-variable
   const [newTitle, setNewTitle] = useState(title);
   const [newDescription, setNewDescription] = useState(description);
+  const [newLink, setNewLink] = useState(link);
   const [newListId, setNewListId] = useState(listId);
 
   const { lists, fetchCards } = useCards();
@@ -62,6 +68,7 @@ export default function CardDialog(props: CardDialogProps) {
     if (variant === "edit") {
       setNewTitle(title);
       setNewDescription(description);
+      setNewLink(link);
       setNewListId(listId);
     }
   };
@@ -72,12 +79,17 @@ export default function CardDialog(props: CardDialogProps) {
         await createCard({
           title: newTitle,
           description: newDescription,
+          link: newLink,
           list_id: listId,
         });
+        alert("here 1");
       } else {
+        alert("here 2");
+
         if (
           newTitle === title &&
           newDescription === description &&
+          newLink === link &&
           newListId === listId
         ) {
           return;
@@ -87,12 +99,14 @@ export default function CardDialog(props: CardDialogProps) {
         await updateCard(props.cardId, {
           title: newTitle,
           description: newDescription,
+          link: newLink,
           list_id: newListId,
         });
       }
       fetchCards();
     } catch (error) {
-      alert("Error: Failed to save card");
+      alert(error);
+      alert("Error: Failed to save card 111");
     } finally {
       handleClose();
     }
@@ -106,7 +120,7 @@ export default function CardDialog(props: CardDialogProps) {
       await deleteCard(props.cardId);
       fetchCards();
     } catch (error) {
-      alert("Error: Failed to delete card");
+      alert("Error: Failed to delete card 222");
     } finally {
       handleClose();
     }
@@ -128,7 +142,7 @@ export default function CardDialog(props: CardDialogProps) {
               defaultValue={title}
               onChange={(e) => setNewTitle(e.target.value)}
               className="grow"
-              placeholder="Enter a title for this card..."
+              placeholder="Enter the name of this song"
             />
           </ClickAwayListener>
         ) : (
@@ -155,7 +169,8 @@ export default function CardDialog(props: CardDialogProps) {
           </IconButton>
         )}
       </DialogTitle>
-      <DialogContent className="w-[600px]">
+
+      <DialogContent className="w-[600px] grid grid-rows-3">
         {edittingDescription ? (
           <ClickAwayListener
             onClickAway={() => {
@@ -168,7 +183,7 @@ export default function CardDialog(props: CardDialogProps) {
               className="bg-white/0 p-2"
               autoFocus
               defaultValue={description}
-              placeholder="Add a more detailed description..."
+              placeholder="enter the singer here"
               onChange={(e) => setNewDescription(e.target.value)}
             />
           </ClickAwayListener>
@@ -180,6 +195,34 @@ export default function CardDialog(props: CardDialogProps) {
             <Typography className="text-start">{newDescription}</Typography>
           </button>
         )}
+
+        {edittingLink ? (
+          <ClickAwayListener
+            onClickAway={() => {
+              if (variant === "edit") {
+                setEdittingLink(false);
+              }
+            }}
+          >
+            <textarea
+              className="bg-white/0 p-2"
+              autoFocus
+              defaultValue={link}
+              placeholder="enter the link of song"
+              onChange={(e) => setNewLink(e.target.value)}
+            />
+          </ClickAwayListener>
+        ) : (
+          <button
+            onClick={() => setEdittingLink(true)}
+            className="w-full rounded-md p-2 hover:bg-white/10"
+          >
+            <Typography className="text-start">{newLink}</Typography>
+          </button>
+        )}
+
+
+
         <DialogActions>
           <Button onClick={handleSave}>save</Button>
           <Button onClick={handleClose}>close</Button>

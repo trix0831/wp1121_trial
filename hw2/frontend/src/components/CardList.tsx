@@ -134,6 +134,8 @@ export default function CardList({ id, name, cards, visibility }: CardListProps)
           </Button>}
         </div>
       </Paper>
+
+      
       <CardDialog
         variant="new"
         open={openNewCardDialog}
