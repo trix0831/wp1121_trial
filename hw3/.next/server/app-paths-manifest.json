@@ -1,0 +1,6 @@
+{
+  "/page": "app/page.js",
+  "/tweet/[tweet_id]/page": "app/tweet/[tweet_id]/page.js",
+  "/api/tweets/route": "app/api/tweets/route.js",
+  "/api/likes/route": "app/api/likes/route.js"
+}
