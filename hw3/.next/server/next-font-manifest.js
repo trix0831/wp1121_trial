@@ -1,1 +1,0 @@
-self.__NEXT_FONT_MANIFEST="{\"pages\":{},\"app\":{\"/home/trix0831/112-1-unit2-twitter-clone/src/app/layout\":[\"static/media/bc0bd5ea51e67ec6-s.p.woff2\",\"static/media/dde01b9848f7e82a-s.p.woff2\"]},\"appUsingSizeAdjust\":true,\"pagesUsingSizeAdjust\":false}"
