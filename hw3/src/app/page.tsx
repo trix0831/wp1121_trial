@@ -138,33 +138,48 @@ export default async function Home({
     .leftJoin(likedSubquery, eq(tweetsTable.id, likedSubquery.tweetId))
     .execute();
 
+    const user = await db
+    .select({
+      displayName: usersTable.displayName,
+      handle: usersTable.handle,
+    })
+    .from(usersTable)
+    .execute();
+
   return (
     <>
-      <div className="flex h-screen w-full max-w-2xl flex-col overflow-scroll pt-2">
-        <h1 className="mb-2 bg-white px-4 text-xl font-bold">Home</h1>
-        <NameInput/>
-
-        
-        {/* <div className="w-full px-4 pt-3">
-          <TweetInput />
-        </div> */}
-        <Separator />
-        {tweets.map((tweet) => (
-          <Tweet
-            key={tweet.id}
-            id={tweet.id}
-            username={username}
-            handle={handle}
-            authorName={tweet.username}
-            authorHandle={tweet.handle}
-            content={tweet.content}
-            likes={tweet.likes}
-            liked={tweet.liked}
-            createdAt={tweet.createdAt!}
+        <div className="flex h-screen w-full flex-col pt-2">
+          <h1 className="mb-2 bg-white px-4 text-xl font-bold">Home</h1>
+          <NameInput
+            userNum={user.length}
           />
-        ))}
-      </div>
-      <NameDialog />
+
+          
+          <div className="w-full px-4 pt-3">
+            <TweetInput />
+          </div>
+
+          <Separator />
+          
+          <div className="overflow-scroll">
+            {tweets.map((tweet) => (
+              <Tweet
+                key={tweet.id}
+                id={tweet.id}
+                username={username}
+                handle={handle}
+                authorName={tweet.username}
+                authorHandle={tweet.handle}
+                content={tweet.content}
+                likes={tweet.likes}
+                liked={tweet.liked}
+                createdAt={tweet.createdAt!}
+              />
+            ))}
+          </div>
+
+        </div>
+        <NameDialog />
     </>
   );
 }
