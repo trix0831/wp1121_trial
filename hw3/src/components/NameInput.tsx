@@ -10,6 +10,8 @@ import { cn, validateUsername } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { Button } from "./ui/button";
 
+import SwitchUserDialog from "./SwitchUserDialog";
+
 type NameInputProps = {
   userNum:number;
 }
@@ -18,6 +20,7 @@ export default function NameInput({userNum}:NameInputProps) {
     const searchParams = useSearchParams();
     const usernameInputRef = useRef<HTMLInputElement>(null);
     const [usernameError, setUsernameError] = useState(false);
+    const [switchDialog, setSwitchDialog] = useState(false);
     const router = useRouter();
     const pathname = usePathname();
 
@@ -88,13 +91,16 @@ export default function NameInput({userNum}:NameInputProps) {
               "m-1 rounded-full bg-brand px-4 py-2 text-white transition-colors hover:bg-brand/70",
               "disabled:cursor-not-allowed disabled:bg-brand/40 disabled:hover:bg-brand/40",
             )}
-            onClick={() => alert('clicked')}
+            onClick={() => setSwitchDialog(true)}
           >
             switch user
           </button>
         </div>  
 
-
+        <SwitchUserDialog
+          open={switchDialog}
+          onClose={() => setSwitchDialog(false)}
+          />
 
     </>
   );
