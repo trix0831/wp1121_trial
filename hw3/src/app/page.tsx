@@ -154,7 +154,6 @@ export default async function Home({
             userNum={user.length}
           />
 
-          
           <div className="w-full px-4 pt-3">
             <TweetInput />
           </div>

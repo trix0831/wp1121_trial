@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 import { ChevronDown } from "lucide-react";
 
@@ -15,6 +15,8 @@ export default function TweetInput() {
   const { handle } = useUserInfo();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { postTweet, loading } = useTweet();
+  const [addEvent, setAddEvent] = useState(false);
+  const [addButtonText, setAddButtonText] = useState("add event");
 
   const handleTweet = async () => {
     const content = textareaRef.current?.value;
@@ -39,35 +41,59 @@ export default function TweetInput() {
     }
   };
 
+  const handleAddEvent = () => {
+    if (addButtonText == "add event"){
+      setAddButtonText("finish/cancel");
+    }
+    else{
+      setAddButtonText("add event");
+    }
+
+
+    setAddEvent(!addEvent);
+  }
+
   return (
-    <div className="flex gap-4" onClick={() => textareaRef.current?.focus()}>
-      <UserAvatar className="h-12 w-12" />
-      <div className="flex w-full flex-col px-2">
-        <button className="flex w-fit items-center rounded-full border-[1px] border-gray-300 px-2 text-sm font-bold text-brand">
-          Everyone
-          <ChevronDown size={16} className="text-gray-300" />
-        </button>
-        <div className="mb-2 mt-6">
-          <GrowingTextarea
-            ref={textareaRef}
-            className="bg-transparent outline-none placeholder:text-gray-500"
-            placeholder="What's happening?"
-          />
-        </div>
-        <Separator />
-        <div className="flex justify-end">
+      <>
           <button
             className={cn(
-              "my-2 rounded-full bg-brand px-4 py-2 text-white transition-colors hover:bg-brand/70",
+              "m-1 mb-2 rounded-full bg-brand px-4 py-2 text-white transition-colors hover:bg-brand/70",
               "disabled:cursor-not-allowed disabled:bg-brand/40 disabled:hover:bg-brand/40",
             )}
-            onClick={handleTweet}
-            disabled={loading}
+            onClick={handleAddEvent}
           >
-            Tweet
+            {addButtonText}
           </button>
-        </div>
-      </div>
-    </div>
+
+        {addEvent && <div className="flex gap-4 mt-3" onClick={() => textareaRef.current?.focus()}>
+          <UserAvatar className="h-12 w-12" />
+          <div className="flex w-full flex-col px-2">
+            <button className="flex w-fit items-center rounded-full border-[1px] border-gray-300 px-2 text-sm font-bold text-brand">
+              Everyone
+              <ChevronDown size={16} className="text-gray-300" />
+            </button>
+            <div className="mb-2 mt-6">
+              <GrowingTextarea
+                ref={textareaRef}
+                className="bg-transparent outline-none placeholder:text-gray-500"
+                placeholder="What's happening?"
+              />
+            </div>
+            <Separator />
+            <div className="flex justify-end">
+              <button
+                className={cn(
+                  "my-2 rounded-full bg-brand px-4 py-2 text-white transition-colors hover:bg-brand/70",
+                  "disabled:cursor-not-allowed disabled:bg-brand/40 disabled:hover:bg-brand/40",
+                )}
+                onClick={handleTweet}
+                disabled={loading}
+              >
+                Add Event
+              </button>
+            </div>
+          </div>
+        </div>}
+      </>
   );
 }
