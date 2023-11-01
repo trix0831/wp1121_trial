@@ -32,25 +32,34 @@ export default async function Home({
   // read the username and handle from the query params and insert the user
   // if needed.
   if (username && handle) {
-    await db
-      .insert(usersTable)
-      .values({
-        displayName: username,
-        handle,
-      })
-      // Since handle is a unique column, we need to handle the case
+    const userExists = await db
+      .select()
+      .from(usersTable)
+      .where(eq(usersTable.displayName, username)) // Ensure username is defined
+      .execute();
+
+    if (userExists.length == 0) {
+      // The user does not exist, you can proceed with inserting the user
+      await db
+        .insert(usersTable)
+        .values({
+          displayName: username,
+          handle,
+        })
+        .onConflictDoUpdate({
+          target: usersTable.handle,
+          set: {
+            displayName: username,
+          },
+        })
+        .execute();
+    }
+  }   // Since handle is a unique column, we need to handle the case
       // where the user already exists. We can do this with onConflictDoUpdate
       // If the user already exists, we just update the display name
       // This way we don't have to worry about checking if the user exists
       // before inserting them.
-      .onConflictDoUpdate({
-        target: usersTable.handle,
-        set: {
-          displayName: username,
-        },
-      })
-      .execute();
-  }
+
 
   // This is a good example of using subqueries, joins, and with statements
   // to get the data we need in a single query. This is a more complicated

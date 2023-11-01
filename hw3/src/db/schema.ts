@@ -29,7 +29,7 @@ export const usersTable = pgTable(
     // to the database as possible, so that you don't have to worry about them in
     // your application code.
     handle: varchar("handle", { length: 50 }).notNull().unique(),
-    displayName: varchar("display_name", { length: 50 }).notNull(),
+    displayName: varchar("display_name", { length: 50 }).notNull().unique(),
   },
   (table) => ({
     // indexes are used to speed up queries. Good indexes can make your queries
@@ -44,6 +44,8 @@ export const tweetsTable = pgTable(
   {
     id: serial("id").primaryKey(),
     content: varchar("content", { length: 280 }).notNull(),
+    StartDate: varchar("content", { length: 280 }).notNull(),
+    EndDate: varchar("content", { length: 280 }).notNull(),
     userHandle: varchar("user_handle", { length: 50 })
       .notNull()
       // this is a foreign key constraint. It ensures that the user_handle

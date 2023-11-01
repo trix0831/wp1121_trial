@@ -9,8 +9,8 @@ import { cn, validateUsername } from "@/lib/utils";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "./ui/button";
+import Link from "next/link";
 
-import SwitchUserDialog from "./SwitchUserDialog";
 
 type NameInputProps = {
   userNum:number;
@@ -20,17 +20,9 @@ export default function NameInput({userNum}:NameInputProps) {
     const searchParams = useSearchParams();
     const usernameInputRef = useRef<HTMLInputElement>(null);
     const [usernameError, setUsernameError] = useState(false);
-    const [switchDialog, setSwitchDialog] = useState(false);
     const router = useRouter();
     const pathname = usePathname();
 
-    // const user = await db
-    // .select({
-    //   displayName: usersTable.displayName,
-    //   handle: usersTable.handle,
-    // })
-    // .from(usersTable)
-    // .execute();
 
     const handleSave = () => {
       const username = usernameInputRef.current?.value;
@@ -86,21 +78,19 @@ export default function NameInput({userNum}:NameInputProps) {
             add user
           </button>
 
-          <button
-            className={cn(
-              "m-1 rounded-full bg-brand px-4 py-2 text-white transition-colors hover:bg-brand/70",
-              "disabled:cursor-not-allowed disabled:bg-brand/40 disabled:hover:bg-brand/40",
-            )}
-            onClick={() => setSwitchDialog(true)}
-          >
-            switch user
-          </button>
-        </div>  
+          
 
-        <SwitchUserDialog
-          open={switchDialog}
-          onClose={() => setSwitchDialog(false)}
-          />
+          <Link href="/switchUser">
+            <button
+              className={cn(
+                "m-1 rounded-full bg-brand px-4 py-2 text-white transition-colors hover:bg-brand/70",
+                "disabled:cursor-not-allowed disabled:bg-brand/40 disabled:hover:bg-brand/40",
+              )}
+            >
+              switch user
+            </button>
+          </Link>
+        </div>  
 
     </>
   );

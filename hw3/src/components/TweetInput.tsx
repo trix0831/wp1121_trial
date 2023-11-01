@@ -14,6 +14,8 @@ import { cn } from "@/lib/utils";
 export default function TweetInput() {
   const { handle } = useUserInfo();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const textareaRefStart = useRef<HTMLTextAreaElement>(null);
+  const textareaRefEnd = useRef<HTMLTextAreaElement>(null);
   const { postTweet, loading } = useTweet();
   const [addEvent, setAddEvent] = useState(false);
   const [addButtonText, setAddButtonText] = useState("add event");
@@ -37,6 +39,8 @@ export default function TweetInput() {
       );
     } catch (e) {
       console.error(e);
+      console.log(content);
+      console.log(handle);
       alert("Error posting tweet");
     }
   };
@@ -68,17 +72,29 @@ export default function TweetInput() {
         {addEvent && <div className="flex gap-4 mt-3" onClick={() => textareaRef.current?.focus()}>
           <UserAvatar className="h-12 w-12" />
           <div className="flex w-full flex-col px-2">
-            <button className="flex w-fit items-center rounded-full border-[1px] border-gray-300 px-2 text-sm font-bold text-brand">
-              Everyone
-              <ChevronDown size={16} className="text-gray-300" />
-            </button>
             <div className="mb-2 mt-6">
               <GrowingTextarea
                 ref={textareaRef}
                 className="bg-transparent outline-none placeholder:text-gray-500"
-                placeholder="What's happening?"
+                placeholder="Enter the event name"
               />
             </div>
+            <Separator />
+
+            <p>Start time (press the small icon on the right to edit) : </p>
+            <input
+              type="date"
+              className="bg-transparent outline-none placeholder:text-gray-500 mb-2"
+              placeholder="Start Date"
+            />
+            <Separator />
+            
+            End time:
+            <input
+              type="date"
+              className="bg-transparent outline-none placeholder:text-gray-500"
+              placeholder="End Date"
+            />
             <Separator />
             <div className="flex justify-end">
               <button
