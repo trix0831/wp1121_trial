@@ -3,9 +3,13 @@ import { eq, desc, isNull, sql } from "drizzle-orm";
 import NameDialog from "@/components/NameDialog";
 import Tweet from "@/components/Tweet";
 import TweetInput from "@/components/TweetInput";
+import NameInput from "@/components/NameInput";
+import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { db } from "@/db";
 import { likesTable, tweetsTable, usersTable } from "@/db/schema";
+
+import { cn } from "@/lib/utils";
 
 type HomePageProps = {
   searchParams: {
@@ -138,9 +142,12 @@ export default async function Home({
     <>
       <div className="flex h-screen w-full max-w-2xl flex-col overflow-scroll pt-2">
         <h1 className="mb-2 bg-white px-4 text-xl font-bold">Home</h1>
-        <div className="w-full px-4 pt-3">
+        <NameInput/>
+
+        
+        {/* <div className="w-full px-4 pt-3">
           <TweetInput />
-        </div>
+        </div> */}
         <Separator />
         {tweets.map((tweet) => (
           <Tweet
