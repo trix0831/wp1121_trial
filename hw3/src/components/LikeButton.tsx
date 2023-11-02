@@ -84,17 +84,17 @@
 
 import { useState } from 'react';
 import { EventHandler, MouseEvent } from 'react';
-import { Heart } from 'lucide-react';
 import useLike from '@/hooks/useLike';
 import { cn } from '@/lib/utils';
-import { Button } from './ui/button';
 
+type onParticipateStateCallback = (participateState:boolean) => void;
 
 type LikeButtonProps = {
   initialLikes: number;
   initialLiked?: boolean;
   tweetId: number;
   handle?: string;
+  onParticipateState: onParticipateStateCallback;
 };
 
 export default function LikeButton({
@@ -102,6 +102,7 @@ export default function LikeButton({
   initialLiked,
   tweetId,
   handle,
+  onParticipateState
 }: LikeButtonProps) {
   const [liked, setLiked] = useState(initialLiked);
   const [likesCount, setLikesCount] = useState(initialLikes);
@@ -123,6 +124,7 @@ export default function LikeButton({
       setLikesCount((prev) => prev - 1);
       setLiked(false);
       setParticipateButtonClass('flex items-center gap-1 rounded-full p-1.5 duration-300 hover:bg-brand/10');
+      onParticipateState(false);
     } else {
       await likeTweet({
         tweetId,
@@ -132,6 +134,7 @@ export default function LikeButton({
       setLikesCount((prev) => prev + 1);
       setLiked(true);
       setParticipateButtonClass('flex items-center gap-1 rounded-full p-1.5 duration-300 hover:bg-brand/10 bg-brand/10');
+      onParticipateState(true);
     }
   };
 

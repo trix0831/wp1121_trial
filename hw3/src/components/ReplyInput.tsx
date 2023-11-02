@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 import GrowingTextarea from "@/components/GrowingTextarea";
 import UserAvatar from "@/components/UserAvatar";
@@ -34,6 +34,7 @@ export default function ReplyInput({
   const { handle } = useUserInfo();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { postTweet, loading } = useTweet();
+  const [participateStateControl, setParticipateStateControl] = useState(false);
 
   const handleReply = async () => {
     const content = textareaRef.current?.value;
@@ -71,6 +72,7 @@ export default function ReplyInput({
           initialLikes={tweetLikes}
           initialLiked={tweetLiked}
           tweetId={tweetID}
+          onParticipateState={(participateState:boolean) => setParticipateStateControl(participateState)}
         />
       </div>
       <Separator />
@@ -95,7 +97,7 @@ export default function ReplyInput({
                 "disabled:cursor-not-allowed disabled:bg-brand/40 disabled:hover:bg-brand/40",
               )}
               onClick={handleReply}
-              disabled={loading}
+              disabled={loading || (!participateStateControl)}
             >
               Reply
             </button>
