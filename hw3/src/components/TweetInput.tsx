@@ -7,159 +7,66 @@ import { Separator } from "@/components/ui/separator";
 import useTweet from "@/hooks/useTweet";
 import useUserInfo from "@/hooks/useUserInfo";
 import { cn } from "@/lib/utils";
-import { ColumnAliasProxyHandler } from "drizzle-orm";
-
-// export default function TweetInput() {
-//   const { handle } = useUserInfo();
-//   const textareaRef = useRef<HTMLTextAreaElement>(null);
-//   const [startDate, setStartDate] = useState(""); // State for Start Date
-//   const [endDate, setEndDate] = useState("");     // State for End Date
-//   const { postTweet, loading } = useTweet();
-//   const [addEvent, setAddEvent] = useState(false);
-//   const [addButtonText, setAddButtonText] = useState("add event");
-
-//   const handleTweet = async () => {
-//     const content = textareaRef.current?.value;
-
-//     if (!content) return;
-//     if (!handle) return;
-//     if (!startDate) return;
-//     if (!endDate) return;
-
-//     try {
-//       console.log(startDate);
-//       console.log(endDate);
-
-//       await postTweet({
-//         handle,
-//         content,
-//         startDate, // Pass the start date and time to the postTweet function
-//         endDate,   // Pass the end date and time to the postTweet function
-//       });
-      
-//       textareaRef.current.value = "";
-//       textareaRef.current.dispatchEvent(new Event("input", { bubbles: true, composed: true }));
-      
-//       // Reset the date input values after posting
-//       setStartDate("");
-//       setEndDate("");
-//     } catch (e) {
-//       console.error(e);
-//       alert("Error posting tweet");
-//     }
-//   }
-
-//   const handleAddEvent = () => {
-//     if (addButtonText === "add event") {
-//       setAddButtonText("finish/cancel");
-//     } else {
-//       setAddButtonText("add event");
-//     }
-//     setAddEvent(!addEvent);
-//   }
-
-//   // Event handler to update the Start Date value
-//   const handleStartDateTimeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-//     setStartDate(event.target.value);
-//   }
-
-//   // Event handler to update the End Date value
-//   const handleEndDateTimeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-//     setEndDate(event.target.value);
-//   }
-
-//   return (
-//     <>
-//       <button
-//         className={cn(
-//           "m-1 mb-2 rounded-full bg-brand px-4 py-2 text-white transition-colors hover:bg-brand/70",
-//           "disabled:cursor-not-allowed disabled:bg-brand/40 disabled:hover:bg-brand/40",
-//         )}
-//         onClick={handleAddEvent}
-//       >
-//         {addButtonText}
-//       </button>
-
-//       {addEvent && (
-//         <div className="flex gap-4 mt-3" onClick={() => textareaRef.current?.focus()}>
-//           <UserAvatar className="h-12 w-12" />
-//           <div className="flex w-full flex-col px-2">
-//             <div className="mb-2 mt-6">
-//               <GrowingTextarea
-//                 ref={textareaRef}
-//                 className="bg-transparent outline-none placeholder:text-gray-500"
-//                 placeholder="Enter the event name"
-//               />
-//             </div>
-//             <Separator />
-//             <p>Start time (press the small icon on the right to edit):</p>
-//             <input
-//               type="date"
-//               className="bg-transparent outline-none placeholder:text-gray-500 mb-2"
-//               placeholder="Start Date"
-//               value={startDate}  // Bind the value to startDateTime
-//               onChange={handleStartDateTimeChange}  // Handle change event
-//             />
-//             <Separator />
-//             <p>End time:</p>
-//             <input
-//               type="date"
-//               className="bg-transparent outline-none placeholder:text-gray-500"
-//               placeholder="End Date"
-//               value={endDate}  // Bind the value to endDateTime
-//               onChange={handleEndDateTimeChange}  // Handle change event
-//             />
-//             <Separator />
-//             <div className="flex justify-end">
-//               <button
-//                 className={cn(
-//                   "my-2 rounded-full bg-brand px-4 py-2 text-white transition-colors hover:bg-brand/70",
-//                   "disabled:cursor-not-allowed disabled:bg-brand/40 disabled:hover:bg-brand/40",
-//                 )}
-//                 onClick={handleTweet}
-//                 disabled={loading}
-//               >
-//                 Add Event
-//               </button>
-//             </div>
-//           </div>
-//         </div>
-//       )}
-//     </>
-//   );
-// }
-// ...
 
 export default function TweetInput() {
   const { handle } = useUserInfo();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const [startDateTime, setStartDateTime] = useState(""); // State for Start Date and Time
-  const [endDateTime, setEndDateTime] = useState("");     // State for End Date and Time
+  const [startDateTime, setStartDateTime] = useState<string>("");
+  const [endDateTime, setEndDateTime] = useState<string>("");
   const { postTweet, loading } = useTweet();
   const [addEvent, setAddEvent] = useState(false);
   const [addButtonText, setAddButtonText] = useState("add event");
 
+  const formatDateTime = (dateTime: string): string => {
+    const date = new Date(dateTime);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Month starts from 0
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    return `${year}-${month}-${day}T${hours}:00`;
+  };
+
   const handleTweet = async () => {
     const content = textareaRef.current?.value;
-
-    if (!content) return;
+  
+    if (!content) {
+      alert('Please enter the event name !');
+      return;
+    }
     if (!handle) return;
-    if (!startDateTime || !endDateTime) return;
-
+    if (!startDateTime || !endDateTime){
+      alert('Please enter the start/end time !');
+      return;
+    }
+  
+    const startTimestamp = new Date(startDateTime).getTime();
+    const endTimestamp = new Date(endDateTime).getTime();
+    const timeDifferenceHours = (endTimestamp - startTimestamp) / (1000 * 60 * 60);
+  
+    if (startTimestamp >= endTimestamp) {
+      alert("Start time must be earlier than the end time.");
+      return;
+    }
+  
+    if (timeDifferenceHours > 168) {
+      alert("The interval between start and end time cannot exceed 168 hours (7 days).");
+      return;
+    }
+  
     try {
       console.log(startDateTime);
       console.log(endDateTime);
-
+  
       await postTweet({
         handle,
         content,
-        startDate: startDateTime,
-        endDate: endDateTime,
+        startDate: formatDateTime(startDateTime),
+        endDate: formatDateTime(endDateTime),
       });
-      
+  
       textareaRef.current.value = "";
       textareaRef.current.dispatchEvent(new Event("input", { bubbles: true, composed: true }));
-      
+  
       // Reset the date and time input values after posting
       setStartDateTime("");
       setEndDateTime("");
@@ -214,20 +121,22 @@ export default function TweetInput() {
             <Separator />
             <p>Start time (press the small icon on the right to edit):</p>
             <input
-              type="datetime-local" // Use type datetime-local for date and time input
+              type="datetime-local"
               className="bg-transparent outline-none placeholder:text-gray-500 mb-2"
               placeholder="Start Date and Time"
-              value={startDateTime}
+              value={formatDateTime(startDateTime)}
               onChange={handleStartDateTimeChange}
+              step="3600" // Set the step to 3600 seconds (1 hour)
             />
             <Separator />
             <p>End time:</p>
             <input
-              type="datetime-local" // Use type datetime-local for date and time input
+              type="datetime-local"
               className="bg-transparent outline-none placeholder:text-gray-500"
               placeholder="End Date and Time"
-              value={endDateTime}
+              value={formatDateTime(endDateTime)}
               onChange={handleEndDateTimeChange}
+              step="3600" // Set the step to 3600 seconds (1 hour)
             />
             <Separator />
             <div className="flex justify-end">

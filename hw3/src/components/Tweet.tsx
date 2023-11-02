@@ -60,12 +60,12 @@ export default function Tweet({
               </time>
             </p>
             <article className="mt-2 ml-7 whitespace-pre-wrap"></article>
-            <div>
-              START：
+            <div className="ml-10">
+              START time：
               <TimeText date={startDate} format="h:mm A · D MMM YYYY" />
             </div>
-            <div>
-              END：
+            <div className="ml-10">
+              END time：
               <TimeText date={endDate} format="h:mm A · D MMM YYYY" />
             </div>
             
