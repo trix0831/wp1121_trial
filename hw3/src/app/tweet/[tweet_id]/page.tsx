@@ -70,6 +70,8 @@ export default async function TweetPage({
     .select({
       id: tweetsTable.id,
       content: tweetsTable.content,
+      startDate: tweetsTable.startDate,
+      endDate: tweetsTable.endDate,
       userHandle: tweetsTable.userHandle,
       createdAt: tweetsTable.createdAt,
     })
@@ -129,6 +131,8 @@ export default async function TweetPage({
   const tweet = {
     id: tweetData.id,
     content: tweetData.content,
+    startDate: tweetData.startDate,
+    endDate: tweetData.endDate,
     username: user.displayName,
     handle: user.handle,
     likes: numLikes,
@@ -163,6 +167,8 @@ export default async function TweetPage({
     .select({
       id: tweetsTable.id,
       content: tweetsTable.content,
+      startDate: tweetsTable.startDate,
+      endDate: tweetsTable.endDate,
       username: usersTable.displayName,
       handle: usersTable.handle,
       likes: likesSubquery.likes,
@@ -179,58 +185,35 @@ export default async function TweetPage({
 
   return (
     <>
-      <div className="flex h-screen w-full max-w-2xl flex-col overflow-scroll pt-2">
+      <div className="flex h-screen w-full flex-col overflow-scroll pt-2">
         <div className="mb-2 flex items-center gap-8 px-4">
+
           <Link href={{ pathname: "/", query: { username, handle } }}>
             <ArrowLeft size={18} />
           </Link>
-          <h1 className="text-xl font-bold">Tweet</h1>
+
+          <h1 className="text-xl font-bold">Event</h1>
+
         </div>
+
         <div className="flex flex-col px-4 pt-3">
-          <div className="flex justify-between">
-            <div className="flex w-full gap-3">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={getAvatar(tweet.username)}
-                alt="user avatar"
-                width={48}
-                height={48}
-                className="h-12 w-12 rounded-full"
-              />
-              <div>
-                <p className="font-bold">{tweet.username ?? "..."}</p>
-                <p className="font-normal text-gray-500">
-                  @{tweet.handle ?? "..."}
-                </p>
-              </div>
-            </div>
-            <button className="h-fit rounded-full p-2.5 text-gray-400 transition-colors duration-300 hover:bg-brand/10 hover:text-brand">
-              <MoreHorizontal size={16} />
-            </button>
-          </div>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <article className="mt-3 whitespace-pre-wrap text-xl">
             {tweet.content}
           </article>
+
           <time className="my-4 block text-sm text-gray-500">
             <TimeText date={tweet.createdAt} format="h:mm A · D MMM YYYY" />
           </time>
+
           <Separator />
           <div className="my-2 flex items-center justify-between gap-4 text-gray-400">
-            <button className="rounded-full p-1.5 transition-colors duration-300 hover:bg-brand/10 hover:text-brand">
-              <MessageCircle size={20} className="-scale-x-100" />
-            </button>
-            <button className="rounded-full p-1.5 transition-colors duration-300 hover:bg-brand/10 hover:text-brand">
-              <Repeat2 size={22} />
-            </button>
             <LikeButton
               handle={handle}
               initialLikes={tweet.likes}
               initialLiked={tweet.liked}
               tweetId={tweet.id}
             />
-            <button className="rounded-full p-1.5 transition-colors duration-300 hover:bg-brand/10 hover:text-brand">
-              <Share size={18} />
-            </button>
           </div>
           <Separator />
         </div>
@@ -242,6 +225,8 @@ export default async function TweetPage({
             id={reply.id}
             username={username}
             handle={handle}
+            startDate={reply.startDate}
+            endDate={reply.endDate}
             authorName={reply.username}
             authorHandle={reply.handle}
             content={reply.content}
