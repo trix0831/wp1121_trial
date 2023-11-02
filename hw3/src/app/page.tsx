@@ -32,13 +32,6 @@ export default async function Home({
   // read the username and handle from the query params and insert the user
   // if needed.
   if (username && handle) {
-    const userExists = await db
-      .select()
-      .from(usersTable)
-      .where(eq(usersTable.displayName, username)) // Ensure username is defined
-      .execute();
-
-    if (userExists.length == 0) {
       // The user does not exist, you can proceed with inserting the user
       await db
         .insert(usersTable)
@@ -53,7 +46,6 @@ export default async function Home({
           },
         })
         .execute();
-    }
   }   // Since handle is a unique column, we need to handle the case
       // where the user already exists. We can do this with onConflictDoUpdate
       // If the user already exists, we just update the display name
@@ -157,12 +149,23 @@ export default async function Home({
     .from(usersTable)
     .execute();
 
+    const usersWithDisplayName = await db
+    .select({
+      displayName: usersTable.displayName,
+    })
+    .from(usersTable)
+    .execute();
+  
+    const userDisplay = usersWithDisplayName.map(user => user.displayName);
+
+
   return (
     <>
         <div className="flex h-screen w-full flex-col pt-2">
           <h1 className="mb-2 bg-white px-4 text-xl font-bold">Home</h1>
           <NameInput
             userNum={user.length}
+            userDisplayName={userDisplay}
           />
 
           <div className="w-full px-4 pt-3">

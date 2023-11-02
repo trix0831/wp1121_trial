@@ -15,9 +15,10 @@ import { Bold } from "lucide-react";
 
 type NameInputProps = {
   userNum:number;
+  userDisplayName: string[];
 }
 
-export default function NameInput({userNum}:NameInputProps) {
+export default function NameInput({userNum, userDisplayName}:NameInputProps) {
     const searchParams = useSearchParams();
     const usernameInputRef = useRef<HTMLInputElement>(null);
     const [usernameError, setUsernameError] = useState(false);
@@ -34,6 +35,12 @@ export default function NameInput({userNum}:NameInputProps) {
       if (newUsernameError) {
         return false;
       }
+
+      if(username !== undefined)
+        {if(userDisplayName.includes(username)){
+          alert('user already exist !')
+          return;
+        }}
   
       // when navigating to the same page with different query params, we need to
       // preserve the pathname, so we need to manually construct the url
@@ -71,30 +78,28 @@ export default function NameInput({userNum}:NameInputProps) {
                     </p>
                   )}
           </div>
-          <button
-            className={cn(
-              "m-1 rounded-full bg-brand px-4 py-2 text-white transition-colors hover:bg-brand/70",
-              "disabled:cursor-not-allowed disabled:bg-brand/40 disabled:hover:bg-brand/40",
-            )}
-            onClick={handleSave}
-          >
-            add user
-          </button>
-
-          
-
-          <Link href="/switchUser">
-            <button
+            <Button
               className={cn(
-                "m-1 rounded-full bg-brand px-4 py-2 text-white transition-colors hover:bg-brand/70",
+                "m-2 bg-brand px-4 py-2 text-white transition-colors hover:bg-brand/70",
                 "disabled:cursor-not-allowed disabled:bg-brand/40 disabled:hover:bg-brand/40",
               )}
+              onClick={handleSave}
             >
-              switch user
-            </button>
-          </Link>
-        </div>  
+              add user (input the name directly)
+            </Button>
 
+
+          <Link href="/switchUser">
+            <Button
+            className={cn(
+              "m-2 bg-brand px-4 py-2 text-white transition-colors hover:bg-brand/70",
+              "disabled:cursor-not-allowed disabled:bg-brand/40 disabled:hover:bg-brand/40",
+            )}>
+              switch user
+            </Button>
+          </Link>
+
+        </div>  
     </>
   );
 }
