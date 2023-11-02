@@ -14,6 +14,7 @@ import LikeButton from "@/components/LikeButton";
 import ReplyInput from "@/components/ReplyInput";
 import TimeText from "@/components/TimeText";
 import Tweet from "@/components/Tweet";
+import Reply from "@/components/Reply";
 import { Separator } from "@/components/ui/separator";
 import { db } from "@/db";
 import { likesTable, tweetsTable, usersTable } from "@/db/schema";
@@ -198,32 +199,47 @@ export default async function TweetPage({
 
         <div className="flex flex-col px-4 pt-3">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <article className="mt-3 whitespace-pre-wrap text-xl">
+          <article className="mt-3 mb-4 whitespace-pre-wrap text-xl">
             {tweet.content}
           </article>
 
+          <div className="ml-3">
+              <b>START time：</b>
+              <TimeText date={tweet.startDate} format="h:mm A · D MMM YYYY" />
+          </div>
+
+          <div className="ml-3">
+              <b>END time：</b>
+              <TimeText date={tweet.endDate} format="h:mm A · D MMM YYYY" />
+          </div>
+
           <time className="my-4 block text-sm text-gray-500">
+          event created at：
             <TimeText date={tweet.createdAt} format="h:mm A · D MMM YYYY" />
           </time>
 
-          <Separator />
-          <div className="my-2 flex items-center justify-between gap-4 text-gray-400">
-            <LikeButton
-              handle={handle}
-              initialLikes={tweet.likes}
-              initialLiked={tweet.liked}
-              tweetId={tweet.id}
-            />
-          </div>
+
           <Separator />
         </div>
-        <ReplyInput replyToTweetId={tweet.id} replyToHandle={tweet.handle} />
+
+
+        <ReplyInput 
+          replyToTweetId={tweet.id} 
+          replyName={username} 
+          startDate={tweet.startDate}
+          endDate={tweet.endDate}
+          tweetLikes={tweet.likes}
+          tweetLiked={tweet.liked}
+          tweetID={tweet.id}
+          handleForButton={handle}
+        />
         <Separator />
+
         {replies.map((reply) => (
-          <Tweet
+          <Reply
             key={reply.id}
             id={reply.id}
-            username={username}
+            username={reply.username}
             handle={handle}
             startDate={reply.startDate}
             endDate={reply.endDate}
@@ -235,6 +251,7 @@ export default async function TweetPage({
             createdAt={reply.createdAt!}
           />
         ))}
+
       </div>
     </>
   );
