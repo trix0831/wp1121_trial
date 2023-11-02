@@ -3,7 +3,6 @@ import { redirect } from "next/navigation";
 
 import { db } from "@/db";
 import { usersTable } from "@/db/schema";
-import { Separator } from "@radix-ui/react-separator";
 
 type SwitchUserPageProps = {
       // this came from the query string: ?username=madmaxieee
@@ -25,7 +24,7 @@ export default async function TestPage(
 
     return(
         <>
-            <p>Click on the user you want to switch to.</p>
+            <p className="">Click on the user you want to switch to.</p>
             
             <div>
                 {user.map((person) => (

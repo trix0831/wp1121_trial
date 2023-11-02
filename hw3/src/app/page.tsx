@@ -128,6 +128,8 @@ export default async function Home({
     .select({
       id: tweetsTable.id,
       content: tweetsTable.content,
+      startDate: tweetsTable.startDate,
+      endDate: tweetsTable.endDate,
       username: usersTable.displayName,
       handle: usersTable.handle,
       likes: likesSubquery.likes,
@@ -179,13 +181,14 @@ export default async function Home({
                 authorName={tweet.username}
                 authorHandle={tweet.handle}
                 content={tweet.content}
+                startDate={tweet.startDate}
+                endDate={tweet.endDate}
                 likes={tweet.likes}
                 liked={tweet.liked}
                 createdAt={tweet.createdAt!}
               />
             ))}
           </div>
-
         </div>
         <NameDialog />
     </>

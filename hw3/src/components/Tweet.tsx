@@ -15,6 +15,8 @@ type TweetProps = {
   authorName: string;
   authorHandle: string;
   content: string;
+  startDate: string;
+  endDate: string;
   likes: number;
   createdAt: Date;
   liked?: boolean;
@@ -29,6 +31,8 @@ export default function Tweet({
   authorName,
   authorHandle,
   content,
+  startDate,
+  endDate,
   likes,
   createdAt,
   liked,
@@ -47,40 +51,24 @@ export default function Tweet({
       >
         <div className="flex gap-4">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={getAvatar(authorName)}
-            alt="avatar"
-            className="h-12 w-12 rounded-full"
-          />
           <article className="flex grow flex-col">
-            <p className="font-bold">
-              {authorName}
-              <span className="ml-2 font-normal text-gray-400">
-                @{authorHandle}
-              </span>
+            <p className="font-bold ml-5">
+            {content}
               <time className="ml-2 font-normal text-gray-400">
+                create time：
                 <TimeText date={createdAt} format="h:mm A · D MMM YYYY" />
               </time>
             </p>
-            {/* `white-space: pre-wrap` tells html to render \n and \t chracters  */}
-            <article className="mt-2 whitespace-pre-wrap">{content}</article>
-            <div className="my-2 flex items-center justify-between gap-4 text-gray-400">
-              <button className="rounded-full p-1.5 transition-colors duration-300 hover:bg-brand/10 hover:text-brand">
-                <MessageCircle size={20} className="-scale-x-100" />
-              </button>
-              <button className="rounded-full p-1.5 transition-colors duration-300 hover:bg-brand/10 hover:text-brand">
-                <Repeat2 size={22} />
-              </button>
-              <LikeButton
-                initialLikes={likes}
-                initialLiked={liked}
-                tweetId={id}
-                handle={handle}
-              />
-              <button className="rounded-full p-1.5 transition-colors duration-300 hover:bg-brand/10 hover:text-brand">
-                <Share size={18} />
-              </button>
+            <article className="mt-2 ml-7 whitespace-pre-wrap"></article>
+            <div>
+              START：
+              <TimeText date={startDate} format="h:mm A · D MMM YYYY" />
             </div>
+            <div>
+              END：
+              <TimeText date={endDate} format="h:mm A · D MMM YYYY" />
+            </div>
+            
           </article>
         </div>
       </Link>

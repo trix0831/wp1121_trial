@@ -44,15 +44,10 @@ export const tweetsTable = pgTable(
   {
     id: serial("id").primaryKey(),
     content: varchar("content", { length: 280 }).notNull(),
-    StartDate: varchar("content", { length: 280 }).notNull(),
-    EndDate: varchar("content", { length: 280 }).notNull(),
+    startDate: timestamp("start_date").notNull(),
+    endDate: timestamp("end_date").notNull(),
     userHandle: varchar("user_handle", { length: 50 })
       .notNull()
-      // this is a foreign key constraint. It ensures that the user_handle
-      // column in this table references a valid user_handle in the users table.
-      // We can also specify what happens when the referenced row is deleted
-      // or updated. In this case, we want to delete the tweet if the user
-      // is deleted, so we use onDelete: "cascade". It is similar for onUpdate.
       .references(() => usersTable.handle, {
         onDelete: "cascade",
         onUpdate: "cascade",
