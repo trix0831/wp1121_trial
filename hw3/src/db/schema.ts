@@ -44,8 +44,8 @@ export const tweetsTable = pgTable(
   {
     id: serial("id").primaryKey(),
     content: varchar("content", { length: 280 }).notNull(),
-    startDate: timestamp("start_date").notNull(),
-    endDate: timestamp("end_date").notNull(),
+    startDate: varchar("start_date", { length: 280 }).notNull(),
+    endDate: varchar("end_date", { length: 280 }).notNull(),
     userHandle: varchar("user_handle", { length: 50 })
       .notNull()
       .references(() => usersTable.handle, {

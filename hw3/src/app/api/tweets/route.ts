@@ -13,8 +13,8 @@ import { tweetsTable } from "@/db/schema";
 const postTweetRequestSchema = z.object({
   handle: z.string().min(1).max(50),
   content: z.string().min(1).max(280),
-  startDate: z.string().min(1).max(280),
-  endDate: z.string().min(1).max(280),
+  startDate: z.string().min(1),
+  endDate: z.string().min(1),
   replyToTweetId: z.number().optional(),
 });
 
@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
   // the `as` keyword is a type assertion, this tells typescript
   // that we know what we're doing and that the data is of type LikeTweetRequest.
   // This is safe now because we've already validated the data with zod.
-  const { handle, content, startDate, endDate, replyToTweetId } = data as PostTweetRequest;
+  const { handle, content,startDate, endDate, replyToTweetId } = data as PostTweetRequest;
 
   try {
     // This piece of code runs the following SQL query:

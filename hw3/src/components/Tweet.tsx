@@ -15,8 +15,8 @@ type TweetProps = {
   authorName: string;
   authorHandle: string;
   content: string;
-  startDate: string;
-  endDate: string;
+  startDate: Date;
+  endDate: Date;
   likes: number;
   createdAt: Date;
   liked?: boolean;
