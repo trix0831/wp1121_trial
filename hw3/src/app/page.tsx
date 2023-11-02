@@ -190,7 +190,9 @@ export default async function Home({
             ))}
           </div>
         </div>
-        <NameDialog />
+        <NameDialog 
+          userNum={user.length}
+        />
     </>
   );
 }
