@@ -63,7 +63,7 @@ export default function NameInput({userNum, userDisplayName}:NameInputProps) {
     <>
         <div className="grid grid-cols-5 m-3">
           <div className="grid col-span-3 m-1">
-            <p><u>User NOW</u>：{searchParams.get("username")}</p>
+            <p className="mb-2"><u>User NOW</u>：{searchParams.get("username")}</p>
 
             <Input
                 placeholder="Enter new user name"

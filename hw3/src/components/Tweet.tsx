@@ -1,12 +1,10 @@
 import Link from "next/link";
 
-import { MessageCircle, Repeat2, Share } from "lucide-react";
-
 import { Separator } from "@/components/ui/separator";
-import { getAvatar } from "@/lib/utils";
 
-import LikeButton from "./LikeButton";
 import TimeText from "./TimeText";
+
+import { Check } from 'lucide-react';
 
 type TweetProps = {
   username?: string;
@@ -59,7 +57,6 @@ export default function Tweet({
                 <TimeText date={createdAt} format="h:mm A · D MMM YYYY" />
               </time>
             </p>
-            <article className="mt-2 ml-7 whitespace-pre-wrap"></article>
             <div className="ml-10">
               START time：
               <TimeText date={startDate} format="h:mm A · D MMM YYYY" />
@@ -68,8 +65,14 @@ export default function Tweet({
               END time：
               <TimeText date={endDate} format="h:mm A · D MMM YYYY" />
             </div>
-            
           </article>
+          
+          <article className="flex grow flex-col">
+            {likes} participants
+          </article>
+
+          {liked && <Check className="" color="#2bff00" size={64} strokeWidth={3}/>}
+
         </div>
       </Link>
       <Separator />

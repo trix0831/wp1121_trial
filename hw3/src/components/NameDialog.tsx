@@ -23,6 +23,7 @@ import { cn, validateHandle, validateUsername } from "@/lib/utils";
 
 type NameDialogProps = {
   userNum: number,
+  userDisplayName: string[],
 }
 
 // export default function NameDialog({userNum} : NameDialogProps) {
@@ -145,7 +146,7 @@ type NameDialogProps = {
 //     </Dialog>
 //   );
 // }
-export default function NameDialog({ userNum }: NameDialogProps) {
+export default function NameDialog({ userNum, userDisplayName }: NameDialogProps) {
   const [usernameError, setUsernameError] = useState(false);
   const [handleError, setHandleError] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -165,6 +166,13 @@ export default function NameDialog({ userNum }: NameDialogProps) {
 
   const handleSave = () => {
     const username = usernameInputRef.current?.value;
+
+    if(username !== undefined)
+    {if(userDisplayName.includes(username)){
+      alert('user already exist !')
+      return;
+    }}
+
     const handle = userNum.toString();
 
     const newUsernameError = !validateUsername(username);
