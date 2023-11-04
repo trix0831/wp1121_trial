@@ -1,10 +1,5 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-
-import { usePathname, useRouter } from "next/navigation";
-import { useSearchParams } from "next/navigation";
-
 // all components is src/components/ui are lifted from shadcn/ui
 // this is a good set of components built on top of tailwindcss
 // see how to use it here: https://ui.shadcn.com/
@@ -17,9 +12,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { cn, validateHandle, validateUsername } from "@/lib/utils";
 
 type SwitchUserDialogProps = {
     open: boolean;

@@ -26,8 +26,6 @@ export default function Tweet({
   username,
   handle,
   id,
-  authorName,
-  authorHandle,
   content,
   startDate,
   endDate,
@@ -49,14 +47,14 @@ export default function Tweet({
       >
         <div className="flex gap-4">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <article className="flex grow flex-col">
-            <p className="font-bold ml-5">
+          <article>
+            <p className="font-bold ml-5 max-w-2xl whitespace-normal overflow-auto">
             {content}
-              <time className="ml-2 font-normal text-gray-400">
+            </p>
+            <time className="ml-6 font-normal text-gray-400">
                 create time：
                 <TimeText date={createdAt} format="h:mm A · D MMM YYYY" />
-              </time>
-            </p>
+            </time>
             <div className="ml-10">
               START time：
               <TimeText date={startDate} format="h:mm A · D MMM YYYY" />
@@ -67,8 +65,8 @@ export default function Tweet({
             </div>
           </article>
           
-          <article className="flex grow flex-col">
-            {likes} participants
+          <article className="flex grow flex-col text-gray-700">
+            {likes ? likes : 0} participants
           </article>
 
           {liked && <Check className="" color="#2bff00" size={64} strokeWidth={3}/>}

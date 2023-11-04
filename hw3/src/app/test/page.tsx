@@ -1,20 +1,8 @@
-import Link from "next/link";
-import { redirect } from "next/navigation";
-
 import { db } from "@/db";
 import { usersTable } from "@/db/schema";
 
-type TestPageProps = {
-    searchParams: {
-      // this came from the query string: ?username=madmaxieee
-      username?: string;
-      handle?: string;
-    };
-  };
 
-export default async function TestPage({
-    searchParams: { username, handle },
-  }: TestPageProps) {
+export default async function TestPage() {
 
     const user = await db
     .select({
@@ -30,10 +18,9 @@ export default async function TestPage({
 
             <div>
                 {user.map((person) => (
-                    <li>{person.displayName} {person.handle}</li>
+                    <li key="1">{person.displayName} {person.handle}</li>
                 ))}
             </div>
-
             
         </>
     );

@@ -1,7 +1,7 @@
 "use client";
 
 import Tweet from "./Tweet";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Button } from "./ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -34,6 +34,11 @@ export default function SearchedTweet({allTweets, username, handle} : SearchedTw
 
         setFilteredTweets(filteredTweets);
     };
+
+    useEffect(()=>{
+      setFilteredTweets(allTweets);
+    },[allTweets]
+    )
     
     
     return(

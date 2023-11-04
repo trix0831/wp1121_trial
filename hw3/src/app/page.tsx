@@ -293,23 +293,7 @@ export default async function Home({
       createdAt: tweet.createdAt!,
     }));
 
-    // const tweetIdList = allTweets.map((tweet) => tweet.id);
-    // const tweetUsernameList = allTweets.map((tweet) => tweet.username);
-    // const tweetHandleList = allTweets.map((tweet) => tweet.handle);
-    // const tweetContentList = allTweets.map((tweet) => tweet.content);
-    // const tweetEndDateList = allTweets.map((tweet) => tweet.endDate);
-    // const tweetStartDateList = allTweets.map((tweet) => tweet.startDate);
-    // const tweetLikesList = allTweets.map((tweet) => tweet.likes);
-    // const tweetLikedList = allTweets.map((tweet) => tweet.liked);
-    // const tweetCreatedAtList = allTweets.map((tweet) => tweet.createdAt!);
-
   // Filter tweets based on search criteria (username or handle)
-  const filteredTweets = allTweets.filter((tweet) => {
-    return (
-      (!username || tweet.username === username) &&
-      (!handle || tweet.handle === handle)
-    );
-  });
 
   const user = await db
     .select({
@@ -339,25 +323,6 @@ export default async function Home({
         </div>
 
         <Separator />
-
-        {/* <div className="overflow-scroll">
-          {allTweets.map((tweet) => (
-            <Tweet
-              key={tweet.id}
-              id={tweet.id}
-              username={username}
-              handle={handle}
-              authorName={tweet.username}
-              authorHandle={tweet.handle}
-              content={tweet.content}
-              startDate={tweet.startDate}
-              endDate={tweet.endDate}
-              likes={tweet.likes}
-              liked={tweet.liked}
-              createdAt={tweet.createdAt!}
-            />
-          ))}
-        </div> */}
 
         <SearchedTweet
           allTweets={allTweetsList}

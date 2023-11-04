@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 
 import { usePathname, useRouter } from "next/navigation";
@@ -10,7 +10,6 @@ import { cn, validateUsername } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { Button } from "./ui/button";
 import Link from "next/link";
-import { Bold } from "lucide-react";
 
 
 type NameInputProps = {

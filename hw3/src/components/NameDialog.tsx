@@ -148,7 +148,6 @@ type NameDialogProps = {
 // }
 export default function NameDialog({ userNum, userDisplayName }: NameDialogProps) {
   const [usernameError, setUsernameError] = useState(false);
-  const [handleError, setHandleError] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const router = useRouter();
@@ -178,7 +177,6 @@ export default function NameDialog({ userNum, userDisplayName }: NameDialogProps
     const newUsernameError = !validateUsername(username);
     setUsernameError(newUsernameError);
     const newHandleError = !validateHandle(handle);
-    setHandleError(newHandleError);
 
     if (newUsernameError || newHandleError) {
       return false;

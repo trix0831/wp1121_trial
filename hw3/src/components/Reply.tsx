@@ -1,6 +1,3 @@
-import Link from "next/link";
-
-
 import { Separator } from "@/components/ui/separator";
 
 import TimeText from "./TimeText";
@@ -23,16 +20,8 @@ type ReplyProps = {
 // all client side things are abstracted away in other components
 export default function Reply({
   username,
-  handle,
-  id,
-  authorName,
-  authorHandle,
   content,
-  startDate,
-  endDate,
-  likes,
   createdAt,
-  liked,
 }: ReplyProps) {
   return (
     <>

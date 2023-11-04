@@ -1,17 +1,10 @@
 import Link from "next/link";
-import { redirect } from "next/navigation";
 
 import { db } from "@/db";
 import { usersTable } from "@/db/schema";
 
-type SwitchUserPageProps = {
-      // this came from the query string: ?username=madmaxieee
-      username?: string;
-      handle?: string;
-  };
 
-export default async function TestPage(
-    { username, handle }: SwitchUserPageProps) {
+export default async function TestPage() {
 
     const user = await db
     .select({
@@ -28,7 +21,7 @@ export default async function TestPage(
             
             <div>
                 {user.map((person) => (
-                    <li className="m-5">
+                    <li className="m-5" key="1">
                         <Link
                             className="w-full px-4 pt-3 transition-colors hover:bg-gray-75"
                             href={{
