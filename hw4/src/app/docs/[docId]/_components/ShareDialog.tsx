@@ -35,8 +35,8 @@ async function ShareDialog({ docId }: Props) {
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Share the document</DialogTitle>
-          <DialogDescription>Share the doc with other users.</DialogDescription>
+          <DialogTitle>Create a new chat !</DialogTitle>
+          <DialogDescription>Share the doc with </DialogDescription>
         </DialogHeader>
         <form
           action={async (e) => {
