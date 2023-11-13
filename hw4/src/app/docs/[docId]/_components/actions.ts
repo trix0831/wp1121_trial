@@ -30,15 +30,16 @@ export async function getDocumentAuthors(docId: string) {
   return authors;
 }
 
-export const addDocumentAuthor = async (docId: string, email: string) => {
+export const addDocumentAuthor = async (docId: string, username: string) => {
   // Find the user by email
   const [user] = await db
     .select({
       displayId: usersTable.displayId,
     })
     .from(usersTable)
-    .where(eq(usersTable.email, email));
+    .where(eq(usersTable.username, username));
   if (!user) {
+    console.log("no such user");
     return false;
   }
 
