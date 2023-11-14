@@ -3,6 +3,9 @@
 import { useDocument } from "@/hooks/useDocument";
 import { Input } from "@/components/ui/input";
 
+import MyMessage from "./_components/MyMessage";
+import FriendMessage from "./_components/FriendMessage";
+
 
 function DocPage() {
   const { title, setTitle, content, setContent } = useDocument();
@@ -44,6 +47,12 @@ function DocPage() {
           }}
           className="h-[70vh] w-full outline-0 "
         /> */}
+        <div className="flex justify-end">
+          <MyMessage message="hello"/>
+        </div>
+
+        <FriendMessage message="Hi"/>
+
       </section>
       
       <section className="m-2 flex items-center">
