@@ -2,7 +2,6 @@
 
 import { useDocument } from "@/hooks/useDocument";
 import { Input } from "@/components/ui/input";
-import { RxAvatar } from "react-icons/rx";
 
 
 function DocPage() {
@@ -15,7 +14,7 @@ function DocPage() {
           <circle cx="12" cy="12" r="10" stroke="#1C274C" strokeWidth="1.5"/>
           <path d="M17.9691 20C17.81 17.1085 16.9247 15 11.9999 15C7.07521 15 6.18991 17.1085 6.03076 20" stroke="#1C274C" strokeWidth="1.5" strokeLinecap="round"/>
         </svg>
-        <p className="absolute px-16 py-4 rounded-lg ml-2 text-slate-700 text-3xl font-bold outline-0">Chat Room</p>
+        <p className="absolute px-16 py-4 rounded-lg ml-2 text-slate-700 text-3xl font-bold outline-0">{title}</p>
 
         {/* <input
           value={title}

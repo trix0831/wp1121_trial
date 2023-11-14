@@ -3,7 +3,7 @@ import { eq } from "drizzle-orm";
 import { db } from "@/db";
 import { documentsTable, usersToDocumentsTable } from "@/db/schema";
 
-export const createDocument = async (userId: string) => {
+export const createDocument = async (userId: string, friendName: string) => {
   "use server";
   console.log("[createDocument]");
 
@@ -11,8 +11,8 @@ export const createDocument = async (userId: string) => {
     const [newDoc] = await tx
       .insert(documentsTable)
       .values({
-        title: "Chat",
-        content: "Chat content",
+        title: friendName,
+        content: "content",
       })
       .returning();
     await tx.insert(usersToDocumentsTable).values({
