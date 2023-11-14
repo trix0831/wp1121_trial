@@ -16,7 +16,7 @@ import { Input } from "@/components/ui/input";
 import { auth } from "@/lib/auth";
 import { publicEnv } from "@/lib/env/public";
 
-import { addDocumentAuthor, getDocumentAuthors } from "./actions";
+import { addDocumentAuthor, getDocumentAuthors, userExisted } from "./actions";
 
 async function CreateDialog() {
   const session = await auth();
@@ -44,22 +44,31 @@ async function CreateDialog() {
         <form
           action={async (e) => {
             "use server";
-            const newDocId = await createDocument(userId);
-            revalidatePath("/docs");
-
             const friendName = e.get("username");
+
             if (!friendName) return;
             if (typeof friendName !== "string"){
-              alert("not a name");
+              console.log("not a name");
+              // redirect(`${publicEnv.NEXT_PUBLIC_BASE_URL}/docs`);
+              return;
             }
+
+
             if (typeof friendName == "string"){
-                const result = await addDocumentAuthor(newDocId, friendName);
+                const result = await userExisted(friendName);
                 if (!result) {
-                  console.log("fail to create chat");
+                  console.log("friend not found");
+                  return;
+                }
+                else{
+                  const newDocId = await createDocument(userId);
+                  revalidatePath("/docs");
+
+                  await addDocumentAuthor(newDocId, friendName);
+                  
+                  redirect(`${publicEnv.NEXT_PUBLIC_BASE_URL}/docs/${newDocId}`);
                 }
               }
-
-            redirect(`${publicEnv.NEXT_PUBLIC_BASE_URL}/docs/${newDocId}`);
             // revalidatePath(`${publicEnv.NEXT_PUBLIC_BASE_URL}/docs/${docId}`);
           }}
           className="flex flex-row gap-4"
