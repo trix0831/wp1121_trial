@@ -5,6 +5,8 @@ import { Input } from "@/components/ui/input";
 
 import MyMessage from "./_components/MyMessage";
 import FriendMessage from "./_components/FriendMessage";
+import { addMessage } from "./_components/actions";
+import MessageInput from "./_components/MessageInput";
 
 
 function DocPage() {
@@ -15,6 +17,7 @@ function DocPage() {
     setNewMessage,
     handleSendMessage,
     userId,
+    documentId
   } = useDocument();
   return (
     <div className="m-2">
@@ -72,15 +75,6 @@ function DocPage() {
               <path d="M3 3h8v8H3V3zm0 10h8v8H3v-8zM13 3h8v8h-8V3zm0 10h8v8h-8v-8zm2-8v4h4V5h-4zm0 10v4h4v-4h-4zM5 5v4h4V5H5zm0 10v4h4v-4H5z"/>
           </g>
         </svg>
-
-        <Input 
-          className="bg-gray-300 border rounded-2xl hover:bg-gray-200" 
-          type="text" 
-          placeholder="please enter your message here"
-          value={newMessage}
-          onChange={(e) => setNewMessage(e.target.value)}
-          onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
-        />
       </section>
     </div>
   );

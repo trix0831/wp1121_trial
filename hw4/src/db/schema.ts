@@ -121,10 +121,6 @@ export const chatTable = pgTable(
 );
 
 export const chatRelations = relations(chatTable, ({ one }) => ({
-  sender: one(usersTable, {
-    fields: [chatTable.senderId],
-    references: [usersTable.displayId],
-  }),
   document: one(documentsTable, {
     fields: [chatTable.documentId],
     references: [documentsTable.displayId],

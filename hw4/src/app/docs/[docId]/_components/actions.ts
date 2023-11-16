@@ -1,7 +1,7 @@
 import { eq } from "drizzle-orm";
 
 import { db } from "@/db";
-import { usersTable, usersToDocumentsTable } from "@/db/schema";
+import { usersTable, usersToDocumentsTable, chatTable } from "@/db/schema";
 
 export async function getDocumentAuthors(docId: string) {
   const dbAuthors = await db.query.usersToDocumentsTable.findMany({
@@ -39,15 +39,33 @@ export const addDocumentAuthor = async (docId: string, username: string) => {
     .from(usersTable)
     .where(eq(usersTable.username, username));
 
-  // if (!user) {
-  //   console.log("no such user");
-  //   return false;
-  // }
-
   await db.insert(usersToDocumentsTable).values({
     documentId: docId,
     userId: user.displayId,
   });
+};
+
+export const addMessage = async (docId: string, senderID: string, message:string) => {
+  await db.insert(chatTable).values({
+    documentId: docId,
+    senderId: senderID,
+    message: message,
+  });
+};
+
+export const sendMessage = async (userId: string, documentId: string, message: string) => {
+  "use server";
+  console.log("[sendMessage]");
+
+  await db.transaction(async (tx) => {
+    await tx.insert(chatTable).values({
+      senderId: userId,
+      documentId: documentId,
+      message: message,
+    });
+  });
+
+  return;
 };
 
 
