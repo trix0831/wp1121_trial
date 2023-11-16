@@ -1,3 +1,4 @@
+import { ChatBubbleIcon } from "@radix-ui/react-icons";
 import { relations } from "drizzle-orm";
 import {
   index,
@@ -95,3 +96,37 @@ export const usersToDocumentsRelations = relations(
     }),
   }),
 );
+
+// Chat
+export const chatTable = pgTable(
+  "chat",
+  {
+    id: serial("id").primaryKey(),
+    senderId: uuid("sender_id").notNull().references(() => usersTable.displayId, {
+      onDelete: "cascade",
+      onUpdate: "cascade",
+    }),
+    documentId: uuid("document_id").notNull().references(() => documentsTable.displayId, {
+      onDelete: "cascade",
+      onUpdate: "cascade",
+    }),
+    message: text("message").notNull(),
+  },
+  (table) => ({
+    senderAndDocumentIndex: index("sender_and_document_index").on(
+      table.senderId,
+      table.documentId,
+    ),
+  }),
+);
+
+export const chatRelations = relations(chatTable, ({ one }) => ({
+  sender: one(usersTable, {
+    fields: [chatTable.senderId],
+    references: [usersTable.displayId],
+  }),
+  document: one(documentsTable, {
+    fields: [chatTable.documentId],
+    references: [documentsTable.displayId],
+  }),
+}));

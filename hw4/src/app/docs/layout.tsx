@@ -10,7 +10,7 @@ function DocsLayout({ children }: Props) {
     // overflow-hidden for parent to hide scrollbar
     <main className="flex-rows fixed top-0 flex h-screen w-full overflow-hidden">
       {/* overflow-y-scroll for child to show scrollbar */}
-      <nav className="flex w-7/12 flex-col border-r bg-slate-100 pb-10 grid grid-cols-2">
+      <nav className="w-7/12 flex-col border-r bg-slate-100 pb-10 grid grid-cols-2">
         <Sidebar/>
         <Navbar />
       </nav>

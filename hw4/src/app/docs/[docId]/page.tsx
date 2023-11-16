@@ -8,7 +8,14 @@ import FriendMessage from "./_components/FriendMessage";
 
 
 function DocPage() {
-  const { title, setTitle, content, setContent } = useDocument();
+  const { 
+    title,
+    chatMessages,
+    newMessage,
+    setNewMessage,
+    handleSendMessage,
+    userId,
+  } = useDocument();
   return (
     <div className="m-2">
       <nav className="sticky top-0 flex items-center">
@@ -17,16 +24,8 @@ function DocPage() {
           <circle cx="12" cy="12" r="10" stroke="#1C274C" strokeWidth="1.5"/>
           <path d="M17.9691 20C17.81 17.1085 16.9247 15 11.9999 15C7.07521 15 6.18991 17.1085 6.03076 20" stroke="#1C274C" strokeWidth="1.5" strokeLinecap="round"/>
         </svg>
-        <p className="absolute px-16 py-4 rounded-lg ml-2 text-slate-700 text-3xl font-bold outline-0">{title}</p>
 
-        {/* <input
-          value={title}
-          onChange={(e) => {
-            setTitle(e.target.value);
-          }}
-          placeholder="Chat User"
-           focus:bg-slate-100"
-        /> */}
+        <p className="absolute px-16 py-4 rounded-lg ml-2 text-slate-700 text-3xl font-bold outline-0">{title}</p>
       </nav>
       
       <section className="mt-5 h-[5vh]">
@@ -47,11 +46,22 @@ function DocPage() {
           }}
           className="h-[70vh] w-full outline-0 "
         /> */}
+
+        {/* //TODO: render chat content here. If the message is sent by me, use MyMessage, else use FriendMessage
         <div className="flex justify-end">
           <MyMessage message="hello"/>
         </div>
 
-        <FriendMessage message="Hi"/>
+        <FriendMessage message="Hi"/> */}
+        {chatMessages.map((message, index) => (
+          <div key={index} className={message.senderId === userId ? "flex justify-end" : "flex justify-start"}>
+            {message.senderId === userId ? (
+              <MyMessage message={message.message} />
+            ) : (
+              <FriendMessage message={message.message} />
+            )}
+          </div>
+        ))}
 
       </section>
       
@@ -67,6 +77,9 @@ function DocPage() {
           className="bg-gray-300 border rounded-2xl hover:bg-gray-200" 
           type="text" 
           placeholder="please enter your message here"
+          value={newMessage}
+          onChange={(e) => setNewMessage(e.target.value)}
+          onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
         />
       </section>
     </div>
