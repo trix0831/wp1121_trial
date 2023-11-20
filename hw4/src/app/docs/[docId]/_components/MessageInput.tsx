@@ -1,7 +1,6 @@
 import { auth } from "@/lib/auth";
 import { Input } from "@/components/ui/input";
-import { sendMessage, addMessage } from "./actions";
-import { Button } from "@/components/ui/button";
+import { sendMessage } from "./actions";
 
 type MessageInputProps = {
   docID: string,
@@ -15,24 +14,28 @@ async function MessageInput({docID}:MessageInputProps) {
 
   return (
     <>
+        <svg width="32" height="32" className="m-2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <g>
+              <path fill="none" d="M0 0h24v24H0z"/>
+              <path d="M3 3h8v8H3V3zm0 10h8v8H3v-8zM13 3h8v8h-8V3zm0 10h8v8h-8v-8zm2-8v4h4V5h-4zm0 10v4h4v-4h-4zM5 5v4h4V5H5zm0 10v4h4v-4H5z"/>
+          </g>
+        </svg>
     <form
+        className="w-full"
         action={async (e) => {
             "use server";
             const newMessage = e.get("messageInput");
-
-            console.log(newMessage);
-            console.log(docID);
-            console.log(userId);
+            
             if (typeof newMessage == "string")
               await sendMessage(userId, docID, newMessage);
           }}>
 
         <Input 
-            className="bg-gray-300 border rounded-2xl hover:bg-gray-200" 
+            id="messageInput"
+            className="bg-gray-300 border rounded-2xl hover:bg-gray-200 w-full" 
             placeholder="please enter your message here"
             name="messageInput"
         />
-        <Button type="submit">Send</Button>
     </form>
     </>
   );

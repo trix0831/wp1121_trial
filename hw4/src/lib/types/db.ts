@@ -10,3 +10,10 @@ export type Document = {
   title: string;
   content: string;
 };
+
+export type Chat = {
+  id: string;
+  senderId: string;
+  documentId: string;
+  message: string;
+}

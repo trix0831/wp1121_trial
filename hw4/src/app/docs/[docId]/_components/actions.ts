@@ -30,6 +30,28 @@ export async function getDocumentAuthors(docId: string) {
   return authors;
 }
 
+
+export async function getMessageOfDoc(docId: string) {
+  const dbMessages = await db.query.chatTable.findMany({
+    where: eq(chatTable.documentId, docId),
+    columns: {
+      documentId: true,
+      message: true,
+      senderId: true,
+    },
+  });
+
+  const Messages = dbMessages.map((dbMessage) => {
+    console.log(dbMessage);
+    return {
+      message: dbMessage.message,
+      senderId: dbMessage.senderId,
+    };
+  });
+
+  return Messages;
+}
+
 export const addDocumentAuthor = async (docId: string, username: string) => {
   // Find the user by email
   const [user] = await db
@@ -42,14 +64,6 @@ export const addDocumentAuthor = async (docId: string, username: string) => {
   await db.insert(usersToDocumentsTable).values({
     documentId: docId,
     userId: user.displayId,
-  });
-};
-
-export const addMessage = async (docId: string, senderID: string, message:string) => {
-  await db.insert(chatTable).values({
-    documentId: docId,
-    senderId: senderID,
-    message: message,
   });
 };
 

@@ -18,7 +18,10 @@ function DocEditorLayout({ children, params }: Props) {
       
 
       {children}
-      <MessageInput docID={docID}/>
+
+      <section className="m-2 flex items-center">
+        <MessageInput docID={docID}/>
+      </section>
     </div>
   );
 }
