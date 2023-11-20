@@ -1,4 +1,3 @@
-import { ChatBubbleIcon } from "@radix-ui/react-icons";
 import { relations } from "drizzle-orm";
 import {
   index,
@@ -53,6 +52,7 @@ export const documentsTable = pgTable(
 
 export const documentsRelations = relations(documentsTable, ({ many }) => ({
   usersToDocumentsTable: many(usersToDocumentsTable),
+  chatTable: many(chatTable),
 }));
 
 export const usersToDocumentsTable = pgTable(
@@ -97,32 +97,45 @@ export const usersToDocumentsRelations = relations(
   }),
 );
 
-// Chat
 export const chatTable = pgTable(
   "chat",
   {
     id: serial("id").primaryKey(),
-    senderId: uuid("sender_id").notNull().references(() => usersTable.displayId, {
-      onDelete: "cascade",
-      onUpdate: "cascade",
-    }),
-    documentId: uuid("document_id").notNull().references(() => documentsTable.displayId, {
-      onDelete: "cascade",
-      onUpdate: "cascade",
-    }),
-    message: text("message").notNull(),
+    senderId: uuid("sender_id")
+      .notNull()
+      .references(() => usersTable.displayId, {
+        onDelete: "cascade",
+        onUpdate: "cascade",
+      }),
+    documentId: uuid("document_id")
+      .notNull()
+      .references(() => documentsTable.displayId, {
+        onDelete: "cascade",
+        onUpdate: "cascade",
+      }),
+    message: text("chat").notNull()
   },
   (table) => ({
-    senderAndDocumentIndex: index("sender_and_document_index").on(
+    chatAndDocumentIndex: index("chat_and_document_index").on(
       table.senderId,
       table.documentId,
     ),
+    // This is a unique constraint on the combination of userId and documentId.
+    // This ensures that there is no duplicate entry in the table.
+    // uniqCombination: unique().on(table.documentId, table.senderId),
   }),
 );
 
-export const chatRelations = relations(chatTable, ({ one }) => ({
-  document: one(documentsTable, {
-    fields: [chatTable.documentId],
-    references: [documentsTable.displayId],
+export const chatTableRelations = relations(
+  chatTable,
+  ({ one }) => ({
+    document: one(documentsTable, {
+      fields: [chatTable.documentId],
+      references: [documentsTable.displayId],
+    }),
+    sender: one(usersTable, {
+      fields: [chatTable.senderId],
+      references: [usersTable.displayId],
+    }),
   }),
-}));
+);

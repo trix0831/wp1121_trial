@@ -6,7 +6,6 @@ import { Input } from "@/components/ui/input";
 import MyMessage from "./_components/MyMessage";
 import FriendMessage from "./_components/FriendMessage";
 import { getMessageOfDoc } from "./_components/actions";
-import { chatTable } from "@/db/schema";
 import MessageInput from "./_components/MessageInput";
 
 
@@ -57,7 +56,7 @@ async function DocPage(
 
       <section className="w-full px-4 py-4 h-[70vh] overflow-y-scroll">
       {/* //TODO: render chat content here. If the message is sent by me, use MyMessage, else use FriendMessage */}
-        {chatMessages.map((message, index) => (
+        {/* {chatMessages.map((message, index) => (
           <div key={index} className={message.senderId === userId ? "flex justify-end" : "flex justify-start"  }>
             {message.senderId === userId ? (
               <MyMessage message={message.message} />
@@ -65,7 +64,7 @@ async function DocPage(
               <FriendMessage message={message.message} />
             )}
           </div>
-        ))}
+        ))} */}
 
       </section>
     </div>
