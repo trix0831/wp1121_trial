@@ -1,4 +1,3 @@
-import CreateDialog from "./_components/CreateDialog";
 import MessageInput from "./_components/MessageInput";
 
 type Props = {

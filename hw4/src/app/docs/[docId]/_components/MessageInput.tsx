@@ -28,6 +28,7 @@ async function MessageInput({docID}:MessageInputProps) {
             
             if (typeof newMessage == "string")
               await sendMessage(userId, docID, newMessage);
+
           }}>
 
         <Input 
