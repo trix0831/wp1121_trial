@@ -16,7 +16,7 @@ import { Input } from "@/components/ui/input";
 import { auth } from "@/lib/auth";
 import { publicEnv } from "@/lib/env/public";
 
-import { addDocumentAuthor, getDocumentAuthors, userExisted } from "./actions";
+import { addDocumentAuthor, getDocumentAuthors, userExisted, getMessageOfDoc } from "./actions";
 
 async function CreateDialog() {
   const session = await auth();
@@ -26,6 +26,7 @@ async function CreateDialog() {
   const myName = session.user.username;
 
   // const authors = await getDocumentAuthors(docId);
+  // const mess = await getMessageOfDoc(docId);
 
   return (
     <Dialog>

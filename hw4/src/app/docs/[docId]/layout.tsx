@@ -1,3 +1,4 @@
+import CreateDialog from "./_components/CreateDialog";
 import MessageInput from "./_components/MessageInput";
 
 type Props = {
@@ -16,7 +17,6 @@ function DocEditorLayout({ children, params }: Props) {
         </svg>
       </div>
       
-
       {children}
 
       <section className="m-2 flex items-center">

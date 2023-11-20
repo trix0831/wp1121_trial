@@ -1,185 +1,16 @@
-// import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo,useState } from "react";
 
-// import { useSession } from "next-auth/react";
-// import { useParams, useRouter } from "next/navigation";
-
-// import { useDebounce } from "use-debounce";
-
-// import { pusherClient } from "@/lib/pusher/client";
-// import type { Document, User } from "@/lib/types/db";
-
-// type PusherPayload = {
-//   senderId: User["id"];
-//   document: Document;
-// };
-
-// export const useDocument = () => {
-//   const { docId } = useParams();
-//   const documentId = Array.isArray(docId) ? docId[0] : docId;
-
-//   const [document, setDocument] = useState<Document | null>(null);
-//   const [dbDocument, setDbDocument] = useState<Document | null>(null);
-//   const [debouncedDocument] = useDebounce(document, 300);
-//   const [chatMessages, setChatMessages] = useState<Array<ChatMessage>>([]);
-//   const [newMessage, setNewMessage] = useState<string>("");
-//   const router = useRouter();
-
-//   const { data: session } = useSession();
-//   const userId = session?.user?.id;
-
-//   const isSynced = useMemo(() => {
-//     if (document === null || dbDocument === null) return true;
-//     return (
-//       document.title === dbDocument.title &&
-//       document.content === dbDocument.content
-//     );
-//   }, [document, dbDocument]);
-
-//   // When the debounced document changes, update the document
-//   useEffect(() => {
-//     if (debouncedDocument === null) return;
-//     if (isSynced) return;
-
-//     const updateDocument = async () => {
-//       if (!debouncedDocument) return;
-//       const res = await fetch(`/api/documents/${documentId}`, {
-//         method: "PUT",
-//         headers: {
-//           "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify({
-//           title: debouncedDocument.title,
-//           content: debouncedDocument.content,
-//         }),
-//       });
-//       if (!res.ok) {
-//         return;
-//       }
-//       const data: Document = await res.json();
-//       // Update the navbar if the title changed
-//       if (dbDocument?.title !== data.title) {
-//         router.refresh();
-//       }
-//       setDbDocument(data);
-//     };
-//     updateDocument();
-//   }, [debouncedDocument, documentId, router, dbDocument, isSynced]);
-
-//   // Subscribe to pusher events
-//   useEffect(() => {
-//     if (!documentId) return;
-//     // Private channels are in the format: private-...
-//     const channelName = `private-${documentId}`;
-//     try {
-//       const channel = pusherClient.subscribe(channelName);
-//       channel.bind("doc:update", ({ senderId, document, message }: PusherPayload & { message: string }) => {
-//         if (senderId === userId) {
-//           return;
-//         }
-//         setDocument(document);
-//         setDbDocument(document);
-//         setChatMessages(prevMessages => [...prevMessages, { senderId, documentId, message }]);
-//         router.refresh();
-//       });
-//     } catch (error) {
-//       console.error(error);
-//       router.push("/docs");
-//     }
-
-//     // Unsubscribe from pusher events when the component unmounts
-//     return () => {
-//       pusherClient.unsubscribe(channelName);
-//     };
-//   }, [documentId, router, userId]);
-
-//   useEffect(() => {
-//     if (!documentId) return;
-//     const fetchDocument = async () => {
-//       const res = await fetch(`/api/documents/${documentId}`);
-//       if (!res.ok) {
-//         setDocument(null);
-//         router.push("/docs");
-//         return;
-//       }
-//       const data = await res.json();
-//       setDocument(data);
-//       setDbDocument(data);
-//     };
-//     fetchDocument();
-//   }, [documentId, router]);
-
-//   const title = document?.title || "";
-//   const setTitle = (newTitle: string) => {
-//     if (document === null) return;
-//     setDocument({
-//       ...document,
-//       title: newTitle,
-//     });
-//   };
-
-//   const content = document?.content || "";
-//   const setContent = (newContent: string) => {
-//     if (document === null) return;
-//     setDocument({
-//       ...document,
-//       content: newContent,
-//     });
-//   };
-
-//   const handleSendMessage = async () => {
-//     if (!newMessage) return;
-    
-//     const res = await fetch(`/api/documents/${documentId}/chat`, {
-//       method: "POST",
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//       body: JSON.stringify({ message: newMessage }),
-//     });
-
-
-//     if (res.ok) {
-//       // Optional: You can handle success cases or update the UI accordingly.
-//       setNewMessage("");
-//     } else {
-//       // Handle error cases.
-//       console.error("Failed to send message");
-//     }
-//   };
-  
-
-//   return {
-//     documentId,
-//     document,
-//     title,
-//     setTitle,
-//     content,
-//     setContent,
-//     chatMessages,
-//     newMessage,
-//     setNewMessage,
-//     handleSendMessage,
-//     userId,
-//   };
-// };
-
-// type ChatMessage = {
-//   senderId: User["id"];
-//   message: string;
-// };
-
-import { useEffect, useMemo, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useParams, useRouter } from "next/navigation";
+
 import { useDebounce } from "use-debounce";
+
 import { pusherClient } from "@/lib/pusher/client";
-import type { Document, User, Chat } from "@/lib/types/db";
+import type { Document, User } from "@/lib/types/db";
 
 type PusherPayload = {
   senderId: User["id"];
   document: Document;
-  message: string;
-  chat: Chat;
 };
 
 export const useDocument = () => {
@@ -188,29 +19,39 @@ export const useDocument = () => {
 
   const [document, setDocument] = useState<Document | null>(null);
   const [dbDocument, setDbDocument] = useState<Document | null>(null);
-  const [debouncedDocument] = useDebounce(document, 300);
-  const [chatMessages, setChatMessages] = useState<Array<ChatMessage>>([]);
-  const [newMessage, setNewMessage] = useState<string>("");
+  // [NOTE] 2023.11.18 - Extracting the debounceMilliseconds to a constant helps ensure the two useDebounce hooks are using the same value.
+  const debounceMilliseconds = 300;
+  const [debouncedDocument] = useDebounce(document, debounceMilliseconds);
+  const [debouncedDbDocument] = useDebounce(dbDocument, debounceMilliseconds);
   const router = useRouter();
 
   const { data: session } = useSession();
   const userId = session?.user?.id;
 
+  // [FIX] 2023.11.18 - This memo should compare the debounced values to avoid premature updates to the DB.
   const isSynced = useMemo(() => {
-    if (document === null || dbDocument === null) return true;
+    if (debouncedDocument === null || debouncedDbDocument === null) return true;
     return (
-      document.title === dbDocument.title &&
-      document.content === dbDocument.content
+        debouncedDocument.title === debouncedDbDocument.title &&
+        debouncedDocument.content === debouncedDbDocument.content
     );
-  }, [document, dbDocument]);
+  }, [debouncedDocument, debouncedDbDocument]);
 
   // When the debounced document changes, update the document
+  // [FIX] 2023.11.18 - Listen to debouncedDbDocument instead of dbDocument.
+  // Explanation: This useEffect should trigger on the change of the debouncedDocument and debouncedDbDocument.
+  //              Originally, it was triggered by debouncedDocument but dbDocument.
+  //              Therefore, when the received pusher event updates the document and the dbDocument.
+  //              This useEffect will trigger twice: one when dbDocument is updated and another when debouncedDocument is updated.
+  //              However, the two updates PUTs sends conflicting pusher events to the other clients, causing the document to twitch indefinitely.
   useEffect(() => {
-    if (debouncedDocument === null) return;
+    // [NOTE] 2023.11.18 - If either of the debounced value is null, then `isSynced` must be true. 
+    //                     Therefore, we don't need to explicitly check for their null values.
     if (isSynced) return;
 
     const updateDocument = async () => {
       if (!debouncedDocument) return;
+      // [NOTE] 2023.11.18 - This PUT request will trigger a pusher event that will update the document to the other clients.
       const res = await fetch(`/api/documents/${documentId}`, {
         method: "PUT",
         headers: {
@@ -226,28 +67,29 @@ export const useDocument = () => {
       }
       const data: Document = await res.json();
       // Update the navbar if the title changed
-      if (dbDocument?.title !== data.title) {
+      if (debouncedDbDocument?.title !== data.title) {
         router.refresh();
       }
       setDbDocument(data);
     };
     updateDocument();
-  }, [debouncedDocument, documentId, router, dbDocument, isSynced]);
+  }, [debouncedDocument, documentId, router, debouncedDbDocument, isSynced]);
 
   // Subscribe to pusher events
   useEffect(() => {
     if (!documentId) return;
     // Private channels are in the format: private-...
     const channelName = `private-${documentId}`;
+
     try {
       const channel = pusherClient.subscribe(channelName);
-      channel.bind("doc:update", ({ senderId, document, message }: PusherPayload) => {
+      channel.bind("doc:update", ({ senderId, document: received_document }: PusherPayload) => {
         if (senderId === userId) {
           return;
         }
-        setDocument(document);
-        setDbDocument(document);
-        setChatMessages(prevMessages => [...prevMessages, { senderId, message }]);
+        // [NOTE] 2023.11.18 - This is the pusher event that updates the dbDocument.
+        setDocument(received_document);
+        setDbDocument(received_document);
         router.refresh();
       });
     } catch (error) {
@@ -295,26 +137,6 @@ export const useDocument = () => {
     });
   };
 
-  const handleSendMessage = async () => {
-    if (!newMessage) return;
-
-    const res = await fetch(`/api/documents/${documentId}/chat`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ message: newMessage }),
-    });
-
-    if (res.ok) {
-      // Optional: You can handle success cases or update the UI accordingly.
-      setNewMessage("");
-    } else {
-      // Handle error cases.
-      console.error("Failed to send message");
-    }
-  };
-
   return {
     documentId,
     document,
@@ -322,15 +144,6 @@ export const useDocument = () => {
     setTitle,
     content,
     setContent,
-    chatMessages,
-    newMessage,
-    setNewMessage,
-    handleSendMessage,
-    userId,
+    userId
   };
-};
-
-type ChatMessage = {
-  senderId: User["id"];
-  message: string;
 };
