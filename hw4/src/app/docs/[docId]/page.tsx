@@ -1,4 +1,4 @@
-"use server"
+"use client"
 
 import { useDocument } from "@/hooks/useDocument";
 import { Input } from "@/components/ui/input";
@@ -9,28 +9,16 @@ import { getMessageOfDoc } from "./_components/actions";
 import MessageInput from "./_components/MessageInput";
 
 
-async function DocPage(
-  {
-    params,
-  }: {
-    params: {
-      documentId: string;
-    };
-  },) {
-  // const { 
-  //   documentId,
-  //   document,
-  //   title,
-  //   setTitle,
-  //   content,
-  //   setContent,
-  //   userId
-  // } = useDocument();
-  const documentId = "2ed7adbf-72f8-4fef-aa4b-fe4502b1e0d4";
-  const userId = "278e83dc-5d26-451a-b513-accd9b1caf98";
-  
-
-  const chatMessages = await getMessageOfDoc(documentId);
+function DocPage() {
+  const { 
+    documentId,
+    document,
+    title,
+    setTitle,
+    content,
+    setContent,
+    userId
+  } = useDocument();
 
   return (
     <div className="m-2">
@@ -41,7 +29,7 @@ async function DocPage(
           <path d="M17.9691 20C17.81 17.1085 16.9247 15 11.9999 15C7.07521 15 6.18991 17.1085 6.03076 20" stroke="#1C274C" strokeWidth="1.5" strokeLinecap="round"/>
         </svg>
 
-        <p className="absolute px-16 py-4 rounded-lg ml-2 text-slate-700 text-3xl font-bold outline-0">Title</p>
+        <p className="absolute px-16 py-4 rounded-lg ml-2 text-slate-700 text-3xl font-bold outline-0">{title}</p>
       </nav>
       
       <section className="mt-5 h-[5vh]">

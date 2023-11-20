@@ -105,6 +105,8 @@ export const useDocument = () => {
 
   useEffect(() => {
     if (!documentId) return;
+
+
     const fetchDocument = async () => {
       const res = await fetch(`/api/documents/${documentId}`);
       if (!res.ok) {
@@ -116,7 +118,9 @@ export const useDocument = () => {
       setDocument(data);
       setDbDocument(data);
     };
+
     fetchDocument();
+    
   }, [documentId, router]);
 
   const title = document?.title || "";
