@@ -1,5 +1,6 @@
 import { ChatBubbleIcon } from "@radix-ui/react-icons";
 import { relations } from "drizzle-orm";
+import { boolean } from "drizzle-orm/pg-core";
 import {
   index,
   text,
@@ -45,6 +46,9 @@ export const documentsTable = pgTable(
     displayId: uuid("display_id").defaultRandom().notNull().unique(),
     title: varchar("title", { length: 100 }).notNull(),
     content: text("content").notNull(),
+    latestMes: text("latest_mes").notNull(),
+    deleteCreater: boolean("delete_creater").notNull(),
+    deleteFriend: boolean("delete_friend").notNull(),
   },
   (table) => ({
     displayIdIndex: index("display_id_index").on(table.displayId),

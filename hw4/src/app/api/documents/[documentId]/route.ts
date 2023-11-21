@@ -36,6 +36,7 @@ import { updateDocSchema } from "@/validators/updateDocument";
 // }
 
 // GET /api/documents/:documentId
+
 export async function GET(
   req: NextRequest,
   {
@@ -66,6 +67,9 @@ export async function GET(
             displayId: true,
             title: true,
             content: true,
+            latestMes: true,
+            deleteCreater: true,
+            deleteFriend: true,
           },
         },
       },
@@ -156,6 +160,9 @@ export async function PUT(
         id: updatedDoc.displayId,
         title: updatedDoc.title,
         content: updatedDoc.content,
+        latestMes: updatedDoc.latestMes,
+        deleteCreater: updatedDoc.deleteCreater,
+        deleteFriend: updatedDoc.deleteFriend,
       },
     });
 
@@ -164,6 +171,9 @@ export async function PUT(
         id: updatedDoc.displayId,
         title: updatedDoc.title,
         content: updatedDoc.content,
+        latestMes: updatedDoc.latestMes,
+        deleteCreater: updatedDoc.deleteCreater,
+        deleteFriend: updatedDoc.deleteFriend,
       },
       { status: 200 },
     );

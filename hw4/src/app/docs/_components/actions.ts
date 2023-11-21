@@ -1,12 +1,12 @@
 import { eq } from "drizzle-orm";
 import { db } from "@/db";
 import { documentsTable, usersToDocumentsTable, chatTable } from "@/db/schema";
-import { and } from "drizzle-orm";
 
 
 export const createDocument = async (userId: string, friendName: string) => {
   "use server";
   console.log("[createDocument]");
+  const defaultMes = "NOW you can chat with your friend !";
 
   const newDocId = await db.transaction(async (tx) => {
     const [newDoc] = await tx
@@ -14,6 +14,9 @@ export const createDocument = async (userId: string, friendName: string) => {
       .values({
         title: friendName,
         content: "content",
+        latestMes: defaultMes,
+        deleteCreater: false,
+        deleteFriend: false,
       })
       .returning();
 
@@ -25,7 +28,7 @@ export const createDocument = async (userId: string, friendName: string) => {
     await tx.insert(chatTable).values({
       senderId: userId,
       documentId: newDoc.displayId,
-      message: "NOW you can chat with your friend !",
+      message: defaultMes,
     });
 
     return newDoc.displayId;
@@ -43,6 +46,9 @@ export const getDocuments = async (userId: string) => {
         columns: {
           displayId: true,
           title: true,
+          deleteCreater: true,
+          deleteFriend: true,
+          latestMes: true,
         },
       },
     },

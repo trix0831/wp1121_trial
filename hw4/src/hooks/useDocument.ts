@@ -28,6 +28,20 @@ export const useDocument = () => {
   const { data: session } = useSession();
   const userId = session?.user?.id;
 
+  const latestMes = document?.latestMes || "";
+  const setLatestMes = (newLatestMes: string) => {
+    if (document === null) console.log("1");
+    if (document != null){
+      console.log("2");
+      setDocument({
+        ...document,
+        latestMes: newLatestMes,
+      });
+      console.log(document);  
+      console.log(dbDocument);
+  }
+  };
+
   // [FIX] 2023.11.18 - This memo should compare the debounced values to avoid premature updates to the DB.
   const isSynced = useMemo(() => {
     if (debouncedDocument === null || debouncedDbDocument === null) return true;
@@ -60,6 +74,7 @@ export const useDocument = () => {
         body: JSON.stringify({
           title: debouncedDocument.title,
           content: debouncedDocument.content,
+          latestMes: debouncedDocument.latestMes,
         }),
       });
       if (!res.ok) {
@@ -73,7 +88,7 @@ export const useDocument = () => {
       setDbDocument(data);
     };
     updateDocument();
-  }, [debouncedDocument, documentId, router, debouncedDbDocument, isSynced]);
+  }, [debouncedDocument, documentId, router, debouncedDbDocument, isSynced, latestMes]);
 
   // Subscribe to pusher events
   useEffect(() => {
@@ -103,6 +118,7 @@ export const useDocument = () => {
     };
   }, [documentId, router, userId]);
 
+  
   useEffect(() => {
     if (!documentId) return;
     const fetchDocument = async () => {
@@ -119,6 +135,7 @@ export const useDocument = () => {
     fetchDocument();
   }, [documentId, router]);
 
+
   const title = document?.title || "";
   const setTitle = (newTitle: string) => {
     if (document === null) return;
@@ -127,6 +144,7 @@ export const useDocument = () => {
       title: newTitle,
     });
   };
+
 
   const content = document?.content || "";
   const setContent = (newContent: string) => {
@@ -144,6 +162,8 @@ export const useDocument = () => {
     setTitle,
     content,
     setContent,
-    userId
+    userId,
+    latestMes, 
+    setLatestMes,
   };
 };

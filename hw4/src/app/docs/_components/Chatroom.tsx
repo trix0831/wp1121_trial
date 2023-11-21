@@ -12,6 +12,7 @@ type docType = {
   document : {
     title : string;
     displayId : string;
+    latestMes: string;
   };
 }
 
@@ -63,9 +64,15 @@ export function Chatroom({documents} : ChatroomProps){
                       <circle cx="12" cy="12" r="10" stroke="#000000" strokeWidth="1.5"/>
                       <path d="M17.9691 20C17.81 17.1085 16.9247 15 11.9999 15C7.07521 15 6.18991 17.1085 6.03076 20" stroke="#000000" strokeWidth="1.5" strokeLinecap="round"/>
                     </svg>
-                    <span className="text-sm font-semibold text-black">
-                      {doc.document.title}
-                    </span>
+
+                    <div className="grid grid-row-2">
+                      <span className="text-md font-semibold text-black">
+                        {doc.document.title}
+                      </span>
+                      <span className="text-sm text-slate-400">
+                        {doc.document.latestMes}
+                      </span>
+                    </div>
                   </div>
                 </Link>
 

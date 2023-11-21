@@ -4,17 +4,24 @@ import { Input } from "@/components/ui/input";
 import { KeyboardEventHandler } from "react";
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useDocument } from "@/hooks/useDocument";
 
 const SubInput = () => {
     const [value, setValue] = useState('');
     const router = useRouter();
+    const {setLatestMes} = useDocument();
 
     const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = (e) => {
         if (e.key === 'Enter') {
+            setLatestMes(value);
+            
             setTimeout(() => {
                 router.refresh();
-                setValue('');
             }, 300);
+
+            setTimeout(() => {
+                setValue('');
+            }, 500);
         }
     };
 

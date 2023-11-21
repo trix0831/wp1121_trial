@@ -26,10 +26,11 @@ async function MessageInput({docID}:MessageInputProps) {
             "use server";
             const newMessage = e.get("messageInput");
             
-            if (typeof newMessage == "string")
+            if (typeof newMessage == "string" && newMessage != '')
               await sendMessage(userId, docID, newMessage);
 
           }}>
+
           <SubInput/>
 
     </form>

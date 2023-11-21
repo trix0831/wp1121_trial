@@ -1,17 +1,9 @@
-
-
 import { auth } from "@/lib/auth";
 
 import MyMessage from "./_components/MyMessage";
 import FriendMessage from "./_components/FriendMessage";
 
 import { getMessageOfDoc } from "./_components/actions";
-import { useDocument } from "@/hooks/useDocument";
-import { useEffect } from "react";
-import { revalidatePath } from "next/cache";
-import { deleteDocument } from "../_components/actions";
-import { redirect } from "next/navigation";
-import { publicEnv } from "@/lib/env/public";
 import { AiFillDelete } from "react-icons/ai";
 
 // ---
@@ -30,7 +22,7 @@ import { AiFillDelete } from "react-icons/ai";
 // ---
 
 async function DocPage(
-  { params}: { params: { docId: string } },
+  { params }: { params: { docId: string } },
   ) {
   const session = await auth();
   if (!session?.user?.id) return null;
@@ -39,6 +31,7 @@ async function DocPage(
   
   const userId = session.user.id;
   const chatMessages = await getMessageOfDoc(params.docId);
+  
   const f = async () => {
     'use server'
     const chatMessages = await getMessageOfDoc(params.docId);

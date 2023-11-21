@@ -14,11 +14,8 @@ import CreateDialog from "../[docId]/_components/CreateDialog";
 import SearchBar from "../[docId]/_components/SearchBar";
 import Chatroom from "./Chatroom";
 
-type NavbarProps = {
-  target:string;
-}
 
-async function Navbar({target}:NavbarProps) {
+async function Navbar() {
   const session = await auth();
   if (!session || !session?.user?.id) {
     redirect(publicEnv.NEXT_PUBLIC_BASE_URL);
