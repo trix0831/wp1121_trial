@@ -8,6 +8,11 @@ import FriendMessage from "./_components/FriendMessage";
 import { getMessageOfDoc } from "./_components/actions";
 import { useDocument } from "@/hooks/useDocument";
 import { useEffect } from "react";
+import { revalidatePath } from "next/cache";
+import { deleteDocument } from "../_components/actions";
+import { redirect } from "next/navigation";
+import { publicEnv } from "@/lib/env/public";
+import { AiFillDelete } from "react-icons/ai";
 
 // ---
 // 'use client'
@@ -50,6 +55,23 @@ async function DocPage(
         </svg>
 
         <p className="absolute px-16 py-4 rounded-lg ml-2 text-slate-700 text-3xl font-bold outline-0">{session.user.username}</p>
+      
+        {/* <form
+              className="hidden px-2 text-slate-400 hover:text-red-400 group-hover:flex"
+              onSubmit={async (e) => {
+                e.preventDefault();
+                
+                // const docId = doc.document.displayId;
+                await deleteDocument(params.docId);
+                revalidatePath("/docs");
+                redirect(`${publicEnv.NEXT_PUBLIC_BASE_URL}/docs`);
+              }}
+            > */}
+              <button type="submit">
+                <AiFillDelete size={16} />
+              </button>
+        {/* </form> */}
+      
       </nav>
       
       <section className="mt-5 h-[5vh]">

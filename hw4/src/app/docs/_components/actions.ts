@@ -25,7 +25,7 @@ export const createDocument = async (userId: string, friendName: string) => {
     await tx.insert(chatTable).values({
       senderId: userId,
       documentId: newDoc.displayId,
-      message: "chatRoomINIT",
+      message: "NOW you can chat with your friend !",
     });
 
     return newDoc.displayId;

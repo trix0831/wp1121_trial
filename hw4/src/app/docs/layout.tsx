@@ -12,7 +12,7 @@ function DocsLayout({ children }: Props) {
       {/* overflow-y-scroll for child to show scrollbar */}
       <nav className="w-7/12 flex-col border-r bg-slate-100 pb-10 grid grid-cols-2">
         <Sidebar/>
-        <Navbar sp = "a"/>
+        <Navbar target = "a"/>
 
       </nav>
       {/* overflow-y-scroll for child to show scrollbar */}
