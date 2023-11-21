@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-// import DeleteChat from "./DeleteChat";
+import DeleteChat from "../[docId]/_components/DeleteChat";
 
 type docType = {
   id : number, 
@@ -23,7 +23,8 @@ type ChatroomProps = {
 
 
 export function Chatroom({documents} : ChatroomProps){
-  const [text, setText] = useState('');  
+  const [text, setText] = useState('');
+  
 
 
     return (

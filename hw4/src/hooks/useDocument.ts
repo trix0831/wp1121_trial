@@ -35,8 +35,6 @@ export const useDocument = () => {
         ...document,
         announcement: newAnnouncement,
       });
-      console.log(document);
-      console.log(dbDocument);
   }
   };
 
@@ -61,6 +59,7 @@ export const useDocument = () => {
     // [NOTE] 2023.11.18 - If either of the debounced value is null, then `isSynced` must be true. 
     //                     Therefore, we don't need to explicitly check for their null values.
     if (isSynced) return;
+    // else alert(`set ${announcement} as new announcement`)
 
     const updateDocument = async () => {
       if (!debouncedDocument) return;
@@ -81,7 +80,7 @@ export const useDocument = () => {
       }
       const data: Document = await res.json();
       // Update the navbar if the title changed
-      if (debouncedDbDocument?.title !== data.title) {
+      if (debouncedDbDocument?.title !== data.title || debouncedDbDocument?.announcement !== data.announcement) {
         router.refresh();
       }
       setDbDocument(data);

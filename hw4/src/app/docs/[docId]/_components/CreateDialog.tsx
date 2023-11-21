@@ -2,6 +2,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 import { createDocument } from "../../_components/actions";
+import CreateInput from "./CreateInput";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -39,7 +40,7 @@ async function CreateDialog() {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Create a new chat !</DialogTitle>
-          <DialogDescription>Share the doc with </DialogDescription>
+          <DialogDescription>Only CORRECT input can activate create function (input the name of existing user, else nothing happen)</DialogDescription>
         </DialogHeader>
         <form
           action={async (e) => {
@@ -49,7 +50,6 @@ async function CreateDialog() {
             if (!friendName) return;
             if (typeof friendName !== "string"){
               console.log("not a name");
-              // redirect(`${publicEnv.NEXT_PUBLIC_BASE_URL}/docs`);
               return;
             }
 
@@ -65,7 +65,7 @@ async function CreateDialog() {
                   return;
                 }
                 else{
-                  const newDocId = await createDocument(userId, friendName);
+                  const newDocId = await createDocument(userId, myName, friendName);
                   revalidatePath("/docs");
 
                   await addDocumentAuthor(newDocId, friendName);
@@ -76,8 +76,10 @@ async function CreateDialog() {
           }}
           className="flex flex-row gap-4"
         >
-          <Input placeholder="Please enter your friend's name" name="username" />
-          <Button type="submit">Add</Button>
+            <Input 
+            placeholder="Please enter your friend's name (must be existing user)" 
+            name="username" 
+            />
         </form>
         {/* <div className="flex w-full flex-col gap-1">
           <h1 className="w-full font-semibold text-slate-900">Authors</h1>

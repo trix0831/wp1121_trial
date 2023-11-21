@@ -3,16 +3,17 @@ import { db } from "@/db";
 import { documentsTable, usersToDocumentsTable, chatTable } from "@/db/schema";
 
 
-export const createDocument = async (userId: string, friendName: string) => {
+export const createDocument = async (userId: string, myname:string, friendName: string) => {
   "use server";
   console.log("[createDocument]");
   const defaultMes = "NOW you can chat with your friend !";
+  const combinedTitle = `${myname} & ${friendName}`;
 
   const newDocId = await db.transaction(async (tx) => {
     const [newDoc] = await tx
       .insert(documentsTable)
       .values({
-        title: friendName,
+        title: combinedTitle,
         content: defaultMes,
         announcement: defaultMes,
         deleteCreater: false,
@@ -23,6 +24,7 @@ export const createDocument = async (userId: string, friendName: string) => {
     await tx.insert(usersToDocumentsTable).values({
       userId: userId,
       documentId: newDoc.displayId,
+      username: myname,
     });
     
     await tx.insert(chatTable).values({

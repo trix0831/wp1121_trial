@@ -75,11 +75,13 @@ export const usersToDocumentsTable = pgTable(
         onDelete: "cascade",
         onUpdate: "cascade",
       }),
+    username: text("username").notNull(),
   },
   (table) => ({
     userAndDocumentIndex: index("user_and_document_index").on(
       table.userId,
       table.documentId,
+      table.username,
     ),
     // This is a unique constraint on the combination of userId and documentId.
     // This ensures that there is no duplicate entry in the table.

@@ -6,6 +6,8 @@ import FriendMessage from "./_components/FriendMessage";
 import { getMessageOfDoc } from "./_components/actions";
 import { AiFillDelete } from "react-icons/ai";
 import { getDocumentsByDocId } from "../_components/actions";
+import { getDocumentAuthors } from "./_components/actions";
+import DeleteChat from "./_components/DeleteChat";
 
 // ---
 // 'use client'
@@ -22,6 +24,12 @@ import { getDocumentsByDocId } from "../_components/actions";
 
 // ---
 
+type authorType = {
+  id: string;
+  username: string;
+  email: string;
+}
+
 async function DocPage(
   { params }: { params: { docId: string } },
   ) {
@@ -33,6 +41,12 @@ async function DocPage(
   const userId = session.user.id;
   const chatMessages = await getMessageOfDoc(params.docId);
   const documentNOW = await getDocumentsByDocId(params.docId);
+  const author = await getDocumentAuthors(params.docId);
+
+  const getOtherParticipant = (authors: authorType[]) => {
+    const otherAuthor = authors.find((author) => author.id !== userId);
+    return otherAuthor ? otherAuthor.username : "";
+  };
   
   // const f = async () => {
   //   'use server'
@@ -49,7 +63,7 @@ async function DocPage(
           <path d="M17.9691 20C17.81 17.1085 16.9247 15 11.9999 15C7.07521 15 6.18991 17.1085 6.03076 20" stroke="#1C274C" strokeWidth="1.5" strokeLinecap="round"/>
         </svg>
 
-        <p className="absolute px-16 py-4 rounded-lg ml-2 text-slate-700 text-3xl font-bold outline-0">{session.user.username}</p>
+        <p className="absolute px-16 py-4 rounded-lg ml-2 text-slate-700 text-3xl font-bold outline-0">{getOtherParticipant(author)}</p>
       
         {/* <form
               className="hidden px-2 text-slate-400 hover:text-red-400 group-hover:flex"
@@ -62,12 +76,10 @@ async function DocPage(
                 redirect(`${publicEnv.NEXT_PUBLIC_BASE_URL}/docs`);
               }}
             > */}
-              <button type="submit">
-                <AiFillDelete size={16} />
-              </button>
         {/* </form> */}
       
       </nav>
+      {/* <DeleteChat docID={params.docId}/> */}
       
       <section className="mt-5 h-[5vh]">
         <div className="w-full bg-gray-200 rounded-md flex justify-start items-center">

@@ -2,7 +2,7 @@ import { BiError } from "react-icons/bi";
 import Navbar from "./_components/Navbar";
 // import { useSearchParams } from "next/navigation";
 
-function DocsPage({searchParams}: { [key: string]: string | string[] | undefined }) {
+function DocsPage() {
   // const params = useSearchParams();
   // console.log('params', params.get("search"));
   return (

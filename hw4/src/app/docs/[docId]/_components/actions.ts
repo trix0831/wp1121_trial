@@ -54,18 +54,19 @@ export async function getMessageOfDoc(docId: string) {
   return Messages;
 }
 
-export const addDocumentAuthor = async (docId: string, username: string) => {
+export const addDocumentAuthor = async (docId: string, friendname: string) => {
   // Find the user by email
   const [user] = await db
     .select({
       displayId: usersTable.displayId,
     })
     .from(usersTable)
-    .where(eq(usersTable.username, username));
+    .where(eq(usersTable.username, friendname));
 
   await db.insert(usersToDocumentsTable).values({
     documentId: docId,
     userId: user.displayId,
+    username: friendname,
   });
 };
 
@@ -89,7 +90,6 @@ export const sendMessage = async (userId: string, documentId: string, message: s
 
 
 export const userExisted = async (username: string) => {
-  // Find the user by email
   const [user] = await db
     .select({
       displayId: usersTable.displayId,
@@ -98,7 +98,6 @@ export const userExisted = async (username: string) => {
     .where(eq(usersTable.username, username));
 
   if (!user) {
-    console.log("here");
     return false;
   }
   else
