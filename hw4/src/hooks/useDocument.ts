@@ -33,7 +33,7 @@ export const useDocument = () => {
     if (document != null){
       setDocument({
         ...document,
-        content: newAnnouncement,
+        announcement: newAnnouncement,
       });
       console.log(document);
       console.log(dbDocument);
@@ -45,7 +45,8 @@ export const useDocument = () => {
     if (debouncedDocument === null || debouncedDbDocument === null) return true;
     return (
         debouncedDocument.title === debouncedDbDocument.title &&
-        debouncedDocument.content === debouncedDbDocument.content
+        debouncedDocument.content === debouncedDbDocument.content&&
+        debouncedDocument.announcement === debouncedDbDocument.announcement
     );
   }, [debouncedDocument, debouncedDbDocument]);
 
@@ -85,6 +86,8 @@ export const useDocument = () => {
       }
       setDbDocument(data);
     };
+
+
     updateDocument();
   }, [debouncedDocument, documentId, router, debouncedDbDocument, isSynced, announcement]);
 
@@ -161,7 +164,7 @@ export const useDocument = () => {
     content,
     setContent,
     userId,
-    announcement, 
+    announcement,
     setAnnouncement,
   };
 };
