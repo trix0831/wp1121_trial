@@ -9,11 +9,11 @@ import { useDocument } from "@/hooks/useDocument";
 const SubInput = () => {
     const [value, setValue] = useState('');
     const router = useRouter();
-    const {setannouncement} = useDocument();
+    const {setAnnouncement} = useDocument();
 
     const handleKeyDown: KeyboardEventHandler<HTMLInputElement> = (e) => {
         if (e.key === 'Enter') {
-            setannouncement(value);
+            setAnnouncement(value);
             
             setTimeout(() => {
                 router.refresh();

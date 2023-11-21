@@ -29,13 +29,11 @@ export const useDocument = () => {
   const userId = session?.user?.id;
 
   const announcement = document?.announcement || "";
-  const setannouncement = (newannouncement: string) => {
-    if (document === null) console.log("1");
+  const setAnnouncement = (newAnnouncement: string) => {
     if (document != null){
-      console.log("2");
       setDocument({
         ...document,
-        content: newannouncement,
+        content: newAnnouncement,
       });
       console.log(document);
       console.log(dbDocument);
@@ -164,6 +162,6 @@ export const useDocument = () => {
     setContent,
     userId,
     announcement, 
-    setannouncement,
+    setAnnouncement,
   };
 };

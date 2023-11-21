@@ -8,15 +8,15 @@ import { Button } from "@/components/ui/button";
 import { auth } from "@/lib/auth";
 import { publicEnv } from "@/lib/env/public";
 
-import { createDocument, deleteDocument, getDocuments } from "./actions";
+import { createDocument, deleteDocument} from "./actions";
 
 async function Sidebar() {
   const session = await auth();
   if (!session || !session?.user?.id) {
     redirect(publicEnv.NEXT_PUBLIC_BASE_URL);
   }
-  const userId = session.user.id;
-  const documents = await getDocuments(userId);
+
+  
   return (
     <nav className="flex w-full flex-col bg-white pb-10">
       <nav className="sticky top-0 flex flex-col items-center justify-between border-b pb-2">
