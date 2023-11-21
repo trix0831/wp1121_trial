@@ -28,16 +28,16 @@ export const useDocument = () => {
   const { data: session } = useSession();
   const userId = session?.user?.id;
 
-  const latestMes = document?.latestMes || "";
-  const setLatestMes = (newLatestMes: string) => {
+  const announcement = document?.announcement || "";
+  const setannouncement = (newannouncement: string) => {
     if (document === null) console.log("1");
     if (document != null){
       console.log("2");
       setDocument({
         ...document,
-        latestMes: newLatestMes,
+        content: newannouncement,
       });
-      console.log(document);  
+      console.log(document);
       console.log(dbDocument);
   }
   };
@@ -74,7 +74,7 @@ export const useDocument = () => {
         body: JSON.stringify({
           title: debouncedDocument.title,
           content: debouncedDocument.content,
-          latestMes: debouncedDocument.latestMes,
+          announcement: debouncedDocument.announcement,
         }),
       });
       if (!res.ok) {
@@ -88,7 +88,7 @@ export const useDocument = () => {
       setDbDocument(data);
     };
     updateDocument();
-  }, [debouncedDocument, documentId, router, debouncedDbDocument, isSynced, latestMes]);
+  }, [debouncedDocument, documentId, router, debouncedDbDocument, isSynced, announcement]);
 
   // Subscribe to pusher events
   useEffect(() => {
@@ -163,7 +163,7 @@ export const useDocument = () => {
     content,
     setContent,
     userId,
-    latestMes, 
-    setLatestMes,
+    announcement, 
+    setannouncement,
   };
 };

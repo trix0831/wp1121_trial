@@ -12,7 +12,8 @@ type docType = {
   document : {
     title : string;
     displayId : string;
-    latestMes: string;
+    announcement: string;
+    content: string;
   };
 }
 
@@ -70,7 +71,7 @@ export function Chatroom({documents} : ChatroomProps){
                         {doc.document.title}
                       </span>
                       <span className="text-sm text-slate-400">
-                        {doc.document.latestMes}
+                        {doc.document.content}
                       </span>
                     </div>
                   </div>

@@ -13,8 +13,8 @@ export const createDocument = async (userId: string, friendName: string) => {
       .insert(documentsTable)
       .values({
         title: friendName,
-        content: "content",
-        latestMes: defaultMes,
+        content: defaultMes,
+        announcement: defaultMes,
         deleteCreater: false,
         deleteFriend: false,
       })
@@ -46,9 +46,10 @@ export const getDocuments = async (userId: string) => {
         columns: {
           displayId: true,
           title: true,
+          content: true,
           deleteCreater: true,
           deleteFriend: true,
-          latestMes: true,
+          announcement: true,
         },
       },
     },

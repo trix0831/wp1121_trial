@@ -46,7 +46,7 @@ export const documentsTable = pgTable(
     displayId: uuid("display_id").defaultRandom().notNull().unique(),
     title: varchar("title", { length: 100 }).notNull(),
     content: text("content").notNull(),
-    latestMes: text("latest_mes").notNull(),
+    announcement: text("latest_mes").notNull(),
     deleteCreater: boolean("delete_creater").notNull(),
     deleteFriend: boolean("delete_friend").notNull(),
   },

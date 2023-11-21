@@ -9,7 +9,7 @@ export type Document = {
   id: string;
   title: string;
   content: string;
-  latestMes: string;
+  announcement: string;
   deleteCreater: boolean;
   deleteFriend: boolean;
 };
