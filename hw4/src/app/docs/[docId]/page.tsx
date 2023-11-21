@@ -9,7 +9,7 @@ import { getMessageOfDoc } from "./_components/actions";
 
 
 async function DocPage(
-  { params }: { params: { docId: string } },
+  { params}: { params: { docId: string } },
   ) {
   const session = await auth();
   if (!session?.user?.id) return null;
