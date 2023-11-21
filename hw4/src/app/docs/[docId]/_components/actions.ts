@@ -35,6 +35,7 @@ export async function getMessageOfDoc(docId: string) {
   const dbMessages = await db.query.chatTable.findMany({
     where: eq(chatTable.documentId, docId),
     columns: {
+      id: true,
       documentId: true,
       message: true,
       senderId: true,
@@ -44,6 +45,7 @@ export async function getMessageOfDoc(docId: string) {
   const Messages = dbMessages.map((dbMessage) => {
     console.log(dbMessage);
     return {
+      id: dbMessage.id,
       message: dbMessage.message,
       senderId: dbMessage.senderId,
     };

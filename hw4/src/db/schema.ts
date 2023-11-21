@@ -79,7 +79,7 @@ export const usersToDocumentsTable = pgTable(
     ),
     // This is a unique constraint on the combination of userId and documentId.
     // This ensures that there is no duplicate entry in the table.
-    uniqCombination: unique().on(table.documentId, table.userId),
+    // uniqCombination: unique().on(table.documentId, table.userId),
   }),
 );
 
