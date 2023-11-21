@@ -53,49 +53,7 @@ async function Navbar({sp}:NavbarProps) {
 
       <section className="flex w-full flex-col pt-3">
       {documents.map((doc, i) => {
-          if(!sp) {
-            return (
-              <div
-                key={i}
-                className="group flex w-full cursor-pointer items-center justify-between gap-2 text-slate-400 hover:bg-slate-200 "
-              >
-                <Link
-                  className="grow px-3 py-1"
-                  href={`/docs/${doc.document.displayId}`}
-                >
-                  <div className="flex items-center gap-2">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <circle cx="12" cy="9" r="3" stroke="#000000" strokeWidth="1.5"/>
-                      <circle cx="12" cy="12" r="10" stroke="#000000" strokeWidth="1.5"/>
-                      <path d="M17.9691 20C17.81 17.1085 16.9247 15 11.9999 15C7.07521 15 6.18991 17.1085 6.03076 20" stroke="#000000" strokeWidth="1.5" strokeLinecap="round"/>
-                    </svg>
-                    <span className="text-sm font-semibold text-black">
-                      {sp}
-                    </span>
-                  </div>
-                </Link>
-
-                <form
-                  className="hidden px-2 text-slate-400 hover:text-red-400 group-hover:flex"
-                  onSubmit={async (e) => {
-                    "use server";
-                    e.preventDefault();
-                    
-                    const docId = doc.document.displayId;
-                    await deleteDocument(docId);
-                    revalidatePath("/docs");
-                    redirect(`${publicEnv.NEXT_PUBLIC_BASE_URL}/docs`);
-                  }}
-                >
-                  <button type="submit">
-                    <AiFillDelete size={16} />
-                  </button>
-                </form>
-              </div>
-            );
-          }
-
-          else if (doc.document.title.includes(sp)) {
+          if (doc.document.title.includes(sp)) {
             return (
               <div
                 key={i}

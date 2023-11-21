@@ -50,27 +50,27 @@ export const getDocuments = async (userId: string) => {
   return documents;
 };
 
-// export const getFilteredDocuments = async (userId: string, target:string) => {
-//   "use server";
+export const getFilteredDocuments = async (userId: string, target:string) => {
+  "use server";
 
-//   const fDoc = await db
-//   .from(documentsTable)
-//   .where()
+  // const fDoc = await db
+  // .from(documentsTable)
+  // .where()
 
-//   const documents = await db.query.usersToDocumentsTable.findMany({
-//     where: eq(usersToDocumentsTable.userId, userId),
-//     with: {
-//       document: {
-//         columns: {
-//           displayId: true,
-//           title: true,
-//         },
-//       },
-//     },
-//   });
+  const documents = await db.query.usersToDocumentsTable.findMany({
+    where: eq(usersToDocumentsTable.userId, userId),
+    with: {
+      document: {
+        columns: {
+          displayId: true,
+          title: true,
+        },
+      },
+    },
+  });
 
-//   return documents;
-// };
+  return documents;
+};
 
 export const deleteDocument = async (documentId: string) => {
   "use server";

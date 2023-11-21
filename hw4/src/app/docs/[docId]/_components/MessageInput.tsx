@@ -1,5 +1,5 @@
 import { auth } from "@/lib/auth";
-import { Input } from "@/components/ui/input";
+import SubInput from './SubInput'
 import { sendMessage } from "./actions";
 
 type MessageInputProps = {
@@ -30,13 +30,8 @@ async function MessageInput({docID}:MessageInputProps) {
               await sendMessage(userId, docID, newMessage);
 
           }}>
+          <SubInput/>
 
-        <Input 
-            id="messageInput"
-            className="bg-gray-300 border rounded-2xl hover:bg-gray-200 w-full" 
-            placeholder="please enter your message here"
-            name="messageInput"
-        />
     </form>
     </>
   );

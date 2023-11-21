@@ -1,4 +1,4 @@
-"use server"
+
 
 import { auth } from "@/lib/auth";
 
@@ -6,16 +6,39 @@ import MyMessage from "./_components/MyMessage";
 import FriendMessage from "./_components/FriendMessage";
 
 import { getMessageOfDoc } from "./_components/actions";
+import { useDocument } from "@/hooks/useDocument";
+import { useEffect } from "react";
 
+// ---
+// 'use client'
+// import rotuer ...
+
+// const comp = ({f}) => {
+//   const [s, setS] = ...
+//   useEffect(
+//     () => {d = f()
+//     setS(d)}
+//   )
+  
+// }
+
+// ---
 
 async function DocPage(
   { params}: { params: { docId: string } },
   ) {
   const session = await auth();
   if (!session?.user?.id) return null;
+
+  // const {title} = useDocument();
   
   const userId = session.user.id;
   const chatMessages = await getMessageOfDoc(params.docId);
+  const f = async () => {
+    'use server'
+    const chatMessages = await getMessageOfDoc(params.docId);
+    return chatMessages
+  }
 
   return (
     <div className="m-2">

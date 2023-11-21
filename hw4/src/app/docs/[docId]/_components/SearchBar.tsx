@@ -10,14 +10,14 @@ const SearchBar = () =>{
     const [text, setText] = useState('');
     const [query] = useDebounce(text, 250);
 
-    useEffect(() =>{
-        if(!query){
-            router.push(`/docs`);
-        }else{
-            router.push(`/docs?search=${query}`);
-        }
-    }, [query, router]
-    )
+    // useEffect(() =>{
+    //     if(!query){
+    //         router.push(`/docs`);
+    //     }else{
+    //         router.push(`/docs?search=${query}`);
+    //     }
+    // }, [query, router]
+    // )
 
 
     return(
