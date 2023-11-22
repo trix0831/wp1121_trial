@@ -1,3 +1,5 @@
+// "use server"
+
 import { RxAvatar } from "react-icons/rx";
 
 import { revalidatePath } from "next/cache";
@@ -7,6 +9,9 @@ import { redirect } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { auth } from "@/lib/auth";
 import { publicEnv } from "@/lib/env/public";
+import { getDocuments } from "./actions";
+import DeleteChat from "./DeleteChat";
+import { AiFillDelete, AiFillFileText } from "react-icons/ai";
 
 import { createDocument, deleteDocument} from "./actions";
 
@@ -15,6 +20,10 @@ async function Sidebar() {
   if (!session || !session?.user?.id) {
     redirect(publicEnv.NEXT_PUBLIC_BASE_URL);
   }
+
+  const userId = session.user.id;
+
+  const documents = await getDocuments(userId);
 
   
   return (
@@ -32,9 +41,41 @@ async function Sidebar() {
             </svg>
             <p className="col-span-2 ml-2 text-2xl inline-block align-middle text-blue-700 font-semibold">Chat</p>
         </div>
-
-
       </nav>
+
+
+      <p className="text-md text-medium text-slate-700 flex ">delete chatroom here</p>
+      {documents.map((doc, i) => (
+          <>
+            <div
+              key={i}
+              className="group flex w-full items-center justify-between gap-2 text-slate-400 "
+            >
+                <div className="flex items-center gap-2">
+                  <AiFillFileText />
+                  <span className="text-sm font-light ">
+                    {doc.document.title}
+                  </span>
+                </div>
+              <form
+                className="px-2 text-red-400 "
+                action={async () => {
+                  "use server";
+                  const docId = doc.document.displayId;
+                  await deleteDocument(docId);
+                  revalidatePath("/docs");
+                  redirect(`${publicEnv.NEXT_PUBLIC_BASE_URL}/docs`);
+                }}
+              >
+                <button type={"submit"}>
+                  <AiFillDelete size={16} />
+                </button>
+              </form>
+            </div>
+
+
+          </>
+        ))}
 
       <div className="absolute bottom-0 mb-4">
         <div className="flex justify-between items-center">

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import DeleteChat from "../[docId]/_components/DeleteChat";
+import DeleteChat from "./DeleteChat";
 
 type docType = {
   id : number, 

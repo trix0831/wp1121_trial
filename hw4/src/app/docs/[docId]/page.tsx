@@ -7,7 +7,7 @@ import { getMessageOfDoc } from "./_components/actions";
 import { AiFillDelete } from "react-icons/ai";
 import { getDocumentsByDocId } from "../_components/actions";
 import { getDocumentAuthors } from "./_components/actions";
-import DeleteChat from "./_components/DeleteChat";
+import DeleteChat from "../_components/DeleteChat";
 
 // ---
 // 'use client'
