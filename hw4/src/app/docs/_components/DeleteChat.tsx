@@ -10,7 +10,7 @@ type DeleteChatProps = {
     docID : string;
 }
 
-const DeleteChat = ({docID} : DeleteChatProps) => {
+function DeleteChat({docID} : DeleteChatProps){
 
     const handleDelete = async (e: React.FormEvent) => {
         e.preventDefault();

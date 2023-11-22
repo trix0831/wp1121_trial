@@ -1,4 +1,3 @@
-import { ChatBubbleIcon } from "@radix-ui/react-icons";
 import { relations } from "drizzle-orm";
 import { boolean } from "drizzle-orm/pg-core";
 import {
@@ -8,7 +7,6 @@ import {
   serial,
   uuid,
   varchar,
-  unique,
 } from "drizzle-orm/pg-core";
 
 // Checkout the many-to-many relationship in the following tutorial:

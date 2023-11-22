@@ -1,7 +1,3 @@
-// "use server"
-
-import { RxAvatar } from "react-icons/rx";
-
 import { revalidatePath } from "next/cache";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -10,10 +6,9 @@ import { Button } from "@/components/ui/button";
 import { auth } from "@/lib/auth";
 import { publicEnv } from "@/lib/env/public";
 import { getDocuments } from "./actions";
-import DeleteChat from "./DeleteChat";
 import { AiFillDelete, AiFillFileText } from "react-icons/ai";
 
-import { createDocument, deleteDocument} from "./actions";
+import {deleteDocument} from "./actions";
 
 async function Sidebar() {
   const session = await auth();
@@ -44,7 +39,7 @@ async function Sidebar() {
       </nav>
 
 
-      <p className="text-md text-medium text-slate-700 flex ">delete chatroom here</p>
+      <p className="text-md text-medium text-slate-700 flex ml-2">delete chatroom here</p>
       {documents.map((doc, i) => (
           <>
             <div

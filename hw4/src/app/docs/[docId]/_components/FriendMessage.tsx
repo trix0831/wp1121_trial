@@ -31,7 +31,7 @@ export function FriendMessage( {message}: FriendMessageProps){
         deleteOption.addEventListener('click', () => {
             // Handle delete action
             // Set the display property to 'none' to make the message invisible
-            alert("delete");
+            alert("delete (sorry I didn't finish this function)");
         });
         deleteOption.style.borderBottom = '1px solid #ccc';
     

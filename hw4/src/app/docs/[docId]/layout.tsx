@@ -1,5 +1,4 @@
 import MessageInput from "./_components/MessageInput";
-import DeleteChat from "../_components/DeleteChat";
 
 type Props = {
   children: React.ReactNode;

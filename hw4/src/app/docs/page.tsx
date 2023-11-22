@@ -1,5 +1,4 @@
 import { BiError } from "react-icons/bi";
-import Navbar from "./_components/Navbar";
 // import { useSearchParams } from "next/navigation";
 
 function DocsPage() {

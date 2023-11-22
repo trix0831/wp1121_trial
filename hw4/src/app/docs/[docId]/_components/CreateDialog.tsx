@@ -2,9 +2,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 import { createDocument } from "../../_components/actions";
-import CreateInput from "./CreateInput";
 
-import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -17,7 +15,7 @@ import { Input } from "@/components/ui/input";
 import { auth } from "@/lib/auth";
 import { publicEnv } from "@/lib/env/public";
 
-import { addDocumentAuthor, getDocumentAuthors, userExisted, getMessageOfDoc } from "./actions";
+import { addDocumentAuthor, userExisted} from "./actions";
 
 async function CreateDialog() {
   const session = await auth();

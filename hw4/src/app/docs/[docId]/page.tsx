@@ -4,10 +4,8 @@ import MyMessage from "./_components/MyMessage";
 import FriendMessage from "./_components/FriendMessage";
 
 import { getMessageOfDoc } from "./_components/actions";
-import { AiFillDelete } from "react-icons/ai";
 import { getDocumentsByDocId } from "../_components/actions";
 import { getDocumentAuthors } from "./_components/actions";
-import DeleteChat from "../_components/DeleteChat";
 
 // ---
 // 'use client'
@@ -64,22 +62,8 @@ async function DocPage(
         </svg>
 
         <p className="absolute px-16 py-4 rounded-lg ml-2 text-slate-700 text-3xl font-bold outline-0">{getOtherParticipant(author)}</p>
-      
-        {/* <form
-              className="hidden px-2 text-slate-400 hover:text-red-400 group-hover:flex"
-              onSubmit={async (e) => {
-                e.preventDefault();
-                
-                // const docId = doc.document.displayId;
-                await deleteDocument(params.docId);
-                revalidatePath("/docs");
-                redirect(`${publicEnv.NEXT_PUBLIC_BASE_URL}/docs`);
-              }}
-            > */}
-        {/* </form> */}
-      
+            
       </nav>
-      {/* <DeleteChat docID={params.docId}/> */}
       
       <section className="mt-5 h-[5vh]">
         <div className="w-full bg-gray-200 rounded-md flex justify-start items-center">

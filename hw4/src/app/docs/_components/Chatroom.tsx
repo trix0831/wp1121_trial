@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import DeleteChat from "./DeleteChat";
 
 type docType = {
   id : number, 
@@ -23,9 +22,13 @@ type ChatroomProps = {
 
 
 export function Chatroom({documents} : ChatroomProps){
-  const [text, setText] = useState('');
-  
+  const [text, setText] = useState(''); 
 
+  const filteredDocuments = documents.filter(doc =>
+    doc.document.title.toLowerCase().includes(text.toLowerCase())
+  );
+
+  const renderCount = filteredDocuments.length;
 
     return (
         <>
@@ -76,14 +79,19 @@ export function Chatroom({documents} : ChatroomProps){
                       </span>
                     </div>
                   </div>
-                </Link>
-
-                {/* <DeleteChat docID={doc.documentId}/> */}
-                
+                </Link>                
               </div>
             );
           }
-        })}
+        }
+        )}
+
+      {(renderCount == 0) && 
+      <div className="grid grid-rows-2">
+        <p className="ml-2">no user found</p>
+        <p className="ml-2">create it from button above</p>
+      </div>}
+
       </section>
       </>
     );

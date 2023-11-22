@@ -1,12 +1,12 @@
 'use client'
 
 import { Input } from "@/components/ui/input";
-import { KeyboardEventHandler } from "react";
+import type{ KeyboardEventHandler } from "react";
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useDocument } from "@/hooks/useDocument";
 
-const SubInput = () => {
+function SubInput(){
     const [value, setValue] = useState('');
     const router = useRouter();
     const {setContent} = useDocument();

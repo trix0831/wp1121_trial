@@ -4,36 +4,11 @@ import { and, eq } from "drizzle-orm";
 import Pusher from "pusher";
 
 import { db } from "@/db";
-import { documentsTable, usersToDocumentsTable, chatTable } from "@/db/schema";
+import { documentsTable, usersToDocumentsTable} from "@/db/schema";
 import { auth } from "@/lib/auth";
 import { privateEnv } from "@/lib/env/private";
 import { publicEnv } from "@/lib/env/public";
 import { updateDocSchema } from "@/validators/updateDocument";
-
-// export async function handler(req: NextRequest, id:number) {
-//   if (req.method === 'DELETE') {
-//     try {
-//       // Get user from session
-//       const session = await auth();
-//       if (!session || !session?.user?.id) {
-//         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-//       }
-//       // const userId = session.user.id;
-
-//       // Perform the deletion in your database
-//       await db
-//         .delete(chatTable)
-//         .where(eq(chatTable.id, id));
-
-//       return NextResponse.json({ success: true }, { status: 200 });
-//     } catch (error) {
-//       console.error('Error deleting row:', error);
-//       return NextResponse.json({ success: false, error: 'Internal Server Error' }, { status: 500 });
-//     }
-//   }
-
-//   return NextResponse.json({ success: false, error: 'Method Not Allowed' }, { status: 405 });
-// }
 
 // GET /api/documents/:documentId
 

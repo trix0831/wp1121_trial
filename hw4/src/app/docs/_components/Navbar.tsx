@@ -1,17 +1,11 @@
-import { AiFillDelete} from "react-icons/ai";
-
-import { revalidatePath } from "next/cache";
-import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import { auth } from "@/lib/auth";
 import { publicEnv } from "@/lib/env/public";
 
-import { deleteDocument, getDocuments } from "./actions";
-import { Input } from "@/components/ui/input";
+import {getDocuments } from "./actions";
 
 import CreateDialog from "../[docId]/_components/CreateDialog";
-import SearchBar from "../[docId]/_components/SearchBar";
 import Chatroom from "./Chatroom";
 
 

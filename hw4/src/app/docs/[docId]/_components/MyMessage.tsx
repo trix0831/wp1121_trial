@@ -11,7 +11,6 @@ export function MyMessage( {message}: MyMessageProps){
 
     const handleContextMenu = (e: React.MouseEvent) => {
         e.preventDefault();
-        
     
         // Create a context menu
         const contextMenu = document.createElement('div');
@@ -30,7 +29,7 @@ export function MyMessage( {message}: MyMessageProps){
         deleteOption.addEventListener('click', () => {
             // Handle delete action
             // Set the display property to 'none' to make the message invisible
-            alert("delete");
+            alert("delete  (sorry I didn't finish this function)");
         });
         deleteOption.style.borderBottom = '1px solid #ccc';
     
